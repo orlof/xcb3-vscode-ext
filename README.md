@@ -69,7 +69,10 @@ For now this setting is not used directly by the extension, you can use it with 
 
 ## Known Issues
 
-There is probably a lot of bugs and things are not implemented the right way.
+* Ugly colors
+* Lot of bugs
+* I studied https://github.com/Viza74/xcbasiclanguagevscodeext and some pieces of copied
+  code may still exist in this codebase - Thanks for Viza74
 
 ## Release Notes
 

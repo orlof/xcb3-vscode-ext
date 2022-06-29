@@ -33,9 +33,6 @@
 			"include": "#hexanumerics"
 		},
 		{
-			"include": "#vardefs"
-		},
-		{
 			"include": "#type"
 		},
 		{
@@ -94,7 +91,7 @@
 		"as": {
 			"patterns": [{
 				"name": "keyword.control.xcbasic3",
-				"match": "(?i)as\\s+([a-z_][a-z_0-9]*\\$?)\\b",
+				"match": "(?i)\\bas\\s+([a-z_][a-z_0-9]*\\$?)\\b",
 				"captures": {
 					"1": {
 						"name": "entity.name.type.xcbasic3"
@@ -111,9 +108,9 @@
 		"sub": {
 			"patterns": [{
 				"name": "keyword.control.xcbasic3",
-				"match": "(?i)(sub|function)\\s+([a-z_][a-z_0-9]*\\$?)",
+				"match": "(?i)\\b(?:sub|function)\\s+([a-z_][a-z_0-9]*\\$?)\\b",
 				"captures": {
-					"2": {
+					"1": {
 						"name": "entity.name.function.xcbasic3"
 					}
 				}
@@ -122,7 +119,7 @@
 		"call": {
 			"patterns": [{
 				"name": "storage.modifier.xcbasic3",
-				"match": "(?i)call\\s+([a-z_][a-z_0-9]*\\$?)",
+				"match": "(?i)\\bcall\\s+([a-z_][a-z_0-9]*\\$?)\\b",
 				"captures": {
 					"1": {
 						"name": "entity.name.function.xcbasic3"
@@ -142,7 +139,7 @@
 		"labels": {
 			"patterns": [{
 				"name": "variable.name.xcbasic3",
-				"match": "\\b[a-z_][a-z_0-9]*\\$?\\b"
+				"match": "(?i)\\b[a-z_][a-z_0-9]*\\$?\\b"
 			}]
 		},
 		"numerics": {
@@ -166,7 +163,7 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.xcbasic3",
-				"match": "(?i)\\b(const|continue|data|declare|dim|do|else|end|error|exit|fast|for|function|gosub|goto|if|incbin|include|let|loop|next|on|origin|overload|private|return|shared|static|step|sub|sys|then|this|to|type|until|while)\\b"
+				"match": "(?i)\\b(const|continue|data|declare|dim|do|else|end\\s+(sub|type|function)?|error|exit|fast|for|gosub|goto|if|incbin|include|let|loop|next|on|origin|overload|private|return|shared|static|step|sys|then|this|to|until|while)\\b"
 			}]
 		},
 		"modifiers": {
