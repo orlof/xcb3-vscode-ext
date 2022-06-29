@@ -32,10 +32,6 @@
                 "meta.embedded.block.dasm": "dasm"
             }
         }],
-        "snippets": [{
-            "language": "xcbasic",
-            "path": "./snippets.json"
-        }],
         "configuration":[
             {
                 "title": "XC=BASIC 3 configuration",

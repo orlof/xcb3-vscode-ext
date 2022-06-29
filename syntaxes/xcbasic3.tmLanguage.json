@@ -166,7 +166,7 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.xcbasic3",
-				"match": "(?i)\\b(const|continue|data|declare|dim|do|else|end|error|exit|fast|for|gosub|goto|if|incbin|include|let|loop|next|on|origin|overload|private|return|shared|static|step|sys|then|this|to|until|while)\\b"
+				"match": "(?i)\\b(const|continue|data|declare|dim|do|else|end|error|exit|fast|for|function|gosub|goto|if|incbin|include|let|loop|next|on|origin|overload|private|return|shared|static|step|sub|sys|then|this|to|type|until|while)\\b"
 			}]
 		},
 		"modifiers": {
