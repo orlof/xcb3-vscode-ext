@@ -163,7 +163,7 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.xcbasic3",
-				"match": "(?i)\\b(const|continue|data|declare|dim|do|else|end\\s+(sub|type|function)?|error|exit|fast|for|gosub|goto|if|incbin|include|let|loop|next|on|origin|overload|private|return|shared|static|step|sys|then|this|to|until|while)\\b"
+				"match": "(?i)\\b(const|continue|data|declare|dim|do|else|end(\\s+(sub|type|function))?|error|exit\\s+(do|for|function|sub)|fast|for|gosub|goto|if|incbin|include|let|loop|next|on|origin|overload|private|return|shared|static|step|sys|then|this|to|until|while)\\b"
 			}]
 		},
 		"modifiers": {
@@ -195,8 +195,13 @@
 		"asm-labels": {
 			"patterns": [
 				{
-					"name": "keyword.control.label.dasm",
-					"match": "^[a-zA-Z0-9]+\\b\\s*[^=]",
+					"name": "entity.name.function.dasm",
+					"match": "^[a-zA-Z0-9_]+\\b\\s*[^=]",
+					"comment": "Label"
+				},
+				{
+					"name": "variable.name.dasm",
+					"match": "\\b[a-zA-Z0-9_]+\\b",
 					"comment": "Label"
 				}
 			]
@@ -228,7 +233,7 @@
 		"asm-comments": {
 			"patterns": [
 				{
-					"name": "comment.line.semicolon.dasm",
+					"name": "comment.line.dasm",
 					"begin": ";",
 					"end": "$",
 					"comment": "Single line comment"
@@ -238,10 +243,10 @@
 		"asm-constants": {
 			"patterns": [
 				{
-					"include": "#constants-numeric"
+					"include": "#asm-constants-numeric"
 				},
 				{
-					"include": "#constants-string"
+					"include": "#asm-constants-string"
 				}
 			]
 		},
