@@ -1,0 +1,291 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "XC-BASIC3",
+	"patterns": [
+		{
+			"include": "#asm-expression"
+		},
+		{
+			"include": "#invalid"
+		},
+		{
+			"include": "#types"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#modifiers"
+		},
+		{
+			"include": "#operators"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#numerics"
+		},
+		{
+			"include": "#hexanumerics"
+		},
+		{
+			"include": "#vardefs"
+		},
+		{
+			"include": "#type"
+		},
+		{
+			"include": "#sub"
+		},
+		{
+			"include": "#call"
+		},
+		{
+			"include": "#as"
+		},
+		{
+			"include": "#labels"
+		}
+	],
+	"repository": {
+		"asm-expression": {
+			"begin": "(?i)\\basm\\b",
+			"end": "(?i)\\bend asm\\b",
+			"name": "keyword.control.xcbasic3",
+			"patterns": [
+				{
+					"include": "#asm-comments"
+				},
+				{
+					"include": "#asm-constants"
+				},
+				{
+					"include": "#asm-labels"
+				},
+				{
+					"include": "#asm-operators"
+				},
+				{
+					"include": "#asm-pseudoops"
+				},
+				{
+					"include": "#asm-instructions"
+				},
+				{
+					"include": "#asm-registers"
+				}		
+			]
+		},
+		"type": {
+			"patterns": [{
+				"name": "keyword.control.xcbasic3",
+				"match": "(?i)type\\s+([a-z_][a-z_0-9]*\\$?)",
+				"captures": {
+					"1": {
+						"name": "entity.name.type.xcbasic3"
+					}
+				}
+			}]
+		},			
+		"as": {
+			"patterns": [{
+				"name": "keyword.control.xcbasic3",
+				"match": "(?i)as\\s+([a-z_][a-z_0-9]*\\$?)\\b",
+				"captures": {
+					"1": {
+						"name": "entity.name.type.xcbasic3"
+					}
+				}
+			}]
+		},			
+		"types": {
+			"patterns": [{
+				"name": "entity.name.type.xcbasic3",
+				"match": "(?i)\\b(byte|word|int|long|float|decimal|string)\\b"
+			}]
+		},			
+		"sub": {
+			"patterns": [{
+				"name": "keyword.control.xcbasic3",
+				"match": "(?i)(sub|function)\\s+([a-z_][a-z_0-9]*\\$?)",
+				"captures": {
+					"2": {
+						"name": "entity.name.function.xcbasic3"
+					}
+				}
+			}]
+		},
+		"call": {
+			"patterns": [{
+				"name": "storage.modifier.xcbasic3",
+				"match": "(?i)call\\s+([a-z_][a-z_0-9]*\\$?)",
+				"captures": {
+					"1": {
+						"name": "entity.name.function.xcbasic3"
+					}
+				}
+			}]
+		},
+		"comments": {
+			"patterns": [{
+				"name": "comment.line.xcbasic3",
+				"match": "(?i)(rem)(.*)"
+			}, {
+				"name": "comment.line.xcbasic3",
+				"match": "(?i)(')(.*)"
+			}]
+		},
+		"labels": {
+			"patterns": [{
+				"name": "variable.name.xcbasic3",
+				"match": "\\b[a-z_][a-z_0-9]*\\$?\\b"
+			}]
+		},
+		"numerics": {
+			"patterns": [{
+				"name": "constant.numeric.xcbasic3",
+				"match": "\\b([0-9]+)\\b"
+			}]
+		},
+		"hexanumerics": {
+			"patterns": [{
+				"name": "constant.numeric.xcbasic3",
+				"match": "\\$([0-9a-fA-F]+)\\b"
+			}]
+		},
+		"invalid": {
+			"patterns": [{
+				"name": "invalid.illegal",
+				"match": "(?i)\\b(inline)\\b"
+			}]
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.xcbasic3",
+				"match": "(?i)\\b(const|continue|data|declare|dim|do|else|end|error|exit|fast|for|gosub|goto|if|incbin|include|let|loop|next|on|origin|overload|private|return|shared|static|step|sys|then|this|to|until|while)\\b"
+			}]
+		},
+		"modifiers": {
+			"patterns": [{
+				"name": "storage.modifier.xcbasic3",
+				"match": "(?i)\\b(abs|asc|atn|cbyte|cfloat|chr$|cint|clong|cos|csrlin|cword|err|exp|int|lcase$|left$|len|log|mid$|peek|pos|pow|right$|rnd|rndb|rndi|rndl|rndw|sgn|shl|shr|sin|sqr|st|str$|swap|tan|ti|ucase$|val|wait)\\b"
+			},{
+				"name": "storage.modifier.xcbasic3",
+				"match": "(?i)\\b(charat|get|get#|input|input#|int|load|locate|memcpy|memset|memshift|open|poke|print|print#|randomize|read#|save|screen|textat|write#)\\b"
+			}]
+		},
+		"operators": {
+			"patterns": [{
+				"name": "keyword.operator.xcbasic3",
+				"match": "(?i)(\\*|to|/|\\+|-|@|=|<>|<|>|<=|>=|\\band\\b|\\bor\\b|\\bxor\\b|\\bnot\\b|\\bmod\\b)"
+			}]
+		},		
+		"strings": {
+			"name": "string.quoted.double.xcbasic3",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.xcbasic3",
+					"match": "\\\\."
+				}
+			]
+		},
+		"asm-labels": {
+			"patterns": [
+				{
+					"name": "keyword.control.label.dasm",
+					"match": "^[a-zA-Z0-9]+\\b\\s*[^=]",
+					"comment": "Label"
+				}
+			]
+		},
+		"asm-pseudoops": {
+			"patterns": [
+				{
+					"name": "keyword.directives.dasm",
+					"match": "(?i)[\\s]*\\b(include|incdir|seg|seg\\.u|dc|dc\\.bwl|dv|dv\\.bwl|hex|org|rorg|rend|align|subroutine|equ|=|eqm|set|mac|endm|mexit|ifconst|ifnconst|if|else|endif|eif|repeat|repend|list\\s+on|list\\soff|processor)\\b"
+				}
+			]
+		},
+		"asm-instructions": {
+			"patterns": [
+				{
+					"name": "keyword.instructions.dasm",
+					"match": "(?i)[\\s]*\\b(adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|brk|bvc|bvs|clc|cld|cli|clv|cmp|cpx|cpy|dec|dex|dey|eor|inc|inx|iny|jmp|jsr|lda|ldx|ldy|lsr|nop|ora|pha|php|pla|plp|rol|ror|rti|rts|sbc|sec|sed|sei|sta|stx|sty|tax|tay|tsx|txa|txs|tya)\\b"
+				}
+			]
+		},
+		"asm-registers": {
+			"patterns": [
+				{
+					"name": "keyword.registers.dasm",
+					"match": "(?i)\\b(pc|ac|x|y|sr|sp)\\b"
+				}
+			]
+		},
+		"asm-comments": {
+			"patterns": [
+				{
+					"name": "comment.line.semicolon.dasm",
+					"begin": ";",
+					"end": "$",
+					"comment": "Single line comment"
+				}
+			]
+		},
+		"asm-constants": {
+			"patterns": [
+				{
+					"include": "#constants-numeric"
+				},
+				{
+					"include": "#constants-string"
+				}
+			]
+		},
+		"asm-constants-numeric": {
+			"patterns": [
+				{
+					"name": "constant.numeric.binary.dasm",
+					"match": "\\%[0-1]+\\b",
+					"comment": "Integer literal (binary)"
+				},
+				{
+					"name": "constant.numeric.hexadecimal.dasm",
+					"match": "\\$[0-9a-fA-F]+\\b",
+					"comment": "Integer literal (hexa)"
+				},
+				{
+					"name": "constant.numeric.octal.dasm",
+					"match": "\\b0[0-7]+\\b",
+					"comment": "Integer literal (octal)"
+				},
+				{
+					"name": "constant.numeric.integer.decimal.dasm",
+					"match": "\\b[0-9]+\\b",
+					"comment": "Integer literal (decimal)"
+				}
+			]
+		},
+		"asm-constants-string": {
+			"name": "string.quoted.double.dasm",
+			"begin": "\"",
+			"end": "\""
+		},
+		"asm-operators": {
+			"patterns": [
+				{
+					"name": "keyword.operator.dasm",
+					"match": "(?i)(\\*|\\/|%|\\+|-|<<|>>|>|>=|<|<=|==|=|!=|\\&|\\^|\\||\\&\\&|\\|\\||\\?|\\[|\\]|,)",
+					"comment": "Binary operators"
+				}
+			]
+		}
+	},
+	"scopeName": "source.xcbasic3"
+}

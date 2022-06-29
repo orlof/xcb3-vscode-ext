@@ -1,0 +1,52 @@
+{
+    "name": "orlof-xcbasic3",
+    "displayName": "XC=BASIC 3 Language",
+    "description": "Syntax highlighting for XC=BASIC 3",
+    "publisher": "orlof",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.33.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "keywords": ["c64","6502","basic","commodore","grammar"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/orlof/xcb3-vscode-ext.git"
+    },
+    "icon": "images/xcbasic_logo.png",
+    "contributes": {
+        "languages": [{
+            "id": "xcbasic3",
+            "aliases": ["XC-BASIC3", "xcbasic3"],
+            "extensions": [".bas"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "xcbasic3",
+            "scopeName": "source.xcbasic3",
+            "path": "./syntaxes/xcbasic3.tmLanguage.json",
+            "embeddedLanguages": {
+                "source.dasm": "dasm",
+                "meta.embedded.block.dasm": "dasm"
+            }
+        }],
+        "snippets": [{
+            "language": "xcbasic",
+            "path": "./snippets.json"
+        }],
+        "configuration":[
+            {
+                "title": "XC=BASIC 3 configuration",
+                "properties": {
+                    "xcbasic3.basefolder": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Absolute path of the XC-BASIC base folder (the one containing the 'bin' and 'third_party' folders)."
+                    }
+                }
+            }
+        ]
+    }
+}
