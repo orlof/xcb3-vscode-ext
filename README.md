@@ -2,25 +2,25 @@
 
 # XC=Basic 3 
 
-Syntax highlighting for XC=BASIC 3, a cross compiling basic dialect for the C64.
+Syntax highlighting for XC=BASIC 3, a cross compiled BASIC for 8-bit Commodore machines.
 
 ## Features
 
-### Grammar definition for syntax highlighting and more
+* Grammar definition for syntax highlighting
 
 ![Syntax highlighting](images/syntaxhighlighting.png)
 
 ## Requirements
 
 No requirements but XC=Basic 3 compiler and Vice are recommended for testing.
- - https://xc-basic.net/
- - https://vice-emu.sourceforge.io/
+* https://xc-basic.net/
+* https://vice-emu.sourceforge.io/
 
 ## Extension Settings
 
 This extension contributes the following settings:
 
-* `xcbasic.basefolder`: Absolute path of the XC-BASIC base folder (the one containing the 'bin' and 'third_party' folders).
+* `xcbasic.basefolder`: Absolute path of the XC-BASIC base folder (the one containing the 'bin' folder.
 
 For now this setting is not used directly by the extension, you can use it with the following `tasks.json` and simply hit Crtl+Shift+B or Cmd+Shift+B to build the currently open XC=BASIC 3 file to a C64 prg with the same name.
 
@@ -41,14 +41,14 @@ For now this setting is not used directly by the extension, you can use it with 
                 ]
             },
             "linux": {
-                "command": "./xcb",
+                "command": "./bin/Linux/xcbasic3",
                 "args": [
                     "${file}",
                     "${fileDirname}/${fileBasenameNoExtension}.prg"
                 ]
             },
             "windows": {
-                "command": "xcb.bat",
+                "command": "./bin/Windows/xcbasic3.exe",
                 "args": [
                     "${file}",
                     "${fileDirname}\\${fileBasenameNoExtension}.prg"
