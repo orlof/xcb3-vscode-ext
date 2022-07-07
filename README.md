@@ -1,4 +1,4 @@
-![xcbasic logo](images/xcbasic_logo.png)
+![xcbasic logo](images/icon.png)
 
 # XC=Basic 3 
 
