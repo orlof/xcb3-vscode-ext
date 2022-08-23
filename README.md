@@ -2,7 +2,7 @@
 
 # XC=Basic 3 
 
-Syntax highlighting for XC=BASIC 3, a cross compiled BASIC for 8-bit Commodore machines.
+Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore machines.
 
 ## Features
 

@@ -2,8 +2,8 @@
     "name": "orlof-xcbasic3",
     "displayName": "XC=BASIC 3 Language",
     "description": "Syntax highlighting for XC=BASIC 3",
-    "publisher": "orlof",
-    "version": "0.0.1",
+    "publisher": "RealOrlof",
+    "version": "0.0.2",
     "engines": {
         "vscode": "^1.33.0"
     },
@@ -15,7 +15,7 @@
         "type": "git",
         "url": "https://github.com/orlof/xcb3-vscode-ext.git"
     },
-    "icon": "images/xcbasic_logo.png",
+    "icon": "images/icon.png",
     "contributes": {
         "languages": [{
             "id": "xcbasic3",
@@ -39,7 +39,7 @@
                     "xcbasic3.basefolder": {
                         "type": "string",
                         "default": "",
-                        "description": "Absolute path of the XC-BASIC base folder (the one containing the 'bin' and 'third_party' folders)."
+                        "description": "Absolute path of the XC-BASIC3 base folder (the one containing the 'bin' folder)."
                     }
                 }
             }
