@@ -189,13 +189,13 @@
 				"match": "(?i)\\b(abs|asc|at|atn|cbyte|cfloat|chr$|cint|clong|color|cos|csrlin|cword|err|exp|hires|int|lcase$|left$|len|log|mid$|multi|(on|under)\\s+background|peek|pos|pow|right$|rnd|rndb|rndi|rndl|rndw|sgn|shape|shl|shr|sin|sqr|st|str$|swap|tan|ti|ucase$|val|wait|xysize)\\b"
 			},{
 				"name": "storage.modifier.xcbasic3",
-				"match": "(?i)\\b(adsr|background|border|charat|cols|filter|cutoff|resonance|(low|band|high)\\s+pass|get|get#|hscroll|input|input#|int|load|locate|memcpy|memset|memshift|off|on|open|poke|print|print#|pulse|randomize|read#|rows|save|screen|sound\\s+clear|sprite(\\s+(clear\\shit|multicolor))?|textat|tone|vmode(\\s+(text|bitmap|ext|hires|multi))*|volume|voice|vscroll|wave\\s+(saw|tri|pulse|noise)|write#)\\b"
+				"match": "(?i)\\b(adsr|background|border|charat|close|cols|filter|cutoff|resonance|(low|band|high)\\s+pass|get|hscroll|input|int|load|locate|memcpy|memset|memshift|off|on|open|poke|print|pulse|randomize|read|rows|save|screen|sound\\s+clear|sprite(\\s+(clear\\shit|multicolor))?|textat|tone|vmode(\\s+(text|bitmap|ext|hires|multi))*|volume|voice|vscroll|wave\\s+(saw|tri|pulse|noise)|write)\\b"
 			}]
 		},
 		"operators": {
 			"patterns": [{
 				"name": "keyword.operator.xcbasic3",
-				"match": "(?i)(\\*|to|/|\\+|-|@|=|<>|<|>|<=|>=|\\band\\b|\\bor\\b|\\bxor\\b|\\bnot\\b|\\bmod\\b)"
+				"match": "(?i)(\\*|\\bto\\b|/|\\+|-|@|=|<>|<|>|<=|>=|\\band\\b|\\bor\\b|\\bxor\\b|\\bnot\\b|\\bmod\\b)"
 			}]
 		},		
 		"strings": {
