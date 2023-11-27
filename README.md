@@ -1,6 +1,6 @@
 ![xcbasic logo](images/icon.png)
 
-# XC=Basic 3 
+# XC=Basic 3
 
 Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore machines.
 
@@ -20,9 +20,13 @@ No requirements but XC=Basic 3 compiler and Vice are recommended for testing.
 
 This extension contributes the following settings:
 
-* `xcbasic.basefolder`: Absolute path of the XC-BASIC base folder (the one containing the 'bin' folder.
+* `xcbasic.basefolder`: Absolute path to XC-BASIC base folder (the one containing the 'bin' folder)
+* `xcbasic.vice`: Absolute path to VICE base folder (the one containing the 'bin' folder)
+* `xcbasic.packer`: Absolute path to packer (of your choice) base folder (e.g. Exomizer)
 
-For now this setting is not used directly by the extension, you can use it with the following `tasks.json` and simply hit Crtl+Shift+B or Cmd+Shift+B to build the currently open XC=BASIC 3 file to a C64 prg with the same name.
+These setting are not needed by the extension, but you can use them in `.vscode/tasks.json` to simplify compilation process.
+
+Following example allows you to simply hit Crtl+Shift+B or Cmd+Shift+B to build the currently open XC=BASIC 3 file to a C64 .prg with the same name.
 
 ```json
 {
@@ -79,4 +83,15 @@ For now this setting is not used directly by the extension, you can use it with 
 
 ### 0.0.1
 
-Initial release
+* Initial release
+
+### 0.0.2 - 0.0.3
+
+* Bug fixes
+
+### 0.0.4
+
+* "OPTION FASTINTERRUPT"
+* Simple folding
+* Added optional config parameters for VICE and Packer (can be used in task.json)
+

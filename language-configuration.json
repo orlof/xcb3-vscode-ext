@@ -18,6 +18,13 @@
     "surroundingPairs": [
         ["(", ")"],
         ["\"", "\""],
-        ["{", "}"]
-    ]
+        ["{", "}"],
+        ["\"", "\""]
+    ],
+    "folding": {
+        "markers": {
+            "start": "\\s*(SUB|sub)|(FUNCTION|function)|(ASM|asm)\\b",
+            "end": "\\s*(END|end) (SUB|sub|FUNCTION|function|ASM|asm)"
+        }
+    }
 }

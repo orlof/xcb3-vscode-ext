@@ -3,7 +3,7 @@
     "displayName": "XC=BASIC 3 Language",
     "description": "Syntax highlighting for XC=BASIC 3",
     "publisher": "RealOrlof",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "engines": {
         "vscode": "^1.33.0"
     },
@@ -40,6 +40,16 @@
                         "type": "string",
                         "default": "",
                         "description": "Absolute path of the XC-BASIC3 base folder (the one containing the 'bin' folder)."
+                    },
+                    "xcbasic3.vice": {
+                        "type": "string",
+                        "default": "",
+                        "description": "OPTIONAL: Absolute path of the VICE base folder (the one containing the 'bin' folder)."
+                    },
+                    "xcbasic3.packer": {
+                        "type": "string",
+                        "default": "",
+                        "description": "OPTIONAL: Absolute path packer (e.g. Exomizer)."
                     }
                 }
             }
