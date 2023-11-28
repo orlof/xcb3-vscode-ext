@@ -79,19 +79,3 @@ Following example allows you to simply hit Crtl+Shift+B or Cmd+Shift+B to build 
   *  https://github.com/Viza74/xcbasiclanguagevscodeext
   *  https://github.com/zeh/vscode-dasm
 
-## Release Notes
-
-### 0.0.1
-
-* Initial release
-
-### 0.0.2 - 0.0.3
-
-* Bug fixes
-
-### 0.0.4
-
-* "OPTION FASTINTERRUPT"
-* Simple folding
-* Added optional config parameters for VICE and Packer (can be used in task.json)
-
