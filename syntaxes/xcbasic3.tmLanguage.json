@@ -58,7 +58,7 @@
 		"options": {
 			"patterns": [{
 				"name": "keyword.control.xcbasic3",
-				"match": "(?i)\\bOPTION\\s+(FASTINTERRUPT)\\b",
+				"match": "(?i)\\bOPTION\\s+(FASTINTERRUPT|INLINEDATA|NOBASICLOADER|STARTADDRESS|TARGET)\\b",
 				"captures": {
 					"1": {
 						"name": "variable.name.xcbasic3"
