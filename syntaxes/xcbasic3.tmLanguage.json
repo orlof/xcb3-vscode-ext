@@ -18,12 +18,27 @@
 			"include": "#interrupts"
 		},
 		{
+			"include": "#charset"
+		},
+		{
+			"include": "#vmode"
+		},
+        {
+            "include": "#voice"
+        },
+        {
+            "include": "#filter"
+        },
+        {
+            "include": "#sprite"
+        },
+        {
 			"include": "#keywords"
 		},
 		{
 			"include": "#modifiers"
 		},
-		{
+        {
 			"include": "#operators"
 		},
 		{
@@ -139,7 +154,7 @@
 				"match": "(?i)\\b(?:timer|raster|sprite|background|system)\\s+interrupt\\s+(on|off)\\b",
 				"captures": {
 					"1": {
-						"name": "variable.name.xcbasic3"
+						"name": "constant.numeric.xcbasic3"
 					}
                 }
             }, {
@@ -147,7 +162,72 @@
                 "match": "(?i)\\bon\\s+(?:timer|raster|sprite|background)"
             }]
 		},
-		"call": {
+        "charset": {
+			"patterns": [{
+				"name": "storage.modifier.xcbasic3",
+				"match": "(?i)\\bcharset(?:\\s+(ram|rom))?\\b",
+				"captures": {
+					"1": {
+						"name": "constant.numeric.xcbasic3"
+					}
+                }
+            }]
+		},
+        "vmode": {
+			"patterns": [{
+				"name": "storage.modifier.xcbasic3",
+                "match": "(?i)\\bvmode\\s+(((?:text|bitmap)\\s+(?:hires|multi))|ext)\\b",
+				"captures": {
+					"1": {
+						"name": "constant.numeric.xcbasic3"
+					}
+                }
+            }]
+		},
+        "voice": {
+			"patterns": [
+                {
+                    "name": "storage.modifier.xcbasic3",
+                    "match": "(?i)(?:voice|on|off|left|right|volume|tone|adsr|pulse|filter\\s(on|off))\\b",
+                    "captures": {
+                        "1": {
+                            "name": "constant.numeric.xcbasic3"
+                        }
+                    }
+                },{
+                    "name": "storage.modifier.xcbasic3",
+                    "match": "(?i)\\bwave\\s(saw|pulse|noise|tri)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "constant.numeric.xcbasic3"
+                        }
+                    }
+                }
+            ]
+		},
+        "filter": {
+            "patterns": [{
+                "name": "storage.modifier.xcbasic3",
+                "match": "(?i)\\b(?:filter|cutoff|resonance|(low|band|high)\\spass)\\b",
+                "captures": {
+                    "1": {
+                        "name": "constant.numeric.xcbasic3"
+                    }
+                }
+            }]
+        },
+        "sprite": {
+            "patterns": [{
+                "name": "storage.modifier.xcbasic3",
+                "match": "(?i)\\b(?:sprite|on|off|at|shape|color|hires|multi|hicol|lowcol|xysize|(on|under)\\s+background|zdepth|xyflip)\\b",
+                "captures": {
+                    "1": {
+                        "name": "constant.numeric.xcbasic3"
+                    }
+                }
+            }]
+        },
+        "call": {
 			"patterns": [{
 				"name": "storage.modifier.xcbasic3",
 				"match": "(?i)\\bcall\\s+([a-z_][a-z_0-9]*\\$?)\\b",
@@ -200,10 +280,10 @@
 		"modifiers": {
 			"patterns": [{
 				"name": "storage.modifier.xcbasic3",
-				"match": "(?i)\\b(abs|asc|at|atn|cbyte|cfloat|chr$|cint|clong|color|cos|csrlin|cword|err|exp|hires|int|lcase$|left$|len|log|mid$|multi|(on|under)\\s+background|peek|pos|pow|right$|rnd|rndb|rndi|rndl|rndw|sgn|shape|shl|shr|sin|sqr|st|str$|swap|tan|ti|ucase$|val|wait|xysize)\\b"
+				"match": "(?i)\\b(abs|asc|at|atn|cbyte|cfloat|chr$|cint|clong|color|cos|csrlin|cword|err|exp|int|lcase$|left$|len|log|mid$|peek|pos|pow|right$|rnd|rndb|rndi|rndl|rndw|sgn|shl|shr|sin|sqr|st|str$|swap|tan|ti|ucase$|val|wait)\\b"
 			},{
 				"name": "storage.modifier.xcbasic3",
-				"match": "(?i)\\b(adsr|background|border|charat|close|cols|filter|cutoff|resonance|(low|band|high)\\s+pass|get|hscroll|input|int|load|locate|memcpy|memset|memshift|off|on|open|poke|print|pulse|randomize|read|rows|save|screen|sound\\s+clear|sprite(\\s+(clear\\shit|multicolor))?|textat|tone|vmode(\\s+(text|bitmap|ext|hires|multi))*|volume|voice|vscroll|wave\\s+(saw|tri|pulse|noise)|write)\\b"
+				"match": "(?i)\\b(background|border|charat|close|cols|get|hscroll|input|int|load|locate|memcpy|memset|memshift|open|poke|print|randomize|read|rows|save|screen|sound\\s+clear|sprite\\s+clear|sprite\\s+multicolor|textat|vscroll|write)\\b"
 			}]
 		},
 		"operators": {

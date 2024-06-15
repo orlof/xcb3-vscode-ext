@@ -3,7 +3,7 @@
     "displayName": "XC=BASIC 3 Language",
     "description": "Syntax highlighting for XC=BASIC 3",
     "publisher": "RealOrlof",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "engines": {
         "vscode": "^1.33.0"
     },
@@ -60,6 +60,11 @@
                         "type": "string",
                         "default": "",
                         "description": "OPTIONAL: Absolute path of the VICE base folder (the one containing the 'bin' folder)."
+                    },
+                    "xcbasic3.debugger": {
+                        "type": "string",
+                        "default": "",
+                        "description": "OPTIONAL: Absolute path of the Retro Debugger."
                     },
                     "xcbasic3.packer": {
                         "type": "string",

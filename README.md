@@ -22,6 +22,7 @@ This extension contributes the following settings:
 
 * `xcbasic.basefolder`: Absolute path to XC-BASIC base folder (the one containing the 'bin' folder)
 * `xcbasic.vice`: Absolute path to VICE base folder (the one containing the 'bin' folder)
+* `xcbasic.debugger`: Absolute path to retro debugger base folder
 * `xcbasic.packer`: Absolute path to packer (of your choice) base folder (e.g. Exomizer)
 
 These setting are not needed by the extension, but you can use them in `.vscode/tasks.json` to simplify compilation process.
