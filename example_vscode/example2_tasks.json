@@ -1,0 +1,53 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Vice XC=BASIC3",
+            "type": "shell",
+            "osx": {
+                "command": "open",
+                "args": [
+                    "build/${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.vice}/bin/x64sc.exe",
+                "args": [
+                    "build/${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Compile XC=BASIC3"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Compile XC=BASIC3",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "args": [
+                    "${file}",
+                    "build/${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "args": [
+                    "${file}",
+                    "build/_${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ]
+}
