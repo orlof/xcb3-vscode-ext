@@ -1,0 +1,182 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Warzone",
+            "type": "shell",
+            "osx": {
+                "command": "open",
+                "args": [
+                    "build/warzone.d64"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.vice}/bin/x64sc.exe",
+                "args": [
+                    "build/warzone.d64"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build warzone.d64"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build warzone.d64",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.vice}/bin/c1541",
+                "args": [
+                    "-format",
+                    "warzone,of",
+                    "d64",
+                    "build/warzone.d64",
+                    "-attach",
+                    "build/warzone.d64",
+                    "-write",
+                    "build/part1.prg",
+                    "loader",
+                    "-write",
+                    "build/part2.prg",
+                    "battle"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.vice}/bin/c1541.exe",
+                "args": [
+                    "-format",
+                    "warzone,of",
+                    "d64",
+                    "build/warzone.d64",
+                    "-attach",
+                    "build/warzone.d64",
+                    "-write",
+                    "build/part1.prg",
+                    "loader",
+                    "-write",
+                    "build/part2.prg",
+                    "intro",
+                    "battle"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "EXOMIZE part1",
+                "XCB3 part2"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "EXOMIZE part1",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.packer}/exomizer",
+                "args": [
+                    "sfx",
+                    "basic",
+                    "build/_part1.prg",
+                    "-o",
+                    "build/part1.prg",
+                    "-x",
+                    "'inc $d020'"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.packer}/exomizer.exe",
+                "args": [
+                    "sfx",
+                    "basic",
+                    "build/_part1.prg",
+                    "-o",
+                    "build/part1.prg",
+                    "-x",
+                    "'inc $d020'"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XCB3 part1"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "XCB3 part1",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "args": [
+                    "part1.bas",
+                    "build/_part1.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "args": [
+                    "part1.bas",
+                    "build/_part1.prg"
+                ]
+            }
+        },
+        {
+            "label": "XCB3 part2",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "args": [
+                    "part2.bas",
+                    "build/part2.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "args": [
+                    "part2.bas",
+                    "build/part2.prg"
+                ]
+            }
+        },
+        {
+            "label": "XCB3",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "args": [
+                    "${file}",
+                    "build/_${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "args": [
+                    "${file}",
+                    "build/_${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

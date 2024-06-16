@@ -36,35 +36,32 @@ Following example allows you to simply hit Crtl+Shift+B or Cmd+Shift+B to build 
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build XC=BASIC 3 file to .prg",
+            "label": "XC=BASIC3 Compile",
             "type": "shell",
             "osx": {
-                "command": "./bin/macOS/xcbasic3",
+                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
                 "args": [
                     "${file}",
                     "${fileDirname}/${fileBasenameNoExtension}.prg"
                 ]
             },
             "linux": {
-                "command": "./bin/Linux/xcbasic3",
+                "command": "${config:xcbasic3.basefolder}/bin/Linux/xcbasic3",
                 "args": [
                     "${file}",
                     "${fileDirname}/${fileBasenameNoExtension}.prg"
                 ]
             },
             "windows": {
-                "command": "./bin/Windows/xcbasic3.exe",
+                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
                 "args": [
                     "${file}",
-                    "${fileDirname}\\${fileBasenameNoExtension}.prg"
+                    "${fileDirname}/${fileBasenameNoExtension}.prg"
                 ]
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "options": {
-                "cwd": "${config:xcbasic3.basefolder}"
             }
         }
     ]
