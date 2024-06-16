@@ -1,4 +1,4 @@
-![xcbasic logo](https://github.com/orlof/xcb3-vscode-ext/blob/main/images/icon.png)
+![xcbasic logo](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/icon.png)
 
 # XC=Basic 3
 
@@ -8,7 +8,7 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 
 * Grammar definition for syntax highlighting
 
-![Syntax highlighting](https://github.com/orlof/xcb3-vscode-ext/blob/main/images/syntaxhighlighting.png)
+![Syntax highlighting](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/syntaxhighlighting.png)
 
 ## Requirements
 
