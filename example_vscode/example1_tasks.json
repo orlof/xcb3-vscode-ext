@@ -4,23 +4,23 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run Warzone",
+            "label": "Run MyGame",
             "type": "shell",
             "osx": {
                 "command": "open",
                 "args": [
-                    "build/warzone.d64"
+                    "build/mygame.d64"
                 ]
             },
             "windows": {
                 "command": "${config:xcbasic3.vice}/bin/x64sc.exe",
                 "args": [
-                    "build/warzone.d64"
+                    "build/mygame.d64"
                 ]
             },
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Build warzone.d64"
+                "Build mygame.d64"
             ],
             "group": {
                 "kind": "build",
@@ -31,17 +31,17 @@
             }
         },
         {
-            "label": "Build warzone.d64",
+            "label": "Build mygame.d64",
             "type": "shell",
             "osx": {
                 "command": "${config:xcbasic3.vice}/bin/c1541",
                 "args": [
                     "-format",
-                    "warzone,of",
+                    "mygame,of",
                     "d64",
-                    "build/warzone.d64",
+                    "build/mygame.d64",
                     "-attach",
-                    "build/warzone.d64",
+                    "build/mygame.d64",
                     "-write",
                     "build/part1.prg",
                     "loader",
@@ -54,11 +54,11 @@
                 "command": "${config:xcbasic3.vice}/bin/c1541.exe",
                 "args": [
                     "-format",
-                    "warzone,of",
+                    "mygame,of",
                     "d64",
-                    "build/warzone.d64",
+                    "build/mygame.d64",
                     "-attach",
-                    "build/warzone.d64",
+                    "build/mygame.d64",
                     "-write",
                     "build/part1.prg",
                     "loader",

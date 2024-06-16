@@ -25,10 +25,11 @@ This extension contributes the following settings:
 * `xcbasic.debugger`: Absolute path to retro debugger base folder
 * `xcbasic.packer`: Absolute path to packer (of your choice) base folder (e.g. Exomizer)
 
-These setting are not needed by the extension, but you can use them in `.vscode/tasks.json` to simplify compilation process.
+These setting are not needed by the extension, but you can use them in `.vscode/tasks.json` to simplify compilation process. By specifying the basefolder you can store .vscode/tasks.json to version control and reference tools with relative paths. Then multiple people with different installation folders can work with the project.
 
-Following example allows you to simply hit Crtl+Shift+B or Cmd+Shift+B to build the currently open XC=BASIC 3 file to a C64 .prg with the same name.
+Following example allows you to hit Crtl+Shift+B or Cmd+Shift+B to build the currently open XC=BASIC 3 file to a C64 .prg with the same name.
 
+Copy this to .vscode/tasks.json in your project folder.
 ```json
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
@@ -68,7 +69,14 @@ Following example allows you to simply hit Crtl+Shift+B or Cmd+Shift+B to build 
 }
 ```
 
-Some tasks.json examples are available in https://github.com/orlof/xcb3-vscode-ext/tree/main/example_vscode
+[This](https://github.com/orlof/xcb3-vscode-ext/tree/main/example_vscode/example1_tasks.json) example
+ - Compiles files part1.bas and part2.bas with XC=BASIC3
+ - Compresses part1.bas with Exomizer
+ - Creates a .d64 file.
+
+[This](https://github.com/orlof/xcb3-vscode-ext/tree/main/example_vscode/example2_tasks.json) example
+ - Compiles current XC=BASIC3 file
+ - Runs the compiled file in VICE
 
 ## Known Issues
 
