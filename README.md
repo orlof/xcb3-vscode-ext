@@ -1,4 +1,4 @@
-![xcbasic logo](images/icon.png)
+![xcbasic logo](https://github.com/orlof/xcb3-vscode-ext/blob/main/images/icon.png)
 
 # XC=Basic 3
 
@@ -8,7 +8,7 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 
 * Grammar definition for syntax highlighting
 
-![Syntax highlighting](images/syntaxhighlighting.png)
+![Syntax highlighting](https://github.com/orlof/xcb3-vscode-ext/blob/main/images/syntaxhighlighting.png)
 
 ## Requirements
 
@@ -68,6 +68,7 @@ Following example allows you to simply hit Crtl+Shift+B or Cmd+Shift+B to build 
 }
 ```
 
+Some tasks.json examples are available in https://github.com/orlof/xcb3-vscode-ext/tree/main/example_vscode
 
 ## Known Issues
 

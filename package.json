@@ -3,7 +3,7 @@
     "displayName": "XC=BASIC 3 Language",
     "description": "Syntax highlighting for XC=BASIC 3",
     "publisher": "RealOrlof",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "engines": {
         "vscode": "^1.33.0"
     },
