@@ -1,0 +1,93 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "XC=BASIC Run",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.emulator}/bin/x64sc",
+                "args": [
+                    "${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.emulator}/bin/x64sc.exe",
+                "args": [
+                    "${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "XC=BASIC Compile",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "args": [
+                    "${file}",
+                    "${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "args": [
+                    "${file}",
+                    "${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "XC=BASIC d64",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.emulator}/bin/c1541",
+                "args": [
+                    "-format",
+                    "${fileBasenameNoExtension},of",
+                    "d64",
+                    "${fileBasenameNoExtension}.d64",
+                    "-attach",
+                    "${fileBasenameNoExtension}.d64",
+                    "-write",
+                    "${fileBasenameNoExtension}.prg",
+                    "${fileBasenameNoExtension}"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.emulator}/bin/c1541.exe",
+                "args": [
+                    "-format",
+                    "${fileBasenameNoExtension},of",
+                    "d64",
+                    "${fileBasenameNoExtension}.d64",
+                    "-attach",
+                    "${fileBasenameNoExtension}.d64",
+                    "-write",
+                    "${fileBasenameNoExtension}.prg",
+                    "${fileBasenameNoExtension}"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ]
+}

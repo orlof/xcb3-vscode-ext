@@ -1,9 +1,9 @@
 {
     "name": "orlof-xcbasic3",
     "displayName": "XC=BASIC 3 Language",
-    "description": "Syntax highlighting for XC=BASIC 3",
+    "description": "Syntax highlighting for XC=BASIC v3",
     "publisher": "RealOrlof",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "engines": {
         "vscode": "^1.33.0"
     },
@@ -15,18 +15,34 @@
         "6502",
         "basic",
         "commodore",
-        "grammar"
+        "grammar",
+        "xc-basic3",
+        "xcbasic3",
+        "xc-basic",
+        "xcbasic",
+        "syntax"
     ],
     "repository": {
         "type": "git",
         "url": "https://github.com/orlof/xcb3-vscode-ext.git"
     },
     "icon": "images/icon.png",
+    "main": "extension.js",
+    "activationEvents": [
+        "onCommand:orlof-xcbasic3.initializeTasks"
+    ],
     "contributes": {
+        "commands": [
+            {
+              "command": "orlof-xcbasic3.initializeTasks",
+              "title": "XC=BASIC Initialize tasks.json"
+            }
+        ],
         "languages": [
             {
                 "id": "xcbasic3",
                 "aliases": [
+                    "XC=BASIC3",
                     "XC-BASIC3",
                     "xcbasic3"
                 ],
@@ -53,23 +69,23 @@
                 "properties": {
                     "xcbasic3.basefolder": {
                         "type": "string",
-                        "default": "",
-                        "description": "Absolute path of the XC-BASIC3 base folder (the one containing the 'bin' folder)."
+                        "default": "/Users/orlof/bin/xc-basic3",
+                        "description": "Absolute path to XC=BASIC base folder (the one containing the 'bin' folder)."
                     },
-                    "xcbasic3.vice": {
+                    "xcbasic3.emulator": {
                         "type": "string",
-                        "default": "",
-                        "description": "OPTIONAL: Absolute path of the VICE base folder (the one containing the 'bin' folder)."
+                        "default": "/Applications/vice-x86-64-gtk3-3.8",
+                        "description": "OPTIONAL: Emulator is needed only if you use it in tasks.json."
                     },
                     "xcbasic3.debugger": {
                         "type": "string",
-                        "default": "",
-                        "description": "OPTIONAL: Absolute path of the Retro Debugger."
+                        "default": "/Applications/Retro Debugger v0.64.66",
+                        "description": "OPTIONAL: Debugger is needed only if you use it in tasks.json."
                     },
                     "xcbasic3.packer": {
                         "type": "string",
-                        "default": "",
-                        "description": "OPTIONAL: Absolute path packer (e.g. Exomizer)."
+                        "default": "/Users/orlof/bin/exomizer-3.0.1",
+                        "description": "OPTIONAL: Packer is needed only if you use it in tasks.json."
                     }
                 }
             }
