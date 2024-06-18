@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
-- Breaking change: configuration parameter `vice` is renamed to `emulator`. You must redefine the parameter and replace ${config:xcbasic3.vice} with ${config:xcbasic3.emulator} in tasks.json
+- Breaking change: configuration parameter `vice` is renamed to `emulator`
+  - Redefine the configuration parameter
+  - Replace `${config:xcbasic3.vice}` with `${config:xcbasic3.emulator}` in tasks.json
+- Added task `XCBASIC Initialize tasks.json`
 - Improved documentation
-
 
 ## [1.0.4] - 2024-6-16
 
