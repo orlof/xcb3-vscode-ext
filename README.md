@@ -20,12 +20,21 @@ No requirements but XC=Basic 3 compiler and Vice are recommended for testing.
 
 This extension contributes the following settings:
 
-* `xcbasic.basefolder`: Absolute path to XC-BASIC base folder (the one containing the 'bin' folder)
-* `xcbasic.vice`: Absolute path to VICE base folder (the one containing the 'bin' folder)
-* `xcbasic.debugger`: Absolute path to retro debugger base folder
-* `xcbasic.packer`: Absolute path to packer (of your choice) base folder (e.g. Exomizer)
+* `xcbasic.basefolder`
+  * Absolute path to XC-BASIC base folder (the one containing the 'bin' folder)
 
-The settings mentioned are not required for the extension, but you can use them in executable paths in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control, ensuring it functions regardless of where the tools are installed.
+Optional settings are needed only if you want to use them in `.vscode/tasks.json`.
+
+* `xcbasic.emulator`
+  * Absolute path to emulator of your choice (e.g. Vice)
+* `xcbasic.debugger`
+  * Absolute path to debugger of your choice (e.g. Retro Debugger)
+* `xcbasic.packer`
+  * Absolute path to packer of your choice (e.g. Exomizer or ZX0)
+
+XC=BASIC extension does not use these optional settings. Their only purpose is to provide file paths that you CAN use when defining tasks in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that it can work correctly in different computers regardless of the tool locations.
+
+## Tasks
 
 Tasks can be set up to perform actions such as:
 
@@ -35,51 +44,18 @@ Tasks can be set up to perform actions such as:
 * Create `.d64` files
 * Execute various other tasks
 
-Once you have defined the necessary tasks in tasks.json, you can trigger them by pressing Ctrl+P (or Cmd+P on Mac) and typing `task NameOfTheTask`. The default task can be run using Ctrl+Shift+B (or Cmd+Shift+B on Mac).
+A default `vscode/tasks.json` file can be created for your project by running a task called `XC=BASIC Initialize tasks.json`. It is run by selecting it from the VSCode Command Palette Ctrl+Shift+B (or Cmd+Shift+B on Mac).
 
-The following example of a tasks.json file sets up a task using xcbasic3 to compile the currently open `.bas` file into a `.prg` file and also sets it as the default task.
+Default `.vscode/tasks.json` defines three tasks:
 
-Copy following snippet to `.vscode/tasks.json` in your project folder.
-```json
-{
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "XC=BASIC3 Compile",
-            "type": "shell",
-            "osx": {
-                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
-                "args": [
-                    "${file}",
-                    "${fileDirname}/${fileBasenameNoExtension}.prg"
-                ]
-            },
-            "linux": {
-                "command": "${config:xcbasic3.basefolder}/bin/Linux/xcbasic3",
-                "args": [
-                    "${file}",
-                    "${fileDirname}/${fileBasenameNoExtension}.prg"
-                ]
-            },
-            "windows": {
-                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
-                "args": [
-                    "${file}",
-                    "${fileDirname}/${fileBasenameNoExtension}.prg"
-                ]
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
-}
-```
+* XC=BASIC Compile
+  * Compiles the current file .bas to .prg
+* XC=BASIC Run
+  * Compiles the current file and runs it with Vice
+* XC=Basic .d64
+  * Compiles the current file and creates disk image
 
-Extension's repository contains more examples of `tasks.json`:
+This default tasks.json provides a starting point for you to define the tasks that your project requires. Extension's repository contains some examples of `tasks.json`:
 
 [This](https://github.com/orlof/xcb3-vscode-ext/tree/main/example_vscode/example1_tasks.json) example
  - Compiles files part1.bas and part2.bas with XC=BASIC3
@@ -92,11 +68,11 @@ Extension's repository contains more examples of `tasks.json`:
 
 ## Notes
 
-This extension does NOT provide:
+This extension is NOT
 * Debugging Extension
   * NO support for VSCode's (F5) debugger, line stepping, variable evaluation etc.
 * Language Server
-  * This extension does not parse the source code and color coding is based on guessing the token types in local context.
+  * This extension does not parse the source code or build AST. Color coding is based on guessing the token types in local context.
 
 ## Thanks
 
