@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "XC=BASIC Run",
+            "label": "XC=BASIC Run File",
             "type": "shell",
             "osx": {
                 "command": "${config:xcbasic3.emulator}/bin/x64sc",
@@ -28,7 +28,7 @@
             }
         },
         {
-            "label": "XC=BASIC Debug",
+            "label": "XC=BASIC Debug File",
             "type": "shell",
             "osx": {
                 "command": "${config:xcbasic3.debugger}/Retro Debugger.app/Contents/MacOS/Retro Debugger",
@@ -52,7 +52,7 @@
             }
         },
         {
-            "label": "XC=BASIC Compile",
+            "label": "XC=BASIC Compile File",
             "type": "shell",
             "osx": {
                 "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
