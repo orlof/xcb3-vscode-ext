@@ -55,14 +55,14 @@
             "label": "XC=BASIC Compile File",
             "type": "shell",
             "osx": {
-                "command": "${config:xcbasic3.basefolder}",
+                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
                 "args": [
                     "${file}",
                     "${fileBasenameNoExtension}.prg"
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.basefolder}",
+                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
                 "args": [
                     "${file}",
                     "${fileBasenameNoExtension}.prg"
