@@ -101,22 +101,27 @@
                 "properties": {
                     "xcbasic3.basefolder": {
                         "type": "string",
-                        "default": "/Users/orlof/bin/xc-basic3",
-                        "description": "Absolute path to XC=BASIC base folder (the one containing the 'bin' folder)."
+                        "default": "C:\\Program Files\\xc-basic3",
+                        "description": "Absolute path to XC=BASIC base folder (the one containing the 'bin' folder).\n* C:\\Program Files\\xc-basic3\n* /Applications/xc-basic3"
                     },
                     "xcbasic3.emulator": {
                         "type": "string",
-                        "default": "/Applications/vice-x86-64-gtk3-3.8",
-                        "description": "OPTIONAL: Emulator is needed only if you use it in tasks.json."
+                        "default": "C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\x64sc.exe",
+                        "description": "Absolute path to the emulator executable.\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\x64sc.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/x64sc"
                     },
                     "xcbasic3.debugger": {
                         "type": "string",
-                        "default": "/Applications/Retro Debugger v0.64.66",
-                        "description": "OPTIONAL: Debugger is needed only if you use it in tasks.json."
+                        "default": "C:\\Program Files\\RetroDebugger v0.64.68\\RetroDebugger.exe",
+                        "description": "Absolute path to the debugger executable.\n* C:\\Program Files\\RetroDebugger v0.64.68\\RetroDebugger.exe\n* /Applications/Retro Debugger v0.64.66/Retro Debugger.app/Contents/MacOS/Retro Debugger"
+                    },
+                    "xcbasic3.builder": {
+                        "type": "string",
+                        "default": "C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\c1541.exe",
+                        "description": "Absolute path to the builder executable.\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\c1541.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/c1541"
                     },
                     "xcbasic3.packer": {
                         "type": "string",
-                        "default": "/Users/orlof/bin/exomizer-3.0.1",
+                        "default": "",
                         "description": "OPTIONAL: Packer is needed only if you use it in tasks.json."
                     }
                 }
