@@ -29,13 +29,45 @@
     "icon": "images/icon.png",
     "main": "extension.js",
     "activationEvents": [
-        "onCommand:orlof-xcbasic3.initializeTasks"
+        "onCommand:orlof-xcbasic3.XCBASICInitialize",
+        "onCommand:orlof-xcbasic3.XCBASICRunFile",
+        "onCommand:orlof-xcbasic3.XCBASICDebugFile",
+        "onCommand:orlof-xcbasic3.XCBASICCompileFile"
     ],
     "contributes": {
         "commands": [
             {
-              "command": "orlof-xcbasic3.initializeTasks",
+              "command": "orlof-xcbasic3.XC=BASICInitialize",
               "title": "XC=BASIC Initialize tasks.json"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICRunFile",
+                "title": "XC=BASIC Run File"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICDebugFile",
+                "title": "XC=BASIC Debug File"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICCompileFile",
+                "title": "XC=BASIC Compile File"
+            }
+        ],
+        "keybindings": [
+            {
+                "key": "ctrl+f5",
+                "command": "orlof-xcbasic3.XC=BASICRunFile",
+                "when": "editorTextFocus && resourceExtname == .bas"
+            },
+            {
+                "key": "f5",
+                "command": "orlof-xcbasic3.XC=BASICDebugFile",
+                "when": "editorTextFocus && resourceExtname == .bas"
+            },
+            {
+                "key": "shift+f5",
+                "command": "orlof-xcbasic3.XC=BASICCompileFile",
+                "when": "editorTextFocus && resourceExtname == .bas"
             }
         ],
         "languages": [

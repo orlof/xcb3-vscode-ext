@@ -28,6 +28,30 @@
             }
         },
         {
+            "label": "XC=BASIC Debug",
+            "type": "shell",
+            "osx": {
+                "command": "${config:xcbasic3.debugger}/Retro Debugger.app/Contents/MacOS/Retro Debugger",
+                "args": [
+                    "${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "windows": {
+                "command": "${config:xcbasic3.debugger}/FIXME",
+                "args": [
+                    "${fileBasenameNoExtension}.prg"
+                ]
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "XC=BASIC Compile",
             "type": "shell",
             "osx": {

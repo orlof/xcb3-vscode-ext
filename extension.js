@@ -2,8 +2,10 @@ const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
 
+const tasks = ['XC=BASIC Run File', 'XC=BASIC Debug File', 'XC=BASIC Compile File'];
+
 function activate(context) {
-    let disposable = vscode.commands.registerCommand('orlof-xcbasic3.initializeTasks', function () {
+    let disposable = vscode.commands.registerCommand('orlof-xcbasic3.XC=BASICInitialize', function () {
         const workspaceFolders = vscode.workspace.workspaceFolders;
         if (workspaceFolders) {
             // Define the path to the .vscode directory and tasks.json
@@ -26,6 +28,23 @@ function activate(context) {
     });
 
     context.subscriptions.push(disposable);
+
+    // Register commands for each task
+    tasks.forEach(task => {
+        let commandName = `orlof-xcbasic3.${task.replace(/\s+/g, '')}`;
+        let disposable = vscode.commands.registerCommand(commandName, () => {
+            vscode.tasks.fetchTasks().then(tasks => {
+                let myTask = tasks.find(t => t.name === task);
+                if (myTask) {
+                    vscode.tasks.executeTask(myTask);
+                } else {
+                    vscode.window.showErrorMessage(`Task "${task}" not found`);
+                }
+            });
+        });
+
+        context.subscriptions.push(disposable);
+    });
 }
 
 function deactivate() { }
