@@ -7,6 +7,8 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 ## Features
 
 * Grammar definition for syntax highlighting
+* Compilation shortcut
+* Default tasks for running .bas file in emulator or debugger
 
 ![Syntax highlighting](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/syntaxhighlighting.png)
 
