@@ -1,10 +1,25 @@
 const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
+
+function getCompilerPath() {
+
+}
 
 const tasks = ['XC=BASIC Run File', 'XC=BASIC Debug File', 'XC=BASIC Compile File'];
 
 function activate(context) {
+    // Set the environment variables for the extension
+    const platform = os.platform();
+    if (platform === 'darwin') {
+        process.env.XCBASIC3_COMPILER = path.join(__dirname, 'bin', 'xc-basic3-main', 'bin', 'macOS', 'xcbasic3');
+    } else if (platform === 'win32') {
+        process.env.XCBASIC3_COMPILER = path.join(__dirname, 'bin', 'xc-basic3-main', 'bin', 'Windows', 'xcbasic3.exe');
+    } else {
+        vscode.window.showErrorMessage('Unsupported OS');
+    }
+
     let disposable = vscode.commands.registerCommand('orlof-xcbasic3.XC=BASICInitialize', function () {
         const workspaceFolders = vscode.workspace.workspaceFolders;
         if (workspaceFolders) {

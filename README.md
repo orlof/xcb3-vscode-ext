@@ -6,26 +6,33 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 
 ## Features
 
-* Grammar definition for syntax highlighting
-* Compilation shortcut
-* Default tasks for running .bas file in emulator or debugger
+* Syntax Highlighting for XC=BASIC3
+* Syntax Highlighting for DASM blocks
+* Integrated XC=BASIC3 compiler
+* Can use installed emulator, debugger and build -tool
 
 ![Syntax highlighting](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/syntaxhighlighting.png)
 
 ## Requirements
 
-No requirements but XC=Basic 3 compiler and Vice are recommended for testing.
-* https://xc-basic.net/
+No requirements but Vice and Retro Debugger are recommended for testing.
 * https://vice-emu.sourceforge.io/
+* https://github.com/slajerek/RetroDebugger
+
+## Installation
+
+This extension contains xc-basic3 compiler. In MacOS attempt to use it (compile) will fail with this error:
+![Error MacOS](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/error_macos.png)
+
+You must manually bypass Gatekeeper's restrictions for unverified applications:
+* Open System Settings > Privacy & Security > General.
+* Click Open Anyway next to the warning about the blocked application.
 
 ## Extension Settings
 
 This extension contributes the following settings:
 
-* `xcbasic.basefolder`
-  * Absolute path to XC-BASIC base folder (the one containing the 'bin' folder)
-
-Optional settings are needed only if you want to use them in `.vscode/tasks.json`.
+Settings are needed only if you want to use them in `.vscode/tasks.json`.
 
 * `xcbasic.emulator`
   * Absolute path to emulator of your choice (e.g. Vice)
@@ -33,8 +40,10 @@ Optional settings are needed only if you want to use them in `.vscode/tasks.json
   * Absolute path to debugger of your choice (e.g. Retro Debugger)
 * `xcbasic.packer`
   * Absolute path to packer of your choice (e.g. Exomizer or ZX0)
+* `xcbasic.builder`
+  * Absolute path to builder of your choice (e.g. c1541)
 
-XC=BASIC extension does not use these optional settings. Their only purpose is to provide file paths that you CAN use when defining tasks in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that it can work correctly in different computers regardless of the tool locations.
+These settings provide file paths that you CAN use when defining tasks in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that it can work correctly in different computers regardless of the tool locations.
 
 ## Tasks
 
@@ -50,12 +59,14 @@ A default `vscode/tasks.json` file can be created for your project by running a 
 
 Default `.vscode/tasks.json` defines three tasks:
 
-* XC=BASIC Compile
+* XC=BASIC Compile File
   * Compiles the current file .bas to .prg
-* XC=BASIC Run
-  * Compiles the current file and runs it with Vice
-* XC=Basic .d64
-  * Compiles the current file and creates disk image
+* XC=BASIC Run File
+  * Compiles the current file and runs it in external emulator
+* XC=BASIC Debug File
+  * Compiles the current file and runs it in external debugger
+* XC=Basic Build
+  * Compiles the current file and creates disk image with external builder
 
 This default tasks.json provides a starting point for you to define the tasks that your project requires. Extension's repository contains some examples of `tasks.json`:
 

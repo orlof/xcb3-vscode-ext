@@ -99,11 +99,6 @@
             {
                 "title": "XC=BASIC 3 configuration",
                 "properties": {
-                    "xcbasic3.basefolder": {
-                        "type": "string",
-                        "default": "C:\\Program Files\\xc-basic3",
-                        "description": "Absolute path to XC=BASIC base folder (the one containing the 'bin' folder).\n* C:\\Program Files\\xc-basic3\n* /Applications/xc-basic3"
-                    },
                     "xcbasic3.emulator": {
                         "type": "string",
                         "default": "C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\x64sc.exe",
