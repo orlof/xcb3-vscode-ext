@@ -12,7 +12,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "XC=BASIC Compile"
+                "XC=BASIC Compile File"
             ],
             "group": {
                 "kind": "build",
@@ -28,7 +28,7 @@
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
-                "XC=BASIC Compile"
+                "XC=BASIC Compile File"
             ],
             "group": {
                 "kind": "build",
