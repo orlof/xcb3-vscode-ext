@@ -163,7 +163,9 @@ async function activate(context) {
     });
 }
 
-function deactivate() { }
+function deactivate() {
+    console.log('XC=BASIC3 extension is now deactivated!');
+}
 
 module.exports = {
     activate,
