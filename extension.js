@@ -131,7 +131,7 @@ async function activate(context) {
     }
 
     // Register the XC=BASICInitialize command
-    let updateDisposable = vscode.commands.registerCommand('orlof-xcbasic3.XCBASICUpdate', function () {
+    let updateDisposable = vscode.commands.registerCommand('orlof-xcbasic3.XC=BASICUpdate', function () {
         ensureCompilerIsLatest(context);
     });
     context.subscriptions.push(updateDisposable);

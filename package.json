@@ -31,7 +31,7 @@
     "activationEvents": [
         "onLanguage:xcBasic",
         "onCommand:orlof-xcbasic3.XC=BASICInitialize",
-        "onCommand:orlof-xcbasic3.XCBASICUpdate"
+        "onCommand:orlof-xcbasic3.XC=BASICUpdate"
     ],
     "contributes": {
         "commands": [
@@ -40,7 +40,7 @@
                 "title": "XC=BASIC Initialize tasks.json"
             },
             {
-                "command": "orlof-xcbasic3.XCBASICUpdate",
+                "command": "orlof-xcbasic3.XC=BASICUpdate",
                 "title": "XC=BASIC Update Compiler"
             },
             {
