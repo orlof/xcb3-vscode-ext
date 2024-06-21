@@ -74,8 +74,6 @@ async function updateCompiler(version) {
         // Save the new version locally
         saveLocalVersion(version);
 
-        // Show information message with the updated version
-        vscode.window.showInformationMessage(`XC=BASIC3 compiler has been updated to ${version}`);
     } catch (error) {
         vscode.window.showErrorMessage(`Failed to update compiler: ${error.message}`);
     }
@@ -92,6 +90,9 @@ async function ensureCompilerIsLatest() {
     if (localVersion !== latestVersion) {
         await updateCompiler(latestVersion);
     }
+
+    // Show information message with the updated version
+    vscode.window.showInformationMessage(`XC=BASIC3 ${getLocalVersion()}`);
 }
 
 function initializeTasks(context) {
@@ -110,7 +111,7 @@ function initializeTasks(context) {
         // Copy the default tasks.json to the .vscode directory if it doesn't exist
         if (!fs.existsSync(tasksPath)) {
             fs.copyFileSync(defaultTasksPath, tasksPath);
-            vscode.window.showInformationMessage('Tasks configuration has been initialized.');
+            vscode.window.showInformationMessage('Initialized: .vscode/tasks.json');
         }
     } else {
         vscode.window.showErrorMessage('No workspace folder found.');
@@ -127,8 +128,20 @@ async function activate(context) {
         process.env.XCBASIC3_COMPILER = compilerPath;
     }
 
-    // Automatically run XC=BASICInitialize task
+    // Register the XC=BASICInitialize command
+    let updateDisposable = vscode.commands.registerCommand('orlof-xcbasic3.XC=BASICUpdate', function () {
+        ensureCompilerIsLatest(context);
+    });
+    context.subscriptions.push(updateDisposable);
+
+    // Automatically initialize tasks if tasks.json doesn't exist
     initializeTasks(context);
+
+    // Register the XC=BASICInitialize command
+    let initializeDisposable = vscode.commands.registerCommand('orlof-xcbasic3.XC=BASICInitialize', function () {
+        initializeTasks(context);
+    });
+    context.subscriptions.push(initializeDisposable);
 
     // Register commands for each task
     tasks.forEach(task => {

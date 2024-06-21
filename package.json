@@ -38,6 +38,10 @@
                 "title": "XC=BASIC Initialize tasks.json"
             },
             {
+                "command": "orlof-xcbasic3.XC=BASICUpdate",
+                "title": "XC=BASIC Update Compiler"
+            },
+            {
                 "command": "orlof-xcbasic3.XC=BASICRunFile",
                 "title": "XC=BASIC Run File"
             },
