@@ -16,6 +16,8 @@ function activate(context) {
         process.env.XCBASIC3_COMPILER = path.join(__dirname, 'bin', 'xc-basic3-main', 'bin', 'macOS', 'xcbasic3');
     } else if (platform === 'win32') {
         process.env.XCBASIC3_COMPILER = path.join(__dirname, 'bin', 'xc-basic3-main', 'bin', 'Windows', 'xcbasic3.exe');
+    } else if (platform === 'linux') {
+        process.env.XCBASIC3_COMPILER = path.join(__dirname, 'bin', 'xc-basic3-main', 'bin', 'Linux', 'xcbasic3');
     } else {
         vscode.window.showErrorMessage('Unsupported OS');
     }
