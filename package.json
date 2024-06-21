@@ -29,7 +29,9 @@
     "icon": "images/icon.png",
     "main": "extension.js",
     "activationEvents": [
-        "onLanguage:xcBasic"
+        "onLanguage:xcBasic",
+        "onCommand:orlof-xcbasic3.XC=BASICInitialize",
+        "onCommand:orlof-xcbasic3.XC=BASICUpdate"
     ],
     "contributes": {
         "commands": [
