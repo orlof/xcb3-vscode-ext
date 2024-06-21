@@ -119,6 +119,8 @@ function initializeTasks(context) {
 }
 
 async function activate(context) {
+    console.log('XC=BASIC3 extension is now active!');
+
     // Ensure the compiler is the latest version when the extension is activated
     await ensureCompilerIsLatest();
 
@@ -129,7 +131,7 @@ async function activate(context) {
     }
 
     // Register the XC=BASICInitialize command
-    let updateDisposable = vscode.commands.registerCommand('orlof-xcbasic3.XC=BASICUpdate', function () {
+    let updateDisposable = vscode.commands.registerCommand('orlof-xcbasic3.XCBASICUpdate', function () {
         ensureCompilerIsLatest(context);
     });
     context.subscriptions.push(updateDisposable);
