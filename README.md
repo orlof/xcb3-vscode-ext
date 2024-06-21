@@ -6,22 +6,21 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 
 ## Features
 
-* Syntax Highlighting for XC=BASIC3
-* Syntax Highlighting for DASM blocks
+* Syntax Highlighting for XC=BASIC3 and asm blocks
 * Integrated XC=BASIC3 compiler
-* Can use installed emulator, debugger and build -tool
+* Integration with emulator, debugger and build -tool
 
 ![Syntax highlighting](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/syntaxhighlighting.png)
 
 ## Requirements
 
-No requirements but Vice and Retro Debugger are recommended for testing.
+No requirements but Vice and Retro Debugger are recommended.
 * https://vice-emu.sourceforge.io/
 * https://github.com/slajerek/RetroDebugger
 
 ## Installation
 
-This extension contains xc-basic3 compiler. In MacOS attempt to use it (compile) will fail with this error:
+This extension contains XC=Basic3 compiler. In MacOS attempt to use it (compile) will fail with this error:
 ![Error MacOS](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/error_macos.png)
 
 You must manually bypass Gatekeeper's restrictions for unverified applications:
@@ -32,7 +31,7 @@ You must manually bypass Gatekeeper's restrictions for unverified applications:
 
 This extension contributes the following settings:
 
-Settings are needed only if you want to use them in `.vscode/tasks.json`.
+Settings are needed only if you use them in `.vscode/tasks.json`.
 
 * `xcbasic.emulator`
   * Absolute path to emulator of your choice (e.g. Vice)
@@ -45,47 +44,30 @@ Settings are needed only if you want to use them in `.vscode/tasks.json`.
 
 These settings provide file paths that you CAN use when defining tasks in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that it can work correctly in different computers regardless of the tool locations.
 
-## Tasks
+## Usage
 
-Tasks can be set up to perform actions such as:
-
-* Compile individual source files from `.bas` to `.prg`
-* Compress compiled binaries using tools like exomizer or zx0
-* Launch compiled `.prg` files in emulators or debuggers, such as Vice or Retro Debugger
-* Create `.d64` files
-* Execute various other tasks
-
-A default `vscode/tasks.json` file can be created for your project by running a task called `XC=BASIC Initialize tasks.json`. It is run by selecting it from the VSCode Command Palette Ctrl+Shift+B (or Cmd+Shift+B on Mac).
+To initialize your XC=BASIC3 project you can create a default `vscode/tasks.json` file by running `XC=BASIC Initialize tasks.json` from the command palette (Ctrl+Shift+B or Cmd+Shift+B on Mac).
 
 Default `.vscode/tasks.json` defines three tasks:
 
-* XC=BASIC Compile File
+* XC=BASIC Compile File (shift+f5)
   * Compiles the current file .bas to .prg
-* XC=BASIC Run File
+* XC=BASIC Run File (ctrl+f5)
   * Compiles the current file and runs it in external emulator
-* XC=BASIC Debug File
+* XC=BASIC Debug File (f5)
   * Compiles the current file and runs it in external debugger
 * XC=Basic Build
   * Compiles the current file and creates disk image with external builder
 
-This default tasks.json provides a starting point for you to define the tasks that your project requires. Extension's repository contains some examples of `tasks.json`:
-
-[This](https://github.com/orlof/xcb3-vscode-ext/tree/main/example_vscode/example1_tasks.json) example
- - Compiles files part1.bas and part2.bas with XC=BASIC3
- - Compresses part1.bas with Exomizer
- - Creates a .d64 file.
-
-[This](https://github.com/orlof/xcb3-vscode-ext/tree/main/example_vscode/example2_tasks.json) example
- - Compiles current XC=BASIC3 file
- - Runs the compiled file in VICE
+This default `.vscode/tasks.json` provides a starting point for you to define the tasks that your project requires.
 
 ## Notes
 
 This extension is NOT
 * Debugging Extension
-  * NO support for VSCode's (F5) debugger, line stepping, variable evaluation etc.
+  * NO support for VSCode's debugger integration e.g. stepping, variable evaluation etc.
 * Language Server
-  * This extension does not parse the source code or build AST. Color coding is based on guessing the token types in local context.
+  * This extension does not parse the source code. Color coding is based on guessing the token types in local context.
 
 ## Thanks
 

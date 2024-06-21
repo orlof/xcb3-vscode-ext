@@ -1,5 +1,0 @@
-	INCLUDE "core/conv/_byte.asm"
-	INCLUDE "core/conv/_word.asm"
-	INCLUDE "core/conv/_int.asm"
-	INCLUDE "core/conv/_long.asm"
-	INCLUDE "core/conv/_float.asm"

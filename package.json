@@ -29,16 +29,13 @@
     "icon": "images/icon.png",
     "main": "extension.js",
     "activationEvents": [
-        "onCommand:orlof-xcbasic3.XCBASICInitialize",
-        "onCommand:orlof-xcbasic3.XCBASICRunFile",
-        "onCommand:orlof-xcbasic3.XCBASICDebugFile",
-        "onCommand:orlof-xcbasic3.XCBASICCompileFile"
+        "onLanguage:xcBasic"
     ],
     "contributes": {
         "commands": [
             {
-              "command": "orlof-xcbasic3.XC=BASICInitialize",
-              "title": "XC=BASIC Initialize tasks.json"
+                "command": "orlof-xcbasic3.XC=BASICInitialize",
+                "title": "XC=BASIC Initialize tasks.json"
             },
             {
                 "command": "orlof-xcbasic3.XC=BASICRunFile",
@@ -124,6 +121,8 @@
         ]
     },
     "dependencies": {
-        "@vscode/vsce": "^2.22.0"
+        "@vscode/vsce": "^2.22.0",
+        "adm-zip": "^0.5.14",
+        "axios": "^1.7.2"
     }
 }
