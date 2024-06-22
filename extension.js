@@ -6,6 +6,7 @@ const axios = require('axios');
 const AdmZip = require('adm-zip');
 const tar = require('tar');
 
+// Constants
 const tasks = ['XC=BASIC Run File', 'XC=BASIC Debug File', 'XC=BASIC Compile File'];
 const compilerUrl = 'https://github.com/neilsf/xc-basic3/archive/refs/heads/main.zip';
 const releasesUrl = 'https://api.github.com/repos/neilsf/xc-basic3/releases/latest';
@@ -17,32 +18,34 @@ const dasmUrls = {
     'linux': 'https://github.com/dasm-assembler/dasm/releases/download/2.20.14.1/dasm-2.20.14.1-linux-x64.tar.gz'
 };
 
+function getPlatformPath(platform, filename) {
+    return path.join(binDir, `dasm-2.20.14.1-${platform}`, filename);
+}
+
 function getCompilerPath() {
-    const platform = os.platform();
-    if (platform === 'darwin') {
-        return path.join(compilerRootDir, 'bin', 'macOS', 'xcbasic3');
-    } else if (platform === 'win32') {
-        return path.join(compilerRootDir, 'bin', 'Windows', 'xcbasic3.exe');
-    } else if (platform === 'linux') {
-        return path.join(compilerRootDir, 'bin', 'Linux', 'xcbasic3');
-    } else {
+    const platformPaths = {
+        'darwin': path.join(compilerRootDir, 'bin', 'macOS', 'xcbasic3'),
+        'win32': path.join(compilerRootDir, 'bin', 'Windows', 'xcbasic3.exe'),
+        'linux': path.join(compilerRootDir, 'bin', 'Linux', 'xcbasic3')
+    };
+    const compilerPath = platformPaths[os.platform()];
+    if (!compilerPath) {
         vscode.window.showErrorMessage('Unsupported OS');
-        return null;
     }
+    return compilerPath;
 }
 
 function getDasmPath() {
-    const platform = os.platform();
-    if (platform === 'darwin') {
-        return path.join(binDir, 'dasm-2.20.14.1-osx-x64', 'dasm');
-    } else if (platform === 'win32') {
-        return path.join(binDir, 'dasm-2.20.14.1-win-x64', 'dasm.exe');
-    } else if (platform === 'linux') {
-        return path.join(binDir, 'dasm-2.20.14.1-linux-x64', 'dasm');
-    } else {
+    const platformPaths = {
+        'darwin': getPlatformPath('osx-x64', 'dasm'),
+        'win32': getPlatformPath('win-x64', 'dasm.exe'),
+        'linux': getPlatformPath('linux-x64', 'dasm')
+    };
+    const dasmPath = platformPaths[os.platform()];
+    if (!dasmPath) {
         vscode.window.showErrorMessage('Unsupported OS');
-        return null;
     }
+    return dasmPath;
 }
 
 async function fetchLatestVersion() {
@@ -102,22 +105,28 @@ async function updateCompiler(version) {
 async function ensureCompilerIsLatest() {
     const latestVersion = await fetchLatestVersion();
     if (!latestVersion) {
+        vscode.window.showErrorMessage('Could not fetch the latest version of XC=BASIC3 due to network issues.');
         return;
     }
 
     const localVersion = getLocalVersion();
-
     if (localVersion !== latestVersion) {
         await updateCompiler(latestVersion);
+        vscode.window.showInformationMessage(`XC=BASIC3 updated to version ${latestVersion}`);
+    } else {
+        console.log('XC=BASIC3 is already up to date.');
+        vscode.window.showInformationMessage(`XC=BASIC3 version ${localVersion} is up to date.`);
     }
-
-    // Show information message with the updated version
-    vscode.window.showInformationMessage(`XC=BASIC3 ${getLocalVersion()}`);
 }
+
+const { promises: fsPromises } = require('fs');
 
 async function ensureDasmIsAvailable() {
     const dasmPath = getDasmPath();
-    if (!fs.existsSync(dasmPath)) {
+    try {
+        await fsPromises.access(dasmPath);
+        console.log(`dasm already exists at ${dasmPath}`);
+    } catch (error) {
         const platform = os.platform();
         const dasmUrl = dasmUrls[platform];
         if (!dasmUrl) {
@@ -135,6 +144,7 @@ async function ensureDasmIsAvailable() {
             if (dasmUrl.endsWith('.zip')) {
                 const zip = new AdmZip(response.data);
                 zip.extractAllTo(binDir, true);
+                vscode.window.showInformationMessage(`dasm-2.20.14.1-${platform} downloaded.`);
             } else if (dasmUrl.endsWith('.tar.gz')) {
                 const tarStream = new (require('stream').PassThrough)();
                 tarStream.end(response.data);
@@ -143,12 +153,11 @@ async function ensureDasmIsAvailable() {
                 tarStream.pipe(tar.x({ C: dasmDir })).on('finish', () => {
                     // Set executable permission for the dasm file if on Unix-like system
                     if (platform === 'darwin' || platform === 'linux') {
-                        dasmPath = getDasmPath();
                         fs.chmodSync(dasmPath, '755');
                     }
+                    vscode.window.showInformationMessage(`dasm-2.20.14.1-${platform} downloaded.`);
                 });
             }
-
         } catch (error) {
             vscode.window.showErrorMessage(`Failed to download and extract dasm: ${error.message}`);
         }
@@ -158,7 +167,7 @@ async function ensureDasmIsAvailable() {
 function initializeTasks(context) {
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (workspaceFolders) {
-        // Define the path to the .vscode directory and tasks.json
+        // Define the path to the .vscode directory, tasks.json and tasks.json template
         const vscodeDirPath = path.join(workspaceFolders[0].uri.fsPath, '.vscode');
         const tasksPath = path.join(vscodeDirPath, 'tasks.json');
         const defaultTasksPath = path.join(context.extensionPath, 'templates', 'tasks.json');
@@ -182,15 +191,24 @@ async function activate(context) {
     console.log('XC=BASIC3 extension is now active!');
 
     // Ensure the compiler is the latest version when the extension is activated
-    await ensureCompilerIsLatest();
+    try {
+        await ensureCompilerIsLatest();
+    } catch (error) {
+        vscode.window.showErrorMessage(`Error ensuring XC=BASIC3 is the latest version: ${error.message}`);
+    }
 
     // Ensure dasm is available
-    await ensureDasmIsAvailable();
+    try {
+        await ensureDasmIsAvailable();
+    } catch (error) {
+        vscode.window.showErrorMessage(`Error ensuring dasm is available: ${error.message}`);
+    }
 
     // Set the environment variables for the extension
     const compilerPath = getCompilerPath();
     const dasmPath = getDasmPath();
     if (compilerPath && dasmPath) {
+        // Inject the compiler path to the environment
         process.env.XCBASIC3_COMPILER = compilerPath;
 
         // Inject dasm to the PATH
@@ -237,4 +255,4 @@ function deactivate() {
 module.exports = {
     activate,
     deactivate
-}
+};
