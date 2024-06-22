@@ -114,8 +114,8 @@ async function ensureCompilerIsLatest() {
         await updateCompiler(latestVersion);
         vscode.window.showInformationMessage(`XC=BASIC3 updated to version ${latestVersion}`);
     } else {
-        console.log('XC=BASIC3 is already up to date.');
-        vscode.window.showInformationMessage(`XC=BASIC3 version ${localVersion} is up to date.`);
+        console.log('XC=BASIC3 is already up to date');
+        vscode.window.showInformationMessage(`XC=BASIC3 version ${localVersion} is up to date`);
     }
 }
 
