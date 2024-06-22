@@ -6,9 +6,9 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 
 ## Features
 
-* Syntax Highlighting for XC=BASIC3 and asm blocks
-* Integrated XC=BASIC3 compiler
-* Integration with emulator, debugger and build -tool
+* Syntax Highlighting for XC=BASIC3 and DASM blocks
+* Automatically managed XC=BASIC3 compiler and DASM assembler
+* Integration with external emulator, debugger, packer and builder
 
 ![Syntax highlighting](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/syntaxhighlighting.png)
 
@@ -33,14 +33,16 @@ This extension contributes the following settings:
 
 Settings are needed only if you use them in `.vscode/tasks.json`.
 
+* `xcbasic.basefolder`
+  * Absolute path to external XC-BASIC base folder (the one containing the 'bin' folder)
 * `xcbasic.emulator`
-  * Absolute path to emulator of your choice (e.g. Vice)
+  * Absolute path to external emulator of your choice (e.g. Vice)
 * `xcbasic.debugger`
-  * Absolute path to debugger of your choice (e.g. Retro Debugger)
+  * Absolute path to external debugger of your choice (e.g. Retro Debugger)
 * `xcbasic.packer`
-  * Absolute path to packer of your choice (e.g. Exomizer or ZX0)
+  * Absolute path to external packer of your choice (e.g. Exomizer or ZX0)
 * `xcbasic.builder`
-  * Absolute path to builder of your choice (e.g. c1541)
+  * Absolute path to external builder of your choice (e.g. c1541)
 
 These settings provide file paths that you CAN use when defining tasks in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that it can work correctly in different computers regardless of the tool locations.
 
