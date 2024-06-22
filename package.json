@@ -129,6 +129,7 @@
     "dependencies": {
         "@vscode/vsce": "^2.22.0",
         "adm-zip": "^0.5.14",
-        "axios": "^1.7.2"
+        "axios": "^1.7.2",
+        "tar": "^7.4.0"
     }
 }

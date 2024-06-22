@@ -4,4 +4,4 @@
 .git/**
 vsc-extension-quickstart.md
 *.vsix
-bin/xc-basic3-main/
+bin/
