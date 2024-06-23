@@ -7,7 +7,7 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 ## Features
 
 * Syntax Highlighting for XC=BASIC3 and DASM blocks
-* Managed XC=BASIC3 compiler and DASM assembler
+* Automatic management of XC=BASIC3 compiler and DASM assembler
 * Works with external compiler, emulator, debugger, packer and builder
 
 ![Syntax highlighting](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/syntaxhighlighting.png)
@@ -20,23 +20,23 @@ No requirements but Vice and Retro Debugger are recommended.
 
 ## Installation
 
-This extension automatically downloads XC=Basic3 and DASM. These version of are called `managed`, while other installation are called `external`.
+This extension manages the compilation toolchain automatically and doesn't need externally installed XC=Basic3 or DASM.
 
-In MacOS the first attempt to use managed compiler will fail with errors:
+In MacOS the first attempt to compile code may fail with errors:
 ![Error MacOS](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/error_macos.png)
 
 You must manually bypass Gatekeeper's restrictions for unverified applications:
 * Open System Settings > Privacy & Security > General.
 * Click Open Anyway next to the warning about the blocked application.
 
-## Extension Settings
+External Vice and Retro Debugger must still be installed manually.
 
-This extension contributes the following settings:
+## Extension Settings
 
 Settings are needed only if you use them in `.vscode/tasks.json`.
 
 * `xcbasic.basefolder`
-  * OPTIONAL: Absolute path to external XC-BASIC base folder (the one containing the 'bin' folder). This is needed only if you don't want to use the managed XC=BASIC.
+  * OPTIONAL: Absolute path to external XC-BASIC base folder (the one containing the 'bin' folder). This is needed only if you don't want to use the managed compilation toolchain.
 * `xcbasic.emulator`
   * Absolute path to external emulator of your choice (e.g. Vice).
 * `xcbasic.debugger`
@@ -44,9 +44,9 @@ Settings are needed only if you use them in `.vscode/tasks.json`.
 * `xcbasic.packer`
   * Absolute path to external packer of your choice (e.g. Exomizer or ZX0)
 * `xcbasic.builder`
-  * Absolute path to external builder of your choice (e.g. c1541)
+  * Absolute path to external disc builder of your choice (e.g. c1541)
 
-These settings provide file paths (e.g. `${config:xcbasic3.emulator}`) that you can use in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that it can work correctly in different computers regardless of the tool locations.
+These settings can be used as file paths (e.g. `${config:xcbasic3.emulator}`) in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that tasks work correctly in different computers regardless of the tool locations.
 
 ## Usage
 
@@ -67,7 +67,7 @@ The default `.vscode/tasks.json` defines three tasks:
 
 This default `.vscode/tasks.json` provides a starting point for you to define the tasks that your project requires.
 
-The built-in compiler can be used in tasks.json with
+The built-in compiler is referenced with
 * `${env:XCBASIC3_COMPILER}`
 
 Note that you can define command line parameters for xc-basic3 by adding `args` to your compile task.
