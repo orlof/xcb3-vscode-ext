@@ -49,7 +49,29 @@
             }
         },
         {
-            "label": "XC=BASIC Build",
+            "label": "XC=BASIC Crunch File",
+            "type": "shell",
+            "command": "${config:xcbasic3.packer}",
+            "args": [
+                "sfx",
+                "basic",
+                "${fileBasenameNoExtension}.prg",
+                "-o",
+                "${fileBasenameNoExtension}.prg",
+                "-x",
+                "'inc $d020'"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile File"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "XC=BASIC Build Disc",
             "type": "shell",
             "command": "${config:xcbasic3.builder}",
             "args": [

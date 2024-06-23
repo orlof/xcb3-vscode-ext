@@ -104,28 +104,23 @@
                 "properties": {
                     "xcbasic3.basefolder": {
                         "type": "string",
-                        "default": "C:\\Program Files\\xc-basic3",
                         "description": "OPTIONAL: Absolute path to external XC=BASIC base folder (the one containing the 'bin' folder).\n* C:\\Program Files\\xc-basic3\n* /Applications/xc-basic3"
                     },
                     "xcbasic3.emulator": {
                         "type": "string",
-                        "default": "C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\x64sc.exe",
-                        "description": "Absolute path to the emulator executable.\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\x64sc.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/x64sc"
+                        "description": "Absolute path to the emulator executable (e.g. Vice/x64sc).\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\x64sc.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/x64sc"
                     },
                     "xcbasic3.debugger": {
                         "type": "string",
-                        "default": "C:\\Program Files\\RetroDebugger v0.64.68\\RetroDebugger.exe",
-                        "description": "Absolute path to the debugger executable.\n* C:\\Program Files\\RetroDebugger v0.64.68\\RetroDebugger.exe\n* /Applications/Retro Debugger v0.64.66/Retro Debugger.app/Contents/MacOS/Retro Debugger"
+                        "description": "Absolute path to the debugger executable (e.g. Retro Debugger).\n* C:\\Program Files\\RetroDebugger v0.64.68\\RetroDebugger.exe\n* /Applications/Retro Debugger v0.64.66/Retro Debugger.app/Contents/MacOS/Retro Debugger"
                     },
                     "xcbasic3.builder": {
                         "type": "string",
-                        "default": "C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\c1541.exe",
-                        "description": "Absolute path to the builder executable.\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\c1541.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/c1541"
+                        "description": "Absolute path to the disc builder executable (e.g. Vice/c1541).\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\c1541.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/c1541"
                     },
-                    "xcbasic3.packer": {
+                    "xcbasic3.cruncher": {
                         "type": "string",
-                        "default": "",
-                        "description": "OPTIONAL: Packer is needed only if you use it in tasks.json."
+                        "description": "Absolute path to the cruncher executable (e.g. Exomizer).\n* C:\\Program Files\\exomizer-3.1.2\\src\\exomizer.exe\n* /Applications/exomizer-3.1.2/src/exomizer"
                     }
                 }
             }
