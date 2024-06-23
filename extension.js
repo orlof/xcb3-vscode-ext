@@ -12,14 +12,40 @@ const compilerUrl = 'https://github.com/neilsf/xc-basic3/archive/refs/heads/main
 const releasesUrl = 'https://api.github.com/repos/neilsf/xc-basic3/releases/latest';
 const binDir = path.join(__dirname, 'bin');
 const compilerRootDir = path.join(binDir, 'xc-basic3-main');
+
+const dasmVersion = '2.20.14.1';
+const dasmPlatforms = {
+    'darwin': 'osx-x64',
+    'win32': 'win-x64',
+    'linux': 'linux-x64'
+};
+const dasmExecutables = {
+    'darwin': 'dasm',
+    'win32': 'dasm.exe',
+    'linux': 'dasm'
+};
 const dasmUrls = {
     'darwin': 'https://github.com/dasm-assembler/dasm/releases/download/2.20.14.1/dasm-2.20.14.1-osx-x64.tar.gz',
     'win32': 'https://github.com/dasm-assembler/dasm/releases/download/2.20.14.1/dasm-2.20.14.1-win-x64.zip',
     'linux': 'https://github.com/dasm-assembler/dasm/releases/download/2.20.14.1/dasm-2.20.14.1-linux-x64.tar.gz'
 };
 
-function getPlatformPath(platform, filename) {
-    return path.join(binDir, `dasm-2.20.14.1-${platform}`, filename);
+function getDasmId(platform) {
+    const dasmPlatform = dasmPlatforms[platform];
+    return `dasm-${dasmVersion}-${dasmPlatform}`;
+}
+
+function getDasmPath() {
+    const platform = os.platform();
+    const dasmId = getDasmId(platform);
+    const dasmExecutable = dasmExecutables[platform];
+
+    if (!dasmId || !dasmExecutable) {
+        vscode.window.showErrorMessage('Unsupported OS');
+        return null;
+    }
+
+    return path.join(binDir, dasmId, dasmExecutable);
 }
 
 function getCompilerPath() {
@@ -33,19 +59,6 @@ function getCompilerPath() {
         vscode.window.showErrorMessage('Unsupported OS');
     }
     return compilerPath;
-}
-
-function getDasmPath() {
-    const platformPaths = {
-        'darwin': getPlatformPath('osx-x64', 'dasm'),
-        'win32': getPlatformPath('win-x64', 'dasm.exe'),
-        'linux': getPlatformPath('linux-x64', 'dasm')
-    };
-    const dasmPath = platformPaths[os.platform()];
-    if (!dasmPath) {
-        vscode.window.showErrorMessage('Unsupported OS');
-    }
-    return dasmPath;
 }
 
 async function fetchLatestVersion() {
@@ -75,7 +88,7 @@ async function updateCompiler(version) {
     try {
         // Remove the existing compiler directory
         if (fs.existsSync(compilerRootDir)) {
-            fs.rmdirSync(compilerRootDir, { recursive: true });
+            fs.rmSync(compilerRootDir, { recursive: true });
         }
 
         // Download and extract the new compiler version
@@ -141,10 +154,12 @@ async function ensureDasmIsAvailable() {
                 responseType: 'arraybuffer'
             });
 
+            const dasmId = getDasmId(platform);
+
             if (dasmUrl.endsWith('.zip')) {
                 const zip = new AdmZip(response.data);
                 zip.extractAllTo(binDir, true);
-                vscode.window.showInformationMessage(`dasm-2.20.14.1-${platform} downloaded.`);
+                vscode.window.showInformationMessage(`${dasmId} downloaded`);
             } else if (dasmUrl.endsWith('.tar.gz')) {
                 const tarStream = new (require('stream').PassThrough)();
                 tarStream.end(response.data);
@@ -155,7 +170,7 @@ async function ensureDasmIsAvailable() {
                     if (platform === 'darwin' || platform === 'linux') {
                         fs.chmodSync(dasmPath, '755');
                     }
-                    vscode.window.showInformationMessage(`dasm-2.20.14.1-${platform} downloaded.`);
+                    vscode.window.showInformationMessage(`${dasmId} downloaded`);
                 });
             }
         } catch (error) {
@@ -208,7 +223,7 @@ async function activate(context) {
     const compilerPath = getCompilerPath();
     const dasmPath = getDasmPath();
     if (compilerPath && dasmPath) {
-        // Inject the compiler path to the environment
+        // Inject xcbasic3 to environment variables
         process.env.XCBASIC3_COMPILER = compilerPath;
 
         // Inject dasm to the PATH
