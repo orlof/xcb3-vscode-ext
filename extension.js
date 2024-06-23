@@ -158,7 +158,7 @@ async function ensureDasmIsAvailable() {
 
             if (dasmUrl.endsWith('.zip')) {
                 const zip = new AdmZip(response.data);
-                zip.extractAllTo(binDir, true);
+                zip.extractAllTo(path.join(binDir, dasmId), true);
                 vscode.window.showInformationMessage(`${dasmId} downloaded`);
             } else if (dasmUrl.endsWith('.tar.gz')) {
                 const tarStream = new (require('stream').PassThrough)();
