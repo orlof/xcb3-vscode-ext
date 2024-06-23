@@ -54,7 +54,7 @@ During the first activation this extension will download latest release of XC=BA
 
 This extension will also automatically create a default `vscode/tasks.json` file if it doesn't already exists. You can also manually create the file by using `XC=BASIC Initialize tasks.json` command from the command palette (Ctrl+Shift+B or Cmd+Shift+B on Mac).
 
-The default `.vscode/tasks.json` defines three tasks:
+The default `.vscode/tasks.json` defines following tasks as an example:
 
 * XC=BASIC Compile File (shift+f5)
   * Compiles the current file .bas to .prg
@@ -62,10 +62,20 @@ The default `.vscode/tasks.json` defines three tasks:
   * Compiles the current file and runs it in external emulator (must be configured)
 * XC=BASIC Debug File (f5)
   * Compiles the current file and runs it in external debugger (must be configured)
-* XC=Basic Build
+* XC=BASIC Crunch File
+  * Compiles the current file and crunches it with external cruncher (must be configured)
+* XC=Basic Build Disk
   * Compiles the current file and creates disk image with external builder (must be configured)
 
 This default `.vscode/tasks.json` provides a starting point for you to define the tasks that your project requires.
+
+Tasks that don't have default key bindings can be invoked with Command Palette:
+* Open the Command Palette:
+  * Press Ctrl+Shift+P (Cmd+Shift+P) to open the Command Palette.
+* Run the Task:
+  * Type `Run Task` and select `Tasks: Run Task` from the dropdown list.
+  * Select `Show All Tasks` if you cannot see your task
+  * You will see a list of tasks that you have defined in your tasks.json file. Select the task you want to run from this list.
 
 The built-in compiler is referenced with
 * `${env:XCBASIC3_COMPILER}`

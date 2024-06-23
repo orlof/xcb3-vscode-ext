@@ -71,7 +71,7 @@
             }
         },
         {
-            "label": "XC=BASIC Build Disc",
+            "label": "XC=BASIC Build Disk",
             "type": "shell",
             "command": "${config:xcbasic3.builder}",
             "args": [
