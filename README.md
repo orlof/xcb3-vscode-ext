@@ -14,9 +14,10 @@ Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore
 
 ## Requirements
 
-No requirements but Vice and Retro Debugger are recommended.
+No requirements but Vice, Retro Debugger and Exomizer are recommended.
 * https://vice-emu.sourceforge.io/
 * https://github.com/slajerek/RetroDebugger
+* https://csdb.dk/release/?id=238365
 
 ## Installation
 
@@ -29,7 +30,7 @@ You must manually bypass Gatekeeper's restrictions for unverified applications:
 * Open System Settings > Privacy & Security > General.
 * Click Open Anyway next to the warning about the blocked application.
 
-External Vice and Retro Debugger must still be installed manually.
+Other tools must still be installed manually.
 
 ## Extension Settings
 
@@ -42,7 +43,7 @@ Settings are needed only if you use them in `.vscode/tasks.json`.
 * `xcbasic.debugger`
   * Absolute path to external debugger of your choice (e.g. Retro Debugger)
 * `xcbasic.packer`
-  * Absolute path to external packer of your choice (e.g. Exomizer or ZX0)
+  * Absolute path to external packer of your choice (e.g. Exomizer)
 * `xcbasic.builder`
   * Absolute path to external disc builder of your choice (e.g. c1541)
 
