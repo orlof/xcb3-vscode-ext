@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2024-6-23
+## [2.0.0] - 2024-07-03
 
 ### Changes
+
+This update from 1.0.4 to 2 is only if you want the managed compilers
 
 - Breaking change: configuration parameter `vice` is renamed to `emulator`
   - Redefine the configuration parameter
