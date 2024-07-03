@@ -2,11 +2,11 @@
 
 # XC=Basic 3
 
-Syntax highlighting for XC=BASIC 3.1, a cross compiled BASIC for 8-bit Commodore machines.
+Syntax highlighting for XC=BASIC 3, a cross compiled BASIC for 8-bit Commodore machines.
 
 ## Features
 
-* Syntax Highlighting for XC=BASIC3 and DASM blocks
+* Syntax Highlighting for XC=BASIC3 (including ASM blocks)
 * Automatic management of XC=BASIC3 compiler and DASM assembler
 * Works with external compiler, emulator, debugger, packer and builder
 
@@ -30,11 +30,11 @@ You must manually bypass Gatekeeper's restrictions for unverified applications:
 * Open System Settings > Privacy & Security > General.
 * Click Open Anyway next to the warning about the blocked application.
 
-Other tools must still be installed manually.
+Other tools (Vice, Retro Debugget and Exomizer) must still be installed manually.
 
 ## Extension Settings
 
-Settings are needed only if you use them in `.vscode/tasks.json`.
+These settings CAN be used in `.vscode/tasks.json` to reference the tools.
 
 * `xcbasic.basefolder`
   * OPTIONAL: Absolute path to external XC-BASIC base folder (the one containing the 'bin' folder). This is needed only if you don't want to use the managed compilation toolchain.
@@ -68,7 +68,7 @@ The default `.vscode/tasks.json` defines following tasks as an example:
 * XC=Basic Build Disk
   * Compiles the current file and creates disk image with external builder (must be configured)
 
-This default `.vscode/tasks.json` provides a starting point for you to define the tasks that your project requires.
+This provides a starting point for you to define the tasks that your project requires.
 
 Tasks that don't have default key bindings can be invoked with Command Palette:
 * Open the Command Palette:
@@ -78,14 +78,16 @@ Tasks that don't have default key bindings can be invoked with Command Palette:
   * Select `Show All Tasks` if you cannot see your task
   * You will see a list of tasks that you have defined in your tasks.json file. Select the task you want to run from this list.
 
-The built-in compiler is referenced with
+You can choose between internal and external XC=BASIC installation by using these compiler references in `tasks.json`:
 * `${env:XCBASIC3_COMPILER}`
-
-Note that you can define command line parameters for xc-basic3 by adding `args` to your compile task.
-
-External tools can be referenced in `tasks.json` with:
-* `${config:xcbasic3.builder}`
+  * Internal compiler
 * `${config:xcbasic3.compiler}`
+  * External compiler
+
+Note that you can define any command line parameters for the compiler by adding `args` to your compile task.
+
+Other external tools can be referenced with:
+* `${config:xcbasic3.builder}`
 * `${config:xcbasic3.debugger}`
 * `${config:xcbasic3.emulator}`
 * `${config:xcbasic3.packer}`
