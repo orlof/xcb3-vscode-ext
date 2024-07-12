@@ -1,4 +1,4 @@
-![xcbasic logo](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/icon.png)
+![xcbasic logo](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/xcbasic_logo.png)
 
 # XC=Basic 3
 
