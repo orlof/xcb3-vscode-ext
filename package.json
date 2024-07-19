@@ -26,7 +26,7 @@
         "type": "git",
         "url": "https://github.com/orlof/xcb3-vscode-ext.git"
     },
-    "icon": "images/icon.png",
+    "icon": "images/xcbasic_logo.png",
     "main": "extension.js",
     "activationEvents": [
         "onLanguage:xcBasic",

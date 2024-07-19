@@ -280,10 +280,10 @@
 		"modifiers": {
 			"patterns": [{
 				"name": "storage.modifier.xcbasic3",
-				"match": "(?i)\\b(abs|asc|at|atn|cbyte|cfloat|chr$|cint|clong|color|cos|csrlin|cword|err|exp|int|lcase$|left$|len|log|mid$|peek|pos|pow|right$|rnd|rndb|rndi|rndl|rndw|sgn|shl|shr|sin|sqr|st|str$|swap|tan|ti|ucase$|val|wait)\\b"
+				"match": "(?i)\\b(abs|asc|at|atn|cbyte|cfloat|chr$|cint|clong|color|cos|csrlin|cword|deek|err|exp|int|lcase$|left$|len|log|mid$|peek|pos|pow|right$|rnd|rndb|rndi|rndl|rndw|sgn|shl|shr|sin|sqr|st|str$|swap|tan|ti|ucase$|val|wait)\\b"
 			},{
 				"name": "storage.modifier.xcbasic3",
-				"match": "(?i)\\b(background|border|charat|close|cols|get|hscroll|input|int|load|locate|memcpy|memset|memshift|open|poke|print|randomize|read|rows|save|screen|sound\\s+clear|sprite\\s+clear|sprite\\s+multicolor|textat|vscroll|write)\\b"
+				"match": "(?i)\\b(background|border|charat|close|cols|doke|get|hscroll|input|int|load|locate|memcpy|memset|memshift|open|poke|print|randomize|read|rows|save|screen|sound\\s+clear|sprite\\s+clear|sprite\\s+multicolor|textat|vscroll|write)\\b"
 			}]
 		},
 		"operators": {
