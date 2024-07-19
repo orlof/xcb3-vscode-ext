@@ -3,7 +3,7 @@
     "displayName": "XC=BASIC 3 Language",
     "description": "Syntax highlighting for XC=BASIC v3",
     "publisher": "RealOrlof",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "engines": {
         "vscode": "^1.33.0"
     },
@@ -26,7 +26,7 @@
         "type": "git",
         "url": "https://github.com/orlof/xcb3-vscode-ext.git"
     },
-    "icon": "images/xcbasic_logo.png",
+    "icon": "images/xcbasic_logo.jpg",
     "main": "extension.js",
     "activationEvents": [
         "onLanguage:xcBasic",
