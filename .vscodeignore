@@ -7,3 +7,7 @@ vsc-extension-quickstart.md
 bin/
 node_modules/
 webpack.config.js
+extension.js
+dist/bin/
+!dist/extension.js
+!dist/extension.js.LICENSE.txt
