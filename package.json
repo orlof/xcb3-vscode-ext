@@ -27,7 +27,11 @@
         "url": "https://github.com/orlof/xcb3-vscode-ext.git"
     },
     "icon": "images/xcbasic_logo.jpg",
-    "main": "extension.js",
+    "main": "./dist/extension.js",
+    "scripts": {
+        "build": "webpack",
+        "vscode:prepublish": "webpack --mode production"
+    },
     "activationEvents": [
         "onLanguage:xcBasic",
         "onCommand:orlof-xcbasic3.XC=BASICInitialize",
@@ -131,5 +135,9 @@
         "adm-zip": "^0.5.14",
         "axios": "^1.7.2",
         "tar": "^7.4.0"
+    },
+    "devDependencies": {
+        "webpack": "^5.99.5",
+        "webpack-cli": "^6.0.1"
     }
 }

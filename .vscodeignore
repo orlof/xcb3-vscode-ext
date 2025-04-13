@@ -5,3 +5,5 @@
 vsc-extension-quickstart.md
 *.vsix
 bin/
+node_modules/
+webpack.config.js
