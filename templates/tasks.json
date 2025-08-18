@@ -47,7 +47,8 @@
             "group": {
                 "kind": "build",
                 "isDefault": false
-            }
+            },
+            "problemMatcher": "$xcbasic3"
         },
         {
             "label": "XC=BASIC Crunch File",
