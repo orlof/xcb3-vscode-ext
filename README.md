@@ -6,108 +6,266 @@ Syntax highlighting for XC=BASIC 3, a cross compiled BASIC for 8-bit Commodore m
 
 ## Features
 
-* Syntax Highlighting for XC=BASIC3 (including ASM blocks)
-* Automatic management of XC=BASIC3 compiler and DASM assembler
-* Works with external compiler, emulator, debugger, packer and builder
+* **Rich Syntax Highlighting** for XC=BASIC3 (including ASM blocks)
+* **Error Highlighting** - Compilation errors are highlighted directly in the editor
+* **Automatic Toolchain Management** - XC=BASIC3 compiler and DASM assembler are downloaded and managed automatically
+* **Integrated Build System** - Compile, run, and debug with keyboard shortcuts
+* **External Tool Integration** - Works with Vice emulator, Retro Debugger, Exomizer, and c1541
+* **Cross-Platform** - Supports Windows, macOS, and Linux
 
 ![Syntax highlighting](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/syntaxhighlighting.png)
 
 ## Requirements
 
-No requirements but Vice, Retro Debugger and Exomizer are recommended.
-* https://vice-emu.sourceforge.io/
-* https://github.com/slajerek/RetroDebugger
-* https://csdb.dk/release/?id=238365
+No requirements for basic compilation, but these external tools are recommended for a complete development experience:
+
+* **Vice Emulator**: https://vice-emu.sourceforge.io/
+* **Retro Debugger**: https://github.com/slajerek/RetroDebugger
+* **Exomizer**: https://csdb.dk/release/?id=238365
 
 ## Installation
 
-This extension manages the compilation toolchain automatically and doesn't need externally installed XC=Basic3 or DASM.
+1. Install the extension from the VS Code Marketplace
+2. Open a folder containing `.bas` files
+3. The extension will automatically download and set up the XC=BASIC3 compiler and DASM assembler
 
-In MacOS the first attempt to compile code may fail with errors:
+### macOS Security Note
+
+On macOS, the first compilation attempt may fail with security warnings:
+
 ![Error MacOS](https://raw.githubusercontent.com/orlof/xcb3-vscode-ext/main/images/error_macos.png)
 
-You must manually bypass Gatekeeper's restrictions for unverified applications:
-* Open System Settings > Privacy & Security > General.
-* Click Open Anyway next to the warning about the blocked application.
+**Fix**: Open System Settings > Privacy & Security > General, then click "Open Anyway" next to the warning.
 
-Other tools (Vice, Retro Debugget and Exomizer) must still be installed manually.
+## Quick Start
 
-## Extension Settings
+1. **Create a new `.bas` file**:
+   ```basic
+   PRINT "Hello, World!"
+   ```
 
-These settings CAN be used in `.vscode/tasks.json` to reference the tools.
+2. **Compile and run**:
+   - Press `Shift+F5` to compile
+   - Press `Ctrl+F5` (or `Cmd+F5` on Mac) to compile and run in emulator
 
-* `xcbasic.basefolder`
-  * OPTIONAL: Absolute path to external XC-BASIC base folder (the one containing the 'bin' folder). This is needed only if you don't want to use the managed compilation toolchain.
-* `xcbasic.emulator`
-  * Absolute path to external emulator of your choice (e.g. Vice).
-* `xcbasic.debugger`
-  * Absolute path to external debugger of your choice (e.g. Retro Debugger)
-* `xcbasic.packer`
-  * Absolute path to external packer of your choice (e.g. Exomizer)
-* `xcbasic.builder`
-  * Absolute path to external disc builder of your choice (e.g. c1541)
+3. **View compilation errors**:
+   - Errors appear as red squiggly lines in the editor
+   - Check the Problems panel (View → Problems) for detailed error messages
+   - XC-Basic compiles in 2 phases. Second phase is Dasm compilation and errors in 2nd phase cannot be tracked back to the basic code.
 
-These settings can be used as file paths (e.g. `${config:xcbasic3.emulator}`) in `.vscode/tasks.json`. This allows you to store `.vscode/tasks.json` in version control and ensure that tasks work correctly in different computers regardless of the tool locations.
+## Configuration
 
-## Usage
+### Extension Settings
 
-During the first activation this extension will download latest release of XC=BASIC 3 and dasm v2.20.14.1 for your operating system. In each subsequent activation extension will update XC=BASIC 3 if needed.
+Configure these settings in VS Code's settings (File → Preferences → Settings):
 
-This extension will also automatically create a default `vscode/tasks.json` file if it doesn't already exists. You can also manually create the file by using `XC=BASIC Initialize tasks.json` command from the command palette (Ctrl+Shift+B or Cmd+Shift+B on Mac).
+| Setting | Description | Example (macOS) | Example (Windows) |
+|---------|-------------|-----------------|-------------------|
+| `xcbasic3.basefolder` | External XC=BASIC installation (optional) | `/Applications/xc-basic3` | `C:\Program Files\xc-basic3` |
+| `xcbasic3.emulator` | Vice emulator executable | `/Applications/vice-x86-64-gtk3-3.8/bin/x64sc` | `C:\Program Files\GTK3VICE-3.8-win64\bin\x64sc.exe` |
+| `xcbasic3.debugger` | Retro Debugger executable | `/Applications/Retro Debugger.app/Contents/MacOS/Retro Debugger` | `C:\Program Files\RetroDebugger\RetroDebugger.exe` |
+| `xcbasic3.builder` | c1541 disk builder | `/Applications/vice-x86-64-gtk3-3.8/bin/c1541` | `C:\Program Files\GTK3VICE-3.8-win64\bin\c1541.exe` |
+| `xcbasic3.cruncher` | Exomizer executable | `/Applications/exomizer-3.1.2/src/exomizer` | `C:\Program Files\exomizer-3.1.2\src\exomizer.exe` |
 
-The default `.vscode/tasks.json` defines following tasks as an example:
+### Tasks Configuration
 
-* XC=BASIC Compile File (shift+f5)
-  * Compiles the current file .bas to .prg
-* XC=BASIC Run File (ctrl+f5)
-  * Compiles the current file and runs it in external emulator (must be configured)
-* XC=BASIC Debug File (f5)
-  * Compiles the current file and runs it in external debugger (must be configured)
-* XC=BASIC Crunch File
-  * Compiles the current file and crunches it with external cruncher (must be configured)
-* XC=Basic Build Disk
-  * Compiles the current file and creates disk image with external builder (must be configured)
+The extension automatically creates `.vscode/tasks.json` with predefined build tasks. You can customize these tasks or create new ones.
 
-This provides a starting point for you to define the tasks that your project requires.
+#### Default Tasks
 
-Tasks that don't have default key bindings can be invoked with Command Palette:
-* Open the Command Palette:
-  * Press Ctrl+Shift+P (Cmd+Shift+P) to open the Command Palette.
-* Run the Task:
-  * Type `Run Task` and select `Tasks: Run Task` from the dropdown list.
-  * Select `Show All Tasks` if you cannot see your task
-  * You will see a list of tasks that you have defined in your tasks.json file. Select the task you want to run from this list.
+| Task | Shortcut | Description |
+|------|----------|-------------|
+| XC=BASIC Compile File | `Shift+F5` | Compiles `.bas` to `.prg` |
+| XC=BASIC Run File | `Ctrl+F5` | Compiles and runs in emulator |
+| XC=BASIC Debug File | `F5` | Compiles and opens in debugger |
+| XC=BASIC Crunch File | - | Compiles and compresses with Exomizer |
+| XC=BASIC Build Disk | - | Compiles and creates disk image |
 
-You can choose between internal and external XC=BASIC installation by using these compiler references in `tasks.json`:
-* `${env:XCBASIC3_COMPILER}`
-  * Internal compiler
-* `${config:xcbasic3.compiler}`
-  * External compiler
+#### Example Custom Task
 
-Note that you can define any command line parameters for the compiler by adding `args` to your compile task.
+Add this to your `.vscode/tasks.json` to create a custom compilation task:
 
-Other external tools can be referenced with:
-* `${config:xcbasic3.builder}`
-* `${config:xcbasic3.debugger}`
-* `${config:xcbasic3.emulator}`
-* `${config:xcbasic3.packer}`
+```json
+{
+  "label": "XC=BASIC Compile with Custom Args",
+  "type": "shell",
+  "command": "${env:XCBASIC3_COMPILER}",
+  "args": [
+    "--dasm=${env:DASM_PATH}",
+    "--target=c64",
+    "--optimize",
+    "${file}",
+    "${fileBasenameNoExtension}.prg"
+  ],
+  "group": "build",
+  "problemMatcher": "$xcbasic3"
+}
+```
+
+## Usage Examples
+
+### Basic Compilation
+
+1. **Create a simple program** (`hello.bas`):
+   ```basic
+   PRINT "Hello from XC=BASIC!"
+   FOR I = 1 TO 10
+       PRINT "Count: "; I
+   NEXT I
+   ```
+
+2. **Compile**: Press `Shift+F5` or use Command Palette → "Tasks: Run Task" → "XC=BASIC Compile File"
+
+### Using Assembly Blocks
+
+```basic
+PRINT "Hello from XC=BASIC!"
+
+ASM
+loop
+    INC $D020    ; Change border color
+    JMP loop
+END ASM
+```
+
+### Error Handling Example
+
+If you have an error in your code:
+```basic
+PRONT "This has a typo!"  ; PRONT should be PRINT
+```
+
+The extension will:
+- Show a red squiggly line under the error
+- Display the error in the Problems panel
+- Show the exact line and column of the error
+
+### Working with External Tools
+
+#### Running in Vice Emulator
+
+1. Configure the emulator path in settings
+2. Press `Ctrl+F5` to compile and run
+3. The program will automatically load in Vice
+
+#### Debugging with Retro Debugger
+
+1. Configure the debugger path in settings
+2. Press `F5` to compile and debug
+3. The program will load in Retro Debugger with symbols
+
+#### Creating Disk Images
+
+Use the "XC=BASIC Build Disk" task to create a `.d64` disk image:
+1. Run the task from Command Palette
+2. The compiled program will be added to a new disk image
+3. Load the disk in your emulator
+
+## Commands
+
+Access these commands via Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`):
+
+| Command | Description |
+|---------|-------------|
+| `XC=BASIC Initialize tasks.json` | Creates/updates build tasks |
+| `XC=BASIC Update Compiler` | Downloads latest XC=BASIC3 version |
+| `XC=BASIC Run File` | Compile and run current file |
+| `XC=BASIC Debug File` | Compile and debug current file |
+| `XC=BASIC Compile File` | Compile current file |
+
+## Advanced Configuration
+
+### Using External XC=BASIC Installation
+
+If you prefer to use your own XC=BASIC installation:
+
+1. Set `xcbasic3.basefolder` to your installation path
+2. Update your tasks to use `${config:xcbasic3.basefolder}/bin/xcbasic3` instead of `${env:XCBASIC3_COMPILER}`
+
+### Custom Compiler Arguments
+
+Add compiler arguments in your task configuration:
+
+```json
+{
+  "label": "XC=BASIC Compile Optimized",
+  "command": "${env:XCBASIC3_COMPILER}",
+  "args": [
+    "--dasm=${env:DASM_PATH}",
+    "--target=c64",
+    "--optimize",
+    "--verbose",
+    "${file}",
+    "${fileBasenameNoExtension}.prg"
+  ]
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Q: Error highlighting doesn't appear**
+A: Make sure your task uses `"problemMatcher": "$xcbasic3"` in `.vscode/tasks.json`.
+
+**Q: External tools don't work**
+A: Check that the tool paths in settings are correct and the executables exist.
+
+**Q: macOS security warnings**
+A: Go to System Settings > Privacy & Security and click "Open Anyway" for blocked applications.
+
+### Getting Help
+
+1. Check the Problems panel (View → Problems) for detailed error messages
+2. Look at the Terminal output for compilation details
+3. Verify your settings in File → Preferences → Settings
+4. Report issues at: https://github.com/orlof/xcb3-vscode-ext/issues
+
+## Language Features
+
+### Syntax Highlighting
+
+The extension provides rich syntax highlighting for:
+- XC=BASIC keywords and built-in functions
+- String literals and numeric constants
+- Comments (both `REM` and `'` style)
+- Assembly blocks with 6502 instruction highlighting
+- Type declarations and function definitions
+
+### Code Folding
+
+Fold these code blocks:
+- `SUB` / `END SUB`
+- `FUNCTION` / `END FUNCTION`
+- `ASM` / `END ASM`
+
+### Auto-Completion
+
+Basic auto-completion for:
+- Bracket pairs: `()`, `{}`
+- String quotes: `""`
 
 ## Notes
 
-This extension is NOT
-* Debugging Extension
-  * NO support for VSCode's debugger integration e.g. stepping, variable evaluation etc.
-* Language Server
-  * This extension does not parse the source code. Color coding is based on guessing the token types in local context.
+**This extension is NOT:**
+- **A Debugging Extension**: No support for VS Code's integrated debugger (stepping, breakpoints, variable inspection)
+- **A Language Server**: No real-time code analysis, IntelliSense, or refactoring support
+
+**This extension IS:**
+- A syntax highlighter with build system integration
+- A tool for managing the XC=BASIC compilation toolchain
+- A bridge between VS Code and external Commodore development tools
 
 ## Thanks
 
-* Some syntax definitions for XC=BASIC and DASM are based on
-  *  https://github.com/Viza74/xcbasiclanguagevscodeext
-  *  https://github.com/zeh/vscode-dasm
+* Syntax definitions based on work by:
+  * https://github.com/Viza74/xcbasiclanguagevscodeext
+  * https://github.com/zeh/vscode-dasm
 
-* This extension downloads and uses
-  * https://xc-basic.net/
-  * https://dasm-assembler.github.io/
+* This extension downloads and uses:
+  * **XC=BASIC 3**: https://xc-basic.net/
+  * **DASM Assembler**: https://dasm-assembler.github.io/
 
+## License
 
+This extension is released under the MIT License. See LICENSE file for details.
