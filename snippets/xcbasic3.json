@@ -415,12 +415,26 @@
         ],
         "description": "Error handling"
     },
+    "ON TIMER": {
+        "prefix": ["ON TIMER", "on timer"],
+        "body": [
+            "ON TIMER ${1:cycles} GOSUB ${2:label}"
+        ],
+        "description": "Timer interrupt handler with cycle count"
+    },
+    "ON RASTER": {
+        "prefix": ["ON RASTER", "on raster"],
+        "body": [
+            "ON RASTER ${1:line} GOSUB ${2:label}"
+        ],
+        "description": "Raster interrupt handler with line number"
+    },
     "ON INTERRUPT": {
         "prefix": ["ON INTERRUPT", "on interrupt"],
         "body": [
-            "ON ${1|TIMER,RASTER,SPRITE,BACKGROUND,VBLANK|} GOSUB ${2:label}"
+            "ON ${1|SPRITE,BACKGROUND,VBLANK|} GOSUB ${2:label}"
         ],
-        "description": "Interrupt handler"
+        "description": "Interrupt handler (no value parameter)"
     },
     "DECLARE SUB": {
         "prefix": ["DECLARE SUB", "declare sub"],

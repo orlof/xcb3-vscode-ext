@@ -79,7 +79,7 @@
                     },
                     {
                     "name": "keyword.control.xcbasic3",
-                    "match": "\\s+(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+                    "match": "\\s+(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MEMSET|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
                     },
                     { "name": "string.quoted.double.xcbasic3", "match": "\\s+\"[^\"]*\"" },
                     { "name": "constant.numeric.hex.xcbasic3", "match": "\\s+\\$[0-9a-fA-F]+\\b" },
@@ -115,7 +115,7 @@
                     },
                     {
                     "name": "keyword.control.xcbasic3",
-                    "match": "\\s+(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+                    "match": "\\s+(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MEMSET|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
                     },
                     { "name": "string.quoted.double.xcbasic3", "match": "\\s+\"[^\"]*\"" },
                     { "name": "constant.numeric.hex.xcbasic3", "match": "\\s+\\$[0-9a-fA-F]+\\b" },
@@ -368,7 +368,40 @@
           "captures": { "1": { "name": "constant.language.xcbasic3" } }
         },
         {
-          "begin": "(?i)\\b(ON)\\s+(ERROR|TIMER|RASTER|SPRITE|BACKGROUND|VBLANK)\\s+(GOTO|GOSUB)\\b",
+          "begin": "(?i)\\b(ON)\\s+(ERROR)\\s+(GOTO)\\b",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.xcbasic3" },
+            "2": { "name": "storage.modifier.xcbasic3" },
+            "3": { "name": "keyword.control.xcbasic3" }
+          },
+          "end": "(?=:|$)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "include": "#builtins" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+            { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+          ]
+        },
+        {
+          "begin": "(?i)\\b(ON)\\s+(TIMER|RASTER)\\b",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.xcbasic3" },
+            "2": { "name": "storage.modifier.xcbasic3" }
+          },
+          "end": "(?i)\\s+(GOSUB)\\b",
+          "endCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "include": "#builtins" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" }
+          ]
+        },
+        {
+          "begin": "(?i)\\b(ON)\\s+(SPRITE|BACKGROUND|VBLANK)\\s+(GOSUB)\\b",
           "beginCaptures": {
             "1": { "name": "keyword.control.xcbasic3" },
             "2": { "name": "storage.modifier.xcbasic3" },
@@ -431,7 +464,7 @@
       "patterns": [
         {
           "name": "variable.name.xcbasic3",
-          "match": "(?i)\\b(?!(?:CASE|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ON|ORIGIN|OVERRIDE|RETURN|SELECT|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE|PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|BORDER|BACKGROUND|TEXTAT|COLS|ROWS|CHARAT|SCREEN|SOUND|MEMCPY|MEMSHIFT|SWAP|WAIT|VOLUME|ABS|ASC|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SPRITEBGHIT|SPRITEHIT|SQR|ST|STR|TAN|TI|UCASE|VAL|BYTE|WORD|LONG|FLOAT|DECIMAL|STRING|AND|OR|XOR|NOT|MOD|OVERLOAD|PRIVATE|STATIC|SHARED|FAST)\\b)[a-z_][a-z_0-9]*\\$?\\b"
+          "match": "(?i)\\b(?!(?:CASE|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ON|ORIGIN|OVERRIDE|RETURN|SELECT|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE|PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|BORDER|BACKGROUND|TEXTAT|COLS|ROWS|CHARAT|SCREEN|SOUND|MEMCPY|MEMSHIFT|MEMSET|SWAP|WAIT|VOLUME|ABS|ASC|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SPRITEBGHIT|SPRITEHIT|SQR|ST|STR|TAN|TI|UCASE|VAL|BYTE|WORD|LONG|FLOAT|DECIMAL|STRING|AND|OR|XOR|NOT|MOD|OVERLOAD|PRIVATE|STATIC|SHARED|FAST)\\b)[a-z_][a-z_0-9]*\\$?\\b"
         }
       ]
     },
@@ -474,7 +507,7 @@
         },
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|TEXTAT|COLS|ROWS|SCREEN|SOUND|MEMCPY|MEMSHIFT|SWAP|WAIT|VOLUME)\\b"
+          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|TEXTAT|COLS|ROWS|SCREEN|SOUND|MEMCPY|MEMSHIFT|MEMSET|SWAP|WAIT|VOLUME)\\b"
         }
       ]
     },
