@@ -1,0 +1,99 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "XC=BASIC Run File",
+            "type": "shell",
+            "command": "${config:xcbasic3.emulator}",
+            "args": [
+                "${fileBasenameNoExtension}.prg"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile File"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "XC=BASIC Debug File",
+            "type": "shell",
+            "command": "${config:xcbasic3.debugger}",
+            "args": [
+                "${fileBasenameNoExtension}.prg"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile File"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "XC=BASIC Compile File",
+            "type": "shell",
+            "command": "${env:XCBASIC3_COMPILER}",
+            "args": [
+                "--dasm=${env:DASM_PATH}",
+                "${file}",
+                "${fileBasenameNoExtension}.prg"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "XC=BASIC Crunch File",
+            "type": "shell",
+            "command": "${config:xcbasic3.packer}",
+            "args": [
+                "sfx",
+                "basic",
+                "${fileBasenameNoExtension}.prg",
+                "-o",
+                "${fileBasenameNoExtension}.prg",
+                "-x",
+                "'inc $d020'"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile File"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "XC=BASIC Build Disk",
+            "type": "shell",
+            "command": "${config:xcbasic3.builder}",
+            "args": [
+                "-format",
+                "${fileBasenameNoExtension},of",
+                "d64",
+                "${fileBasenameNoExtension}.d64",
+                "-attach",
+                "${fileBasenameNoExtension}.d64",
+                "-write",
+                "${fileBasenameNoExtension}.prg",
+                "${fileBasenameNoExtension}"
+            ],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XC=BASIC Compile File"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

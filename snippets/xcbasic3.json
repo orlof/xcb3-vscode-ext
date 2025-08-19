@@ -1,0 +1,789 @@
+{
+    "FOR loop": {
+        "prefix": ["FOR", "for"],
+        "body": [
+            "FOR ${1:variable} AS ${2:INT} = ${3:start} TO ${4:end}",
+            "\t$0",
+            "NEXT ${1:variable}"
+        ],
+        "description": "FOR loop with variable declaration"
+    },
+    "FOR loop with STEP": {
+        "prefix": ["FORSTEP", "forstep"],
+        "body": [
+            "FOR ${1:variable} AS ${2:INT} = ${3:start} TO ${4:end} STEP ${5:increment}",
+            "\t$0",
+            "NEXT ${1:variable}"
+        ],
+        "description": "FOR loop with STEP increment"
+    },
+    "IF statement": {
+        "prefix": ["IF", "if"],
+        "body": [
+            "IF ${1:condition} THEN",
+            "\t$0",
+            "END IF"
+        ],
+        "description": "IF statement"
+    },
+    "IF ELSE statement": {
+        "prefix": ["IFELSE", "ifelse"],
+        "body": [
+            "IF ${1:condition} THEN",
+            "\t${2:// true code}",
+            "ELSE",
+            "\t${3:// false code}",
+            "END IF"
+        ],
+        "description": "IF ELSE statement"
+    },
+    "WHILE loop": {
+        "prefix": ["WHILE", "while"],
+        "body": [
+            "DO WHILE ${1:condition}",
+            "\t$0",
+            "LOOP"
+        ],
+        "description": "WHILE loop"
+    },
+    "DO UNTIL loop": {
+        "prefix": ["UNTIL", "until"],
+        "body": [
+            "DO",
+            "\t$0",
+            "LOOP UNTIL ${1:condition}"
+        ],
+        "description": "DO UNTIL loop"
+    },
+    "SUB procedure": {
+        "prefix": ["SUB", "sub"],
+        "body": [
+            "SUB ${1:name}(${2:parameters})",
+            "\t$0",
+            "END SUB"
+        ],
+        "description": "SUB procedure definition"
+    },
+    "FUNCTION": {
+        "prefix": ["FUNCTION", "function"],
+        "body": [
+            "FUNCTION ${1:name}(${2:parameters}) AS ${3:type}",
+            "\t$0",
+            "\tRETURN ${4:value}",
+            "END FUNCTION"
+        ],
+        "description": "FUNCTION definition"
+    },
+    "SELECT CASE": {
+        "prefix": ["SELECT", "select"],
+        "body": [
+            "SELECT CASE ${1:expression}",
+            "\tCASE ${2:value1}",
+            "\t\t${3:// code}",
+            "\tCASE ${4:value2}",
+            "\t\t${5:// code}",
+            "\tCASE ELSE",
+            "\t\t${6:// default code}",
+            "END SELECT"
+        ],
+        "description": "SELECT CASE statement"
+    },
+    "DIM array": {
+        "prefix": ["DIM", "dim"],
+        "body": [
+            "DIM ${1:arrayName}(${2:size}) AS ${3:type}"
+        ],
+        "description": "Declare an array"
+    },
+    "PRINT statement": {
+        "prefix": ["PRINT", "print"],
+        "body": [
+            "PRINT \"${1:message}\""
+        ],
+        "description": "PRINT statement"
+    },
+    "ASM block": {
+        "prefix": ["ASM", "asm"],
+        "body": [
+            "ASM",
+            "\t${1:// assembly code}",
+            "END ASM"
+        ],
+        "description": "Inline assembly block"
+    },
+    "TYPE definition": {
+        "prefix": ["TYPE", "type"],
+        "body": [
+            "TYPE ${1:TypeName}",
+            "\t${2:field1} AS ${3:type}",
+            "\t${4:field2} AS ${5:type}",
+            "END TYPE"
+        ],
+        "description": "User-defined type"
+    },
+    "BACKGROUND color": {
+        "prefix": ["BACKGROUND", "background"],
+        "body": [
+            "BACKGROUND ${1:color}"
+        ],
+        "description": "Set background color"
+    },
+    "BORDER color": {
+        "prefix": ["BORDER", "border"],
+        "body": [
+            "BORDER ${1:color}"
+        ],
+        "description": "Set border color"
+    },
+    "LOCATE position": {
+        "prefix": ["LOCATE", "locate"],
+        "body": [
+            "LOCATE ${1:x_pos}, ${2:y_pos}"
+        ],
+        "description": "Set cursor position"
+    },
+    "POKE memory": {
+        "prefix": ["POKE", "poke"],
+        "body": [
+            "POKE ${1:address}, ${2:value}"
+        ],
+        "description": "Write byte to memory address"
+    },
+    "DOKE memory": {
+        "prefix": ["DOKE", "doke"],
+        "body": [
+            "DOKE ${1:address}, ${2:value}"
+        ],
+        "description": "Write word to memory address"
+    },
+    "SWAP variables": {
+        "prefix": ["SWAP", "swap"],
+        "body": [
+            "SWAP ${1:left}, ${2:right}"
+        ],
+        "description": "Swap two variables"
+    },
+    "ERROR code": {
+        "prefix": ["ERROR", "error"],
+        "body": [
+            "ERROR ${1:error_code}"
+        ],
+        "description": "Generate error with code"
+    },
+    "GOSUB label": {
+        "prefix": ["GOSUB", "gosub"],
+        "body": [
+            "GOSUB ${1:label}"
+        ],
+        "description": "Call subroutine at label"
+    },
+    "GOTO label": {
+        "prefix": ["GOTO", "goto"],
+        "body": [
+            "GOTO ${1:label}"
+        ],
+        "description": "Jump to label"
+    },
+    "RANDOMIZE seed": {
+        "prefix": ["RANDOMIZE", "randomize"],
+        "body": [
+            "RANDOMIZE ${1:value}"
+        ],
+        "description": "Initialize random number generator"
+    },
+    "SCREEN number": {
+        "prefix": ["SCREEN", "screen"],
+        "body": [
+            "SCREEN ${1:screen_number}"
+        ],
+        "description": "Switch to screen number"
+    },
+    "MEMCPY operation": {
+        "prefix": ["MEMCPY", "memcpy"],
+        "body": [
+            "MEMCPY ${1:source_address}, ${2:destination_address}, ${3:length}"
+        ],
+        "description": "Copy memory block"
+    },
+    "MEMSHIFT operation": {
+        "prefix": ["MEMSHIFT", "memshift"],
+        "body": [
+            "MEMSHIFT ${1:source_address}, ${2:destination_address}, ${3:length}"
+        ],
+        "description": "Shift memory block"
+    },
+    "CHARAT display": {
+        "prefix": ["CHARAT", "charat"],
+        "body": [
+            "CHARAT ${1:x_pos}, ${2:y_pos}, ${3:screencode}${4:, ${5:color}}"
+        ],
+        "description": "Display character at position"
+    },
+    "TEXTAT display": {
+        "prefix": ["TEXTAT", "textat"],
+        "body": [
+            "TEXTAT ${1:x_pos}, ${2:y_pos}, \"${3:text}\"${4:, ${5:color}}"
+        ],
+        "description": "Display text at position"
+    },
+    "CHARSET mode": {
+        "prefix": ["CHARSET", "charset"],
+        "body": [
+            "CHARSET ${1|RAM,ROM|} ${2:value}"
+        ],
+        "description": "Set character set"
+    },
+    "CONTINUE loop": {
+        "prefix": ["CONTINUE", "continue"],
+        "body": [
+            "CONTINUE ${1|FOR,DO|}"
+        ],
+        "description": "Continue loop execution"
+    },
+    "HSCROLL pixels": {
+        "prefix": ["HSCROLL", "hscroll"],
+        "body": [
+            "HSCROLL ${1:px}"
+        ],
+        "description": "Horizontal scroll"
+    },
+    "VSCROLL pixels": {
+        "prefix": ["VSCROLL", "vscroll"],
+        "body": [
+            "VSCROLL ${1:px}"
+        ],
+        "description": "Vertical scroll"
+    },
+    "SYS call": {
+        "prefix": ["SYS", "sys"],
+        "body": [
+            "SYS ${1:address}${2: FAST}"
+        ],
+        "description": "System call to machine language routine"
+    },
+    "WAIT sync": {
+        "prefix": ["WAIT", "wait"],
+        "body": [
+            "WAIT ${1:address}, ${2:mask}${3:, ${4:trig}}"
+        ],
+        "description": "Wait for memory condition"
+    },
+    "SPRITE command": {
+        "prefix": ["SPRITE", "sprite"],
+        "body": [
+            "SPRITE ${1:spr_no} ${2|ON,OFF|} AT ${3:x}, ${4:y} SHAPE ${5:n} COLOR ${6:c} ${7|HIRES,MULTI|} XYSIZE ${8:x}, ${9:y} ${10|ON BACKGROUND,UNDER BACKGROUND|}"
+        ],
+        "description": "Configure sprite with all subcommands"
+    },
+    "SPRITE CLEAR HIT": {
+        "prefix": ["SPRITE CLEAR HIT", "sprite clear hit"],
+        "body": [
+            "SPRITE CLEAR HIT"
+        ],
+        "description": "Clear sprite collision flags"
+    },
+    "SPRITE MULTICOLOR": {
+        "prefix": ["SPRITE MULTICOLOR", "sprite multicolor"],
+        "body": [
+            "SPRITE MULTICOLOR ${1:col1}, ${2:col2}"
+        ],
+        "description": "Set sprite multicolor mode"
+    },
+    "VOICE command": {
+        "prefix": ["VOICE", "voice"],
+        "body": [
+            "VOICE ${1:voice_no} ${2:subcmd}"
+        ],
+        "description": "Configure sound voice"
+    },
+    "VOLUME setting": {
+        "prefix": ["VOLUME", "volume"],
+        "body": [
+            "VOLUME ${1:volume}"
+        ],
+        "description": "Set audio volume"
+    },
+    "INPUT prompt": {
+        "prefix": ["INPUT", "input"],
+        "body": [
+            "INPUT \"${1:prompt}\"; ${2:variable}"
+        ],
+        "description": "Input with prompt"
+    },
+    "CONST declaration": {
+        "prefix": ["CONST", "const"],
+        "body": [
+            "CONST ${1:name} = ${2:value}"
+        ],
+        "description": "Declare constant"
+    },
+    "CALL subroutine": {
+        "prefix": ["CALL", "call"],
+        "body": [
+            "CALL ${1:subroutine_name}(${2:parameters})"
+        ],
+        "description": "Call subroutine with parameters"
+    },
+    "SOUND CLEAR": {
+        "prefix": ["SOUND CLEAR", "sound clear"],
+        "body": [
+            "SOUND CLEAR"
+        ],
+        "description": "Clear sound channels"
+    },
+    "OPEN file": {
+        "prefix": ["OPEN", "open"],
+        "body": [
+            "OPEN ${1:logical_no}, ${2:device_no}, ${3:secondary_address}, \"${4:filename}\""
+        ],
+        "description": "Open file for I/O"
+    },
+    "CLOSE file": {
+        "prefix": ["CLOSE", "close"],
+        "body": [
+            "CLOSE ${1:logical_no}"
+        ],
+        "description": "Close file"
+    },
+    "LOAD file": {
+        "prefix": ["LOAD", "load"],
+        "body": [
+            "LOAD \"${1:filename}\", ${2:device_no}${3:, ${4:start_address}}"
+        ],
+        "description": "Load file from device"
+    },
+    "SAVE file": {
+        "prefix": ["SAVE", "save"],
+        "body": [
+            "SAVE \"${1:filename}\", ${2:device_no}, ${3:start_address}, ${4:end_address}"
+        ],
+        "description": "Save file to device"
+    },
+    "GET input": {
+        "prefix": ["GET", "get"],
+        "body": [
+            "GET ${1:variable}"
+        ],
+        "description": "Get single character input"
+    },
+    "INCBIN file": {
+        "prefix": ["INCBIN", "incbin"],
+        "body": [
+            "INCBIN \"${1:path/to/binary_file}\""
+        ],
+        "description": "Include binary file"
+    },
+    "INCLUDE file": {
+        "prefix": ["INCLUDE", "include"],
+        "body": [
+            "INCLUDE \"${1:path/to/filename.bas}\""
+        ],
+        "description": "Include source file"
+    },
+    "ORIGIN address": {
+        "prefix": ["ORIGIN", "origin"],
+        "body": [
+            "ORIGIN ${1:address}"
+        ],
+        "description": "Set code origin address"
+    },
+    "VMODE command": {
+        "prefix": ["VMODE", "vmode"],
+        "body": [
+            "VMODE ${1|TEXT,BITMAP,EXT|} ${2|HIRES,MULTI|} ROWS ${3|24,25|} COLS ${4|38,40|}"
+        ],
+        "description": "Set video mode with all options"
+    },
+    "FILTER command": {
+        "prefix": ["FILTER", "filter"],
+        "body": [
+            "FILTER ${1:sid_number} CUTOFF ${2:cutoff_freq} RESONANCE ${3:value} ${4|LOW,BAND,HIGH|} PASS"
+        ],
+        "description": "Configure audio filter"
+    },
+    "ON command": {
+        "prefix": ["ON", "on"],
+        "body": [
+            "ON ${1:value} ${2|GOTO,GOSUB|} ${3:label1}, ${4:label2}"
+        ],
+        "description": "Conditional jump/call"
+    },
+    "ON ERROR": {
+        "prefix": ["ON ERROR", "on error"],
+        "body": [
+            "ON ERROR GOTO ${1:label}"
+        ],
+        "description": "Error handling"
+    },
+    "ON INTERRUPT": {
+        "prefix": ["ON INTERRUPT", "on interrupt"],
+        "body": [
+            "ON ${1|TIMER,RASTER,SPRITE,BACKGROUND,VBLANK|} GOSUB ${2:label}"
+        ],
+        "description": "Interrupt handler"
+    },
+    "DECLARE SUB": {
+        "prefix": ["DECLARE SUB", "declare sub"],
+        "body": [
+            "DECLARE SUB ${1:name}(${2:arg1} AS ${3:type}) ${4|OVERRIDE,STATIC,SHARED|}"
+        ],
+        "description": "Declare subroutine"
+    },
+    "DECLARE FUNCTION": {
+        "prefix": ["DECLARE FUNCTION", "declare function"],
+        "body": [
+            "DECLARE FUNCTION ${1:name} AS ${2:type}(${3:arg1} AS ${4:type}) ${5|OVERRIDE,STATIC,SHARED|}"
+        ],
+        "description": "Declare function"
+    },
+    "DATA statement": {
+        "prefix": ["DATA", "data"],
+        "body": [
+            "DATA AS ${1|BYTE,WORD,INT,LONG,FLOAT,DECIMAL,STRING|} ${2:value1}, ${3:value2}"
+        ],
+        "description": "Data declaration"
+    },
+    "DIM variable": {
+        "prefix": ["DIM VAR", "dim var"],
+        "body": [
+            "DIM ${1|SHARED,STATIC,FAST|} ${2:variable} AS ${3|BYTE,WORD,INT,LONG,FLOAT,DECIMAL,STRING|}"
+        ],
+        "description": "Declare variable with modifiers"
+    },
+    "EXIT statement": {
+        "prefix": ["EXIT", "exit"],
+        "body": [
+            "EXIT ${1|DO,FOR,FUNCTION,SUB|}"
+        ],
+        "description": "Exit from construct"
+    },
+    "OPTION statement": {
+        "prefix": ["OPTION", "option"],
+        "body": [
+            "OPTION ${1|FASTINTERRUPT,INLINEDATA,NOBASICLOADER,STARTADDRESS,TARGET|} = ${2:value}"
+        ],
+        "description": "Compiler option"
+    },
+    "INTERRUPT control": {
+        "prefix": ["INTERRUPT", "interrupt"],
+        "body": [
+            "${1|TIMER,RASTER,SPRITE,BACKGROUND,SYSTEM|} INTERRUPT ${2|ON,OFF|}"
+        ],
+        "description": "Control interrupts"
+    },
+    "ABS function": {
+        "prefix": ["ABS", "abs"],
+        "body": [
+            "ABS(${1:num})"
+        ],
+        "description": "Absolute value of number"
+    },
+    "ASC function": {
+        "prefix": ["ASC", "asc"],
+        "body": [
+            "ASC(${1:char$})"
+        ],
+        "description": "ASCII code of character"
+    },
+    "ATN function": {
+        "prefix": ["ATN", "atn"],
+        "body": [
+            "ATN(${1:x})"
+        ],
+        "description": "Arctangent of x"
+    },
+    "CBYTE function": {
+        "prefix": ["CBYTE", "cbyte"],
+        "body": [
+            "CBYTE(${1:arg})"
+        ],
+        "description": "Convert to byte"
+    },
+    "CFLOAT function": {
+        "prefix": ["CFLOAT", "cfloat"],
+        "body": [
+            "CFLOAT(${1:number})"
+        ],
+        "description": "Convert to float"
+    },
+    "CHR$ function": {
+        "prefix": ["CHR$", "chr$", "CHR", "chr"],
+        "body": [
+            "CHR$(${1:charcode})"
+        ],
+        "description": "Character from ASCII code"
+    },
+    "CINT function": {
+        "prefix": ["CINT", "cint"],
+        "body": [
+            "CINT(${1:number})"
+        ],
+        "description": "Convert to integer"
+    },
+    "CLONG function": {
+        "prefix": ["CLONG", "clong"],
+        "body": [
+            "CLONG(${1:number})"
+        ],
+        "description": "Convert to long"
+    },
+    "COS function": {
+        "prefix": ["COS", "cos"],
+        "body": [
+            "COS(${1:arg})"
+        ],
+        "description": "Cosine of angle"
+    },
+    "CSRLIN function": {
+        "prefix": ["CSRLIN", "csrlin"],
+        "body": [
+            "CSRLIN()"
+        ],
+        "description": "Current cursor line"
+    },
+    "CWORD function": {
+        "prefix": ["CWORD", "cword"],
+        "body": [
+            "CWORD(${1:number})"
+        ],
+        "description": "Convert to word"
+    },
+    "DEEK function": {
+        "prefix": ["DEEK", "deek"],
+        "body": [
+            "DEEK(${1:address})"
+        ],
+        "description": "Read word from memory"
+    },
+    "ERR function": {
+        "prefix": ["ERR", "err"],
+        "body": [
+            "ERR()"
+        ],
+        "description": "Last error code"
+    },
+    "EXP function": {
+        "prefix": ["EXP", "exp"],
+        "body": [
+            "EXP(${1:num})"
+        ],
+        "description": "Exponential function"
+    },
+    "FLOOR function": {
+        "prefix": ["FLOOR", "floor"],
+        "body": [
+            "FLOOR(${1:num})"
+        ],
+        "description": "Floor of number"
+    },
+    "JOY function": {
+        "prefix": ["JOY", "joy"],
+        "body": [
+            "JOY(${1:portnum})"
+        ],
+        "description": "Read joystick port"
+    },
+    "KEY function": {
+        "prefix": ["KEY", "key"],
+        "body": [
+            "KEY(${1:scancode})"
+        ],
+        "description": "Check key state"
+    },
+    "LCASE$ function": {
+        "prefix": ["LCASE$", "lcase$", "LCASE", "lcase"],
+        "body": [
+            "LCASE$(${1:instr$})"
+        ],
+        "description": "Convert to lowercase"
+    },
+    "LEFT$ function": {
+        "prefix": ["LEFT$", "left$", "LEFT", "left"],
+        "body": [
+            "LEFT$(${1:input$}, ${2:n})"
+        ],
+        "description": "Left substring"
+    },
+    "LEN function": {
+        "prefix": ["LEN", "len"],
+        "body": [
+            "LEN(${1:arg$})"
+        ],
+        "description": "Length of string"
+    },
+    "LOG function": {
+        "prefix": ["LOG", "log"],
+        "body": [
+            "LOG(${1:num})"
+        ],
+        "description": "Natural logarithm"
+    },
+    "MID$ function": {
+        "prefix": ["MID$", "mid$", "MID", "mid"],
+        "body": [
+            "MID$(${1:input$}, ${2:position}, ${3:length})"
+        ],
+        "description": "Middle substring"
+    },
+    "PEEK function": {
+        "prefix": ["PEEK", "peek"],
+        "body": [
+            "PEEK(${1:address})"
+        ],
+        "description": "Read byte from memory"
+    },
+    "POS function": {
+        "prefix": ["POS", "pos"],
+        "body": [
+            "POS()"
+        ],
+        "description": "Current cursor position"
+    },
+    "POW function": {
+        "prefix": ["POW", "pow"],
+        "body": [
+            "POW(${1:base}, ${2:exp})"
+        ],
+        "description": "Power function"
+    },
+    "RIGHT$ function": {
+        "prefix": ["RIGHT$", "right$", "RIGHT", "right"],
+        "body": [
+            "RIGHT$(${1:input$}, ${2:n})"
+        ],
+        "description": "Right substring"
+    },
+    "RND function": {
+        "prefix": ["RND", "rnd"],
+        "body": [
+            "RND()"
+        ],
+        "description": "Random float 0-1"
+    },
+    "RNDB function": {
+        "prefix": ["RNDB", "rndb"],
+        "body": [
+            "RNDB()"
+        ],
+        "description": "Random byte 0-255"
+    },
+    "RNDI function": {
+        "prefix": ["RNDI", "rndi"],
+        "body": [
+            "RNDI()"
+        ],
+        "description": "Random integer"
+    },
+    "RNDL function": {
+        "prefix": ["RNDL", "rndl"],
+        "body": [
+            "RNDL()"
+        ],
+        "description": "Random long"
+    },
+    "RNDW function": {
+        "prefix": ["RNDW", "rndw"],
+        "body": [
+            "RNDW()"
+        ],
+        "description": "Random word 0-65535"
+    },
+    "SCAN function": {
+        "prefix": ["SCAN", "scan"],
+        "body": [
+            "SCAN()"
+        ],
+        "description": "Scan keyboard"
+    },
+    "SGN function": {
+        "prefix": ["SGN", "sgn"],
+        "body": [
+            "SGN(${1:num})"
+        ],
+        "description": "Sign of number"
+    },
+    "SHL function": {
+        "prefix": ["SHL", "shl"],
+        "body": [
+            "SHL(${1:num}, ${2:n})"
+        ],
+        "description": "Shift left"
+    },
+    "SHR function": {
+        "prefix": ["SHR", "shr"],
+        "body": [
+            "SHR(${1:num}, ${2:n})"
+        ],
+        "description": "Shift right"
+    },
+    "SIN function": {
+        "prefix": ["SIN", "sin"],
+        "body": [
+            "SIN(${1:x})"
+        ],
+        "description": "Sine of angle"
+    },
+    "SPRITEBGHIT function": {
+        "prefix": ["SPRITEBGHIT", "spritebghit"],
+        "body": [
+            "SPRITEBGHIT(${1:sprno})"
+        ],
+        "description": "Sprite background collision"
+    },
+    "SPRITEHIT function": {
+        "prefix": ["SPRITEHIT", "spritehit"],
+        "body": [
+            "SPRITEHIT(${1:sprno})"
+        ],
+        "description": "Sprite collision detection"
+    },
+    "SQR function": {
+        "prefix": ["SQR", "sqr"],
+        "body": [
+            "SQR(${1:num})"
+        ],
+        "description": "Square root"
+    },
+    "ST function": {
+        "prefix": ["ST", "st"],
+        "body": [
+            "ST()"
+        ],
+        "description": "I/O status"
+    },
+    "STR$ function": {
+        "prefix": ["STR$", "str$", "STR", "str"],
+        "body": [
+            "STR$(${1:number})"
+        ],
+        "description": "Convert number to string"
+    },
+    "TAN function": {
+        "prefix": ["TAN", "tan"],
+        "body": [
+            "TAN(${1:x})"
+        ],
+        "description": "Tangent of angle"
+    },
+    "TI function": {
+        "prefix": ["TI", "ti"],
+        "body": [
+            "TI()"
+        ],
+        "description": "System timer"
+    },
+    "UCASE$ function": {
+        "prefix": ["UCASE$", "ucase$", "UCASE", "ucase"],
+        "body": [
+            "UCASE$(${1:instr$})"
+        ],
+        "description": "Convert to uppercase"
+    },
+    "VAL function": {
+        "prefix": ["VAL", "val"],
+        "body": [
+            "VAL(${1:instr$})"
+        ],
+        "description": "Convert string to number"
+    }
+}

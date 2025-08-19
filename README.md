@@ -7,6 +7,8 @@ Syntax highlighting for XC=BASIC 3, a cross compiled BASIC for 8-bit Commodore m
 ## Features
 
 * **Rich Syntax Highlighting** for XC=BASIC3 (including ASM blocks)
+* **IntelliSense & Code Completion** - Auto-completion for keywords, built-in functions, and data types
+* **Hover Information** - Detailed documentation on hover for keywords and functions
 * **Error Highlighting** - Compilation errors are highlighted directly in the editor
 * **Automatic Toolchain Management** - XC=BASIC3 compiler and DASM assembler are downloaded and managed automatically
 * **Integrated Build System** - Compile, run, and debug with keyboard shortcuts
@@ -247,14 +249,16 @@ Basic auto-completion for:
 
 ## Notes
 
-**This extension is NOT:**
-- **A Debugging Extension**: No support for VS Code's integrated debugger (stepping, breakpoints, variable inspection)
-- **A Language Server**: No real-time code analysis, IntelliSense, or refactoring support
+**This extension provides:**
+- **Rich Language Support**: IntelliSense, code completion, and hover information via Language Server Protocol
+- **Syntax Highlighting**: Rich syntax highlighting for XC=BASIC3 and embedded assembly
+- **Build System Integration**: Seamless compilation and execution workflow
+- **Toolchain Management**: Automatic XC=BASIC3 compiler and DASM assembler management
+- **External Tool Integration**: Works with Vice emulator, Retro Debugger, and other Commodore development tools
 
-**This extension IS:**
-- A syntax highlighter with build system integration
-- A tool for managing the XC=BASIC compilation toolchain
-- A bridge between VS Code and external Commodore development tools
+**This extension does NOT provide:**
+- **Debugging Support**: No support for VS Code's integrated debugger (stepping, breakpoints, variable inspection)
+- **Advanced Refactoring**: Basic language server features only, no complex refactoring tools
 
 ## Thanks
 

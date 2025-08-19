@@ -16,18 +16,21 @@
     { "include": "#filter-command" },
     { "include": "#screen-command" },
     { "include": "#sound-command" },
+    { "include": "#background-command" },
+    { "include": "#border-command" },
+    { "include": "#charat-command" },
 
     { "include": "#keywords" },
     { "include": "#builtins" },
+    { "include": "#type" },
+    { "include": "#sub" },
+    { "include": "#call" },
+    { "include": "#as" },
     { "include": "#operators" },
     { "include": "#strings" },
     { "include": "#comments" },
     { "include": "#numerics" },
     { "include": "#hexanumerics" },
-    { "include": "#type" },
-    { "include": "#sub" },
-    { "include": "#call" },
-    { "include": "#as" },
     { "include": "#labels" }
   ],
   "repository": {
@@ -94,6 +97,20 @@
     "sprite-command": {
       "patterns": [
         {
+          "name": "keyword.control.xcbasic3",
+          "match": "(?i)\\bSPRITE\\s+CLEAR\\s+HIT\\b"
+        },
+        {
+          "begin": "(?i)\\bSPRITE\\s+CLEAR\\b",
+          "beginCaptures": { "0": { "name": "keyword.control.xcbasic3" } },
+          "end": "(?=:|$)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" }
+          ]
+        },
+        {
           "begin": "(?i)\\b(SPRITE)\\b",
           "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
           "end": "(?=:|$)",
@@ -103,6 +120,8 @@
             { "include": "#numerics" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(ON|OFF|AT|SHAPE|COLOR|HIRES|MULTI|LOWCOL|HICOL|XYSIZE|ZDEPTH|XYFLIP)\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(?:ON|UNDER)\\s+BACKGROUND\\b" },
+            { "name": "storage.modifier.xcbasic3", "match": "(?i)\\bBACKGROUND\\b" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
             { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
           ]
         }
@@ -123,6 +142,7 @@
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\bWAVE\\b" },
             { "name": "constant.language.xcbasic3", "match": "(?i)\\b(SAW|PULSE|NOISE|TRI)\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\bFILTER\\s+(ON|OFF)\\b", "captures": { "1": { "name": "constant.language.xcbasic3" } } },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
             { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
           ]
         }
@@ -141,6 +161,7 @@
             { "include": "#numerics" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(CUTOFF|RESONANCE)\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(LOW|BAND|HIGH)\\s+PASS\\b" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
             { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
           ]
         }
@@ -158,6 +179,7 @@
             { "include": "#hexanumerics" },
             { "include": "#numerics" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(ROWS|COLS|TEXTAT|HSCROLL|VSCROLL)\\b" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
             { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
           ]
         }
@@ -175,6 +197,58 @@
             { "include": "#hexanumerics" },
             { "include": "#numerics" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(CLEAR|AT|VOLUME|FREQ|TONE|WAVE)\\b" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+            { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+          ]
+        }
+      ]
+    },
+
+    "background-command": {
+      "patterns": [
+        {
+          "begin": "(?i)\\b(BACKGROUND)\\b",
+          "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+          "end": "(?=:|$)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+            { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+          ]
+        }
+      ]
+    },
+
+    "border-command": {
+      "patterns": [
+        {
+          "begin": "(?i)\\b(BORDER)\\b",
+          "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+          "end": "(?=:|$)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+            { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+          ]
+        }
+      ]
+    },
+
+    "charat-command": {
+      "patterns": [
+        {
+          "begin": "(?i)\\b(CHARAT)\\b",
+          "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+          "end": "(?=:|$)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
             { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
           ]
         }
@@ -188,11 +262,11 @@
       "patterns": [
         { "include": "#asm-comments" },
         { "include": "#asm-constants" },
-        { "include": "#asm-labels" },
         { "include": "#asm-operators" },
         { "include": "#asm-pseudoops" },
         { "include": "#asm-instructions" },
-        { "include": "#asm-registers" }
+        { "include": "#asm-registers" },
+        { "include": "#asm-labels" }
       ]
     },
 
@@ -239,7 +313,9 @@
           "match": "(?i)\\b(?:TIMER|RASTER|SPRITE|BACKGROUND|SYSTEM)\\s+INTERRUPT\\s+(ON|OFF)\\b",
           "captures": { "1": { "name": "constant.language.xcbasic3" } }
         },
-        { "name": "keyword.control.xcbasic3", "match": "(?i)\\bON\\s+(?:TIMER|RASTER|SPRITE|BACKGROUND)\\b" }
+        { "name": "keyword.control.xcbasic3", "match": "(?i)\\bON\\s+(?:TIMER|RASTER|SPRITE|BACKGROUND|VBLANK)\\s+GOSUB\\b" },
+        { "name": "keyword.control.xcbasic3", "match": "(?i)\\bON\\s+ERROR\\s+GOTO\\b" },
+        { "name": "keyword.control.xcbasic3", "match": "(?i)\\bON\\s+.*?\\s+(?:GOTO|GOSUB)\\b" }
       ]
     },
 
@@ -272,7 +348,10 @@
 
     "labels": {
       "patterns": [
-        { "name": "variable.name.xcbasic3", "match": "(?i)\\b[a-z_][a-z_0-9]*\\$?\\b" }
+        {
+          "name": "variable.name.xcbasic3",
+          "match": "(?i)\\b(?!(?:CASE|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT|FAST|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ON|ORIGIN|OVERLOAD|OVERRIDE|PRIVATE|RETURN|SELECT|SHARED|STATIC|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE|PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|BORDER|BACKGROUND|TEXTAT|COLS|ROWS|CHARAT|SCREEN|SOUND|ABS|ASC|AT|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COLOR|COS|CSRLIN|CWORD|DEEK|ERR|EXP|INT|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SGN|SHL|SHR|SIN|SQR|ST|STR|SWAP|TAN|TI|UCASE|VAL|WAIT|MEMCPY|MEMSET|MEMSHIFT|BYTE|WORD|LONG|FLOAT|DECIMAL|STRING|AND|OR|XOR|NOT|MOD)\\b)[a-z_][a-z_0-9]*\\$?\\b"
+        }
       ]
     },
 
@@ -298,17 +377,37 @@
       "patterns": [
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(CASE(?:\\s+(?:IS|ELSE))?|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|END(?:\\s+(?:SELECT|SUB|TYPE|FUNCTION))?|ERROR|EXIT\\s+(?:DO|FOR|FUNCTION|SUB)|FAST|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ORIGIN|OVERLOAD|PRIVATE|RETURN|SELECT\\s+CASE|SHARED|STATIC|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE)\\b"
+          "match": "(?i)\\b(CASE(?:\\s+(?:IS|ELSE))?|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT\\s+(?:DO|FOR|FUNCTION|SUB)|FAST|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ORIGIN|OVERLOAD|OVERRIDE|PRIVATE|RETURN|SELECT\\s+CASE|SHARED|STATIC|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE)\\b"
         },
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|BORDER|BACKGROUND|TEXTAT|COLS|ROWS|CHARAT|SCREEN|SOUND)\\b"
+          "match": "(?i)\\bEND\\s+(?:SELECT|SUB|TYPE|FUNCTION|IF|ASM)\\b"
+        },
+        {
+          "name": "keyword.control.xcbasic3",
+          "match": "(?i)^\\s*END\\s*$"
+        },
+        {
+          "name": "keyword.control.xcbasic3",
+          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|TEXTAT|COLS|ROWS|SCREEN|SOUND)\\b"
         }
       ]
     },
 
     "builtins": {
       "patterns": [
+        {
+          "begin": "(?i)\\b(SPRITEBGHIT|SPRITEHIT)\\s*\\(",
+          "beginCaptures": { "1": { "name": "support.function.xcbasic3" } },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+            { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+          ]
+        },
         {
           "name": "support.function.xcbasic3",
           "match": "(?i)\\b(ABS|ASC|AT|ATN|CBYTE|CFLOAT|CHR\\$|CINT|CLONG|COLOR|COS|CSRLIN|CWORD|DEEK|ERR|EXP|INT|LCASE\\$|LEFT\\$|LEN|LOG|MID\\$|PEEK|POS|POW|RIGHT\\$|RND|RNDB|RNDI|RNDL|RNDW|SGN|SHL|SHR|SIN|SQR|ST|STR\\$|SWAP|TAN|TI|UCASE\\$|VAL|WAIT|MEMCPY|MEMSET|MEMSHIFT)\\b"
@@ -347,7 +446,8 @@
 
     "asm-instructions": {
       "patterns": [
-        { "name": "keyword.instruction.dasm", "match": "(?i)\\b(ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRK|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JSR|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|RTI|RTS|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA)\\b" }
+        { "name": "keyword.control.xcbasic3", "match": "(?i)\\b(BCC|BCS|BEQ|BMI|BNE|BPL|BRK|BVC|BVS|JMP|JSR|RTI|RTS)\\b" },
+        { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(ADC|AND|ASL|BIT|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA)\\b" }
       ]
     },
 
