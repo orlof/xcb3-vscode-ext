@@ -39,7 +39,7 @@
         {
           "name": "keyword.control.xcbasic3",
           "match": "(?i)\\bOPTION\\s+(FASTINTERRUPT|INLINEDATA|NOBASICLOADER|STARTADDRESS|TARGET)\\b",
-          "captures": { "1": { "name": "variable.name.xcbasic3" } }
+          "captures": { "1": { "name": "storage.modifier.xcbasic3" } }
         }
       ]
     },
@@ -101,6 +101,10 @@
           "match": "(?i)\\bSPRITE\\s+CLEAR\\s+HIT\\b"
         },
         {
+          "name": "keyword.control.xcbasic3",
+          "match": "(?i)\\bSPRITE\\s+MULTICOLOR\\b"
+        },
+        {
           "begin": "(?i)\\bSPRITE\\s+CLEAR\\b",
           "beginCaptures": { "0": { "name": "keyword.control.xcbasic3" } },
           "end": "(?=:|$)",
@@ -118,7 +122,7 @@
             { "include": "#strings" },
             { "include": "#hexanumerics" },
             { "include": "#numerics" },
-            { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(ON|OFF|AT|SHAPE|COLOR|HIRES|MULTI|LOWCOL|HICOL|XYSIZE|ZDEPTH|XYFLIP)\\b" },
+            { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(ON|OFF|AT|SHAPE|COLOR|HIRES|MULTI|MULTICOLOR|LOWCOL|HICOL|XYSIZE|ZDEPTH|XYFLIP)\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(?:ON|UNDER)\\s+BACKGROUND\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\bBACKGROUND\\b" },
             { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
@@ -188,6 +192,10 @@
 
     "sound-command": {
       "patterns": [
+        {
+          "name": "keyword.control.xcbasic3",
+          "match": "(?i)\\bSOUND\\s+CLEAR\\b"
+        },
         {
           "begin": "(?i)\\b(SOUND)\\b",
           "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
@@ -313,9 +321,34 @@
           "match": "(?i)\\b(?:TIMER|RASTER|SPRITE|BACKGROUND|SYSTEM)\\s+INTERRUPT\\s+(ON|OFF)\\b",
           "captures": { "1": { "name": "constant.language.xcbasic3" } }
         },
-        { "name": "keyword.control.xcbasic3", "match": "(?i)\\bON\\s+(?:TIMER|RASTER|SPRITE|BACKGROUND|VBLANK)\\s+GOSUB\\b" },
-        { "name": "keyword.control.xcbasic3", "match": "(?i)\\bON\\s+ERROR\\s+GOTO\\b" },
-        { "name": "keyword.control.xcbasic3", "match": "(?i)\\bON\\s+.*?\\s+(?:GOTO|GOSUB)\\b" }
+        {
+          "begin": "(?i)\\b(ON)\\s+(ERROR|TIMER|RASTER|SPRITE|BACKGROUND|VBLANK)\\s+(GOTO|GOSUB)\\b",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.xcbasic3" },
+            "2": { "name": "storage.modifier.xcbasic3" },
+            "3": { "name": "keyword.control.xcbasic3" }
+          },
+          "end": "(?=:|$)",
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+            { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+          ]
+        },
+        {
+          "begin": "(?i)\\b(ON)\\s+(?!(ERROR|TIMER|RASTER|SPRITE|BACKGROUND|VBLANK)\\b)",
+          "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+          "end": "(?i)\\s+(GOTO|GOSUB)\\b",
+          "endCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#hexanumerics" },
+            { "include": "#numerics" },
+            { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" }
+          ]
+        }
       ]
     },
 
@@ -350,7 +383,7 @@
       "patterns": [
         {
           "name": "variable.name.xcbasic3",
-          "match": "(?i)\\b(?!(?:CASE|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT|FAST|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ON|ORIGIN|OVERLOAD|OVERRIDE|PRIVATE|RETURN|SELECT|SHARED|STATIC|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE|PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|BORDER|BACKGROUND|TEXTAT|COLS|ROWS|CHARAT|SCREEN|SOUND|ABS|ASC|AT|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COLOR|COS|CSRLIN|CWORD|DEEK|ERR|EXP|INT|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SGN|SHL|SHR|SIN|SQR|ST|STR|SWAP|TAN|TI|UCASE|VAL|WAIT|MEMCPY|MEMSET|MEMSHIFT|BYTE|WORD|LONG|FLOAT|DECIMAL|STRING|AND|OR|XOR|NOT|MOD)\\b)[a-z_][a-z_0-9]*\\$?\\b"
+          "match": "(?i)\\b(?!(?:CASE|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ON|ORIGIN|OVERRIDE|RETURN|SELECT|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE|PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|BORDER|BACKGROUND|TEXTAT|COLS|ROWS|CHARAT|SCREEN|SOUND|MEMCPY|MEMSHIFT|SWAP|WAIT|VOLUME|ABS|ASC|AT|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COLOR|COS|CSRLIN|CWORD|DEEK|ERR|EXP|INT|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SGN|SHL|SHR|SIN|SQR|ST|STR|TAN|TI|UCASE|VAL|MEMSET|BYTE|WORD|LONG|FLOAT|DECIMAL|STRING|AND|OR|XOR|NOT|MOD|OVERLOAD|PRIVATE|STATIC|SHARED|FAST)\\b)[a-z_][a-z_0-9]*\\$?\\b"
         }
       ]
     },
@@ -377,7 +410,11 @@
       "patterns": [
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(CASE(?:\\s+(?:IS|ELSE))?|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT\\s+(?:DO|FOR|FUNCTION|SUB)|FAST|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ORIGIN|OVERLOAD|OVERRIDE|PRIVATE|RETURN|SELECT\\s+CASE|SHARED|STATIC|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE)\\b"
+          "match": "(?i)\\b(CASE(?:\\s+(?:IS|ELSE))?|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT\\s+(?:DO|FOR|FUNCTION|SUB)|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ORIGIN|OVERRIDE|RETURN|SELECT\\s+CASE|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE)\\b"
+        },
+        {
+          "name": "storage.modifier.xcbasic3",
+          "match": "(?i)\\b(OVERLOAD|PRIVATE|STATIC|SHARED|FAST)\\b"
         },
         {
           "name": "keyword.control.xcbasic3",
@@ -389,7 +426,7 @@
         },
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|TEXTAT|COLS|ROWS|SCREEN|SOUND)\\b"
+          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|TEXTAT|COLS|ROWS|SCREEN|SOUND|MEMCPY|MEMSHIFT|SWAP|WAIT|VOLUME)\\b"
         }
       ]
     },
@@ -410,7 +447,7 @@
         },
         {
           "name": "support.function.xcbasic3",
-          "match": "(?i)\\b(ABS|ASC|AT|ATN|CBYTE|CFLOAT|CHR\\$|CINT|CLONG|COLOR|COS|CSRLIN|CWORD|DEEK|ERR|EXP|INT|LCASE\\$|LEFT\\$|LEN|LOG|MID\\$|PEEK|POS|POW|RIGHT\\$|RND|RNDB|RNDI|RNDL|RNDW|SGN|SHL|SHR|SIN|SQR|ST|STR\\$|SWAP|TAN|TI|UCASE\\$|VAL|WAIT|MEMCPY|MEMSET|MEMSHIFT)\\b"
+          "match": "(?i)\\b(ABS|ASC|AT|ATN|CBYTE|CFLOAT|CHR\\$|CINT|CLONG|COLOR|COS|CSRLIN|CWORD|DEEK|ERR|EXP|INT|LCASE\\$|LEFT\\$|LEN|LOG|MID\\$|PEEK|POS|POW|RIGHT\\$|RND|RNDB|RNDI|RNDL|RNDW|SGN|SHL|SHR|SIN|SQR|ST|STR\\$|TAN|TI|UCASE\\$|VAL|MEMSET)\\b"
         }
       ]
     },
