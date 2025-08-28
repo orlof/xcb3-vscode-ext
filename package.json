@@ -34,11 +34,6 @@
         "watch": "tsc -b -w",
         "vscode:prepublish": "npm run compile && webpack --mode production"
     },
-    "activationEvents": [
-        "onLanguage:xcbasic3",
-        "onCommand:orlof-xcbasic3.XC=BASICInitialize",
-        "onCommand:orlof-xcbasic3.XC=BASICUpdate"
-    ],
     "contributes": {
         "commands": [
             {

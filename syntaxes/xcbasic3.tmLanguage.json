@@ -70,6 +70,20 @@
                     "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
                     "end": "\\)",
                     "patterns": [
+                        { "include": "#builtins" },
+                        { "include": "#strings" },
+                        { "include": "#hexanumerics" },
+                        { "include": "#numerics" },
+                        { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                        { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+                    ]
+                    },
+                    {
+                    "begin": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR|TAN|TI|UCASE|VAL)\\s*\\(",
+                    "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+                    "end": "\\)",
+                    "patterns": [
+                        { "include": "#builtins" },
                         { "include": "#strings" },
                         { "include": "#hexanumerics" },
                         { "include": "#numerics" },
@@ -79,15 +93,16 @@
                     },
                     {
                     "name": "keyword.control.xcbasic3",
-                    "match": "\\s+(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MEMSET|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+                    "match": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
                     },
-                    { "name": "string.quoted.double.xcbasic3", "match": "\\s+\"[^\"]*\"" },
-                    { "name": "constant.numeric.hex.xcbasic3", "match": "\\s+\\$[0-9a-fA-F]+\\b" },
+                    { "include": "#strings" },
+                    { "include": "#hexanumerics" },
                     {
                     "name": "invalid.illegal.xcbasic3",
                     "match": "\\s+([0-9]+)\\b",
                     "captures": { "1": { "name": "constant.numeric.xcbasic3" } }
                     },
+                    { "include": "#numerics" },
                     { "name": "variable.name.xcbasic3", "match": "\\s+\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" }
                 ]
                 },
@@ -106,6 +121,20 @@
                     "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
                     "end": "\\)",
                     "patterns": [
+                        { "include": "#builtins" },
+                        { "include": "#strings" },
+                        { "include": "#hexanumerics" },
+                        { "include": "#numerics" },
+                        { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                        { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+                    ]
+                    },
+                    {
+                    "begin": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR|TAN|TI|UCASE|VAL)\\s*\\(",
+                    "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+                    "end": "\\)",
+                    "patterns": [
+                        { "include": "#builtins" },
                         { "include": "#strings" },
                         { "include": "#hexanumerics" },
                         { "include": "#numerics" },
@@ -115,15 +144,16 @@
                     },
                     {
                     "name": "keyword.control.xcbasic3",
-                    "match": "\\s+(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MEMSET|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+                    "match": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
                     },
-                    { "name": "string.quoted.double.xcbasic3", "match": "\\s+\"[^\"]*\"" },
-                    { "name": "constant.numeric.hex.xcbasic3", "match": "\\s+\\$[0-9a-fA-F]+\\b" },
+                    { "include": "#strings" },
+                    { "include": "#hexanumerics" },
                     {
                     "name": "invalid.illegal.xcbasic3",
                     "match": "\\s+([0-9]+)\\b",
                     "captures": { "1": { "name": "constant.numeric.xcbasic3" } }
                     },
+                    { "include": "#numerics" },
                     { "name": "variable.name.xcbasic3", "match": "\\s+\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" }
                 ]
                 }
@@ -157,10 +187,39 @@
           "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
           "end": "(?=:|$)",
           "patterns": [
+            {
+            "begin": "\\s+\\b(SPRITEBGHIT|SPRITEHIT)\\s*\\(",
+            "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+            "end": "\\)",
+            "patterns": [
+                { "include": "#builtins" },
+                { "include": "#strings" },
+                { "include": "#hexanumerics" },
+                { "include": "#numerics" },
+                { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+            ]
+            },
+            {
+            "begin": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR|TAN|TI|UCASE|VAL)\\s*\\(",
+            "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+            "end": "\\)",
+            "patterns": [
+                { "include": "#builtins" },
+                { "include": "#strings" },
+                { "include": "#hexanumerics" },
+                { "include": "#numerics" },
+                { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+            ]
+            },
+            {
+            "name": "keyword.control.xcbasic3",
+            "match": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+            },
             { "include": "#strings" },
             { "include": "#hexanumerics" },
             { "include": "#numerics" },
-            { "include": "#builtins" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(ON|OFF|AT|SHAPE|COLOR|HIRES|MULTI|MULTICOLOR|LOWCOL|HICOL|XYSIZE|ZDEPTH|XYFLIP)\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(?:ON|UNDER)\\s+BACKGROUND\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\bBACKGROUND\\b" },
@@ -178,10 +237,39 @@
           "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
           "end": "(?=:|$)",
           "patterns": [
+            {
+            "begin": "\\s+\\b(SPRITEBGHIT|SPRITEHIT)\\s*\\(",
+            "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+            "end": "\\)",
+            "patterns": [
+                { "include": "#builtins" },
+                { "include": "#strings" },
+                { "include": "#hexanumerics" },
+                { "include": "#numerics" },
+                { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+            ]
+            },
+            {
+            "begin": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR|TAN|TI|UCASE|VAL)\\s*\\(",
+            "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+            "end": "\\)",
+            "patterns": [
+                { "include": "#builtins" },
+                { "include": "#strings" },
+                { "include": "#hexanumerics" },
+                { "include": "#numerics" },
+                { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+            ]
+            },
+            {
+            "name": "keyword.control.xcbasic3",
+            "match": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+            },
             { "include": "#strings" },
             { "include": "#hexanumerics" },
             { "include": "#numerics" },
-            { "include": "#builtins" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(ON|OFF|LEFT|RIGHT|VOLUME|TONE|ADSR|PULSE)\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\bWAVE\\b" },
             { "name": "constant.language.xcbasic3", "match": "(?i)\\b(SAW|PULSE|NOISE|TRI)\\b" },
@@ -200,10 +288,39 @@
           "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
           "end": "(?=:|$)",
           "patterns": [
+            {
+            "begin": "\\s+\\b(SPRITEBGHIT|SPRITEHIT)\\s*\\(",
+            "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+            "end": "\\)",
+            "patterns": [
+                { "include": "#builtins" },
+                { "include": "#strings" },
+                { "include": "#hexanumerics" },
+                { "include": "#numerics" },
+                { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+            ]
+            },
+            {
+            "begin": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE|LEFT|LEN|LOG|MID|PEEK|POS|POW|RIGHT|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR|TAN|TI|UCASE|VAL)\\s*\\(",
+            "beginCaptures": { "1": { "name": "keyword.control.xcbasic3" } },
+            "end": "\\)",
+            "patterns": [
+                { "include": "#builtins" },
+                { "include": "#strings" },
+                { "include": "#hexanumerics" },
+                { "include": "#numerics" },
+                { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
+                { "name": "punctuation.separator.parameter.xcbasic3", "match": "," }
+            ]
+            },
+            {
+            "name": "keyword.control.xcbasic3",
+            "match": "\\s+\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+            },
             { "include": "#strings" },
             { "include": "#hexanumerics" },
             { "include": "#numerics" },
-            { "include": "#builtins" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(CUTOFF|RESONANCE)\\b" },
             { "name": "storage.modifier.xcbasic3", "match": "(?i)\\b(LOW|BAND|HIGH)\\s+PASS\\b" },
             { "name": "variable.name.xcbasic3", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\$?\\b" },
