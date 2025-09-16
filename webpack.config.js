@@ -1,10 +1,13 @@
 const path = require('path');
 
-module.exports = [
+module.exports = (env, argv) => {
+  const mode = argv.mode || 'production';
+
+  return [
   {
     // Extension entry point
     target: 'node',
-    mode: 'production',
+    mode: mode,
     entry: './src/extension.ts',
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -34,7 +37,7 @@ module.exports = [
   {
     // Language server entry point
     target: 'node',
-    mode: 'production',
+    mode: mode,
     entry: './src/server/server.ts',
     output: {
       path: path.resolve(__dirname, 'dist/server'),
@@ -61,4 +64,5 @@ module.exports = [
       ]
     }
   }
-];
+  ];
+};

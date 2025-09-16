@@ -28,11 +28,13 @@
     },
     "icon": "images/xcbasic_logo.jpg",
     "main": "./dist/extension.js",
+    "activationEvents": [
+        "onLanguage:xcbasic3"
+    ],
     "scripts": {
-        "build": "webpack",
-        "compile": "tsc -b",
-        "watch": "tsc -b -w",
-        "vscode:prepublish": "npm run compile && webpack --mode production"
+        "build": "webpack --mode production",
+        "watch": "webpack --mode development --watch",
+        "vscode:prepublish": "webpack --mode production"
     },
     "contributes": {
         "commands": [
@@ -135,7 +137,7 @@
                     "${workspaceFolder}"
                 ],
                 "pattern": {
-                    "regexp": "^([^:]+):(\\d+)\\.(\\d+):\\s+(.*)$",
+                    "regexp": "^([^:]+):(\\d+)\\.(\\d+):\\s+(?:ERROR:\\s+)?(.*)$",
                     "file": 1,
                     "line": 2,
                     "column": 3,
