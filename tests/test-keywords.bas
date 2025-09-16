@@ -1,0 +1,25 @@
+' Test file for SOUND CLEAR and SPRITE MULTICOLOR keywords
+REM This file tests the new keyword highlighting
+
+' Test SOUND CLEAR keyword
+SOUND CLEAR
+
+' Test SPRITE MULTICOLOR keyword
+SPRITE MULTICOLOR col1, col2
+
+' Test other SPRITE keywords that should also work
+SPRITE 0 ON
+SPRITE 1 OFF
+SPRITE 2 AT 100, 200
+SPRITE 3 SHAPE 1
+SPRITE 4 COLOR 5
+SPRITE 5 HIRES
+SPRITE 6 MULTI
+SPRITE 7 MULTICOLOR 1, 2
+SPRITE CLEAR
+SPRITE CLEAR HIT
+
+' Test SOUND with other modifiers
+SOUND AT 1000
+SOUND VOLUME 15
+SOUND FREQ 440

@@ -1,0 +1,137 @@
+BUILD INSTRUCTIONS - XC=BASIC 3 VS Code Extension
+====================================================
+
+This document provides step-by-step instructions for building and deploying the XC=BASIC 3 VS Code extension.
+
+PREREQUISITES
+=============
+
+1. Node.js and npm installed
+2. Visual Studio Code Extension Manager CLI (vsce) installed globally:
+   npm install -g @vscode/vsce
+
+3. Publisher account on Visual Studio Code Marketplace:
+   https://marketplace.visualstudio.com/manage
+
+BUILD PROCESS
+=============
+
+1. Install dependencies:
+   npm install
+
+2. Compile TypeScript and build with webpack:
+   npm run vscode:prepublish
+
+   This command runs:
+   - npm run compile (TypeScript compilation with tsc -b)
+   - webpack --mode production (production webpack build)
+
+3. Package the extension into .vsix file:
+   vsce package
+
+   This creates a .vsix file in the project root, e.g.:
+   orlof-xcbasic3-3.0.0.vsix
+
+VERSION MANAGEMENT
+==================
+
+Before building for release:
+
+1. Update version number in package.json:
+   - Located at line 6: "version": "3.0.0"
+   - Follow semantic versioning (MAJOR.MINOR.PATCH)
+   - MAJOR: Breaking changes
+   - MINOR: New features, backward compatible
+   - PATCH: Bug fixes, backward compatible
+
+2. Update CHANGELOG.md with release notes (if present)
+
+3. Commit version changes:
+   git add package.json CHANGELOG.md
+   git commit -m "Bump version to X.Y.Z"
+   git tag vX.Y.Z
+   git push origin main --tags
+
+DEPLOYMENT TO MARKETPLACE
+=========================
+
+1. Login to vsce (first time only):
+   vsce login RealOrlof
+
+   You'll need a Personal Access Token (PAT) from:
+   https://dev.azure.com/[publisher]/_usersSettings/tokens
+
+2. Publish the extension:
+   vsce publish
+
+   This will:
+   - Build the extension automatically
+   - Upload to VS Code Marketplace
+   - Make it available for installation
+
+   OR manually publish a pre-built .vsix file:
+   vsce publish --packagePath orlof-xcbasic3-3.0.0.vsix
+
+ALTERNATIVE: Manual Upload
+==========================
+
+1. Build .vsix file as described above
+2. Go to https://marketplace.visualstudio.com/manage/publishers/RealOrlof
+3. Click "New extension" → "Visual Studio Code"
+4. Upload the .vsix file
+5. Fill in any additional metadata if required
+
+LOCAL TESTING
+=============
+
+1. Install the built extension locally:
+   code --install-extension orlof-xcbasic3-3.0.0.vsix
+
+2. Or test in Extension Development Host:
+   - Open project in VS Code
+   - Press F5 to launch Extension Development Host
+   - Test functionality in the new window
+
+VERIFICATION
+============
+
+After publishing:
+
+1. Check extension page: https://marketplace.visualstudio.com/items?itemName=RealOrlof.orlof-xcbasic3
+2. Verify installation: code --install-extension RealOrlof.orlof-xcbasic3
+3. Test core functionality with .bas files
+
+TROUBLESHOOTING
+===============
+
+Common issues:
+
+1. "Publisher not found" error:
+   - Verify publisher name matches package.json: "RealOrlof"
+   - Ensure you're logged in: vsce login RealOrlof
+
+2. Build failures:
+   - Run npm run compile first to check TypeScript errors
+   - Check webpack.config.js for configuration issues
+   - Ensure all dependencies are installed: npm install
+
+3. Package size warnings:
+   - Review .vscodeignore to exclude unnecessary files
+   - Check that node_modules are properly excluded
+
+4. Version conflicts:
+   - Ensure version in package.json is higher than published version
+   - Check marketplace for current version number
+
+IMPORTANT FILES
+===============
+
+- package.json: Extension manifest and version
+- webpack.config.js: Build configuration
+- .vscodeignore: Files to exclude from package
+- dist/: Compiled output directory
+- *.vsix: Packaged extension files (auto-generated)
+
+For more information, see:
+- VS Code Extension API: https://code.visualstudio.com/api
+- Publishing guide: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
