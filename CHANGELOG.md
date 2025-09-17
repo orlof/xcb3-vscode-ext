@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0] - 2025-08-19
+## [3.0.0] - 2025-09-17
 
 ### Added
 
@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - IntelliSense with auto-completion for keywords, built-in functions, and data types
   - Hover information with detailed documentation for keywords and functions
   - Error highlighting with compilation errors shown directly in the editor
+- **6502 Assembly instruction hover support** - Added comprehensive hover documentation for 6502 assembly instructions within ASM blocks:
+  - Complete 6502 instruction set with descriptions
+  - Processor flags affected by each instruction
+  - Supported addressing modes for each instruction
+  - Context-aware detection of ASM blocks vs XC=BASIC code
 - Built-in XC=BASIC 3 language definitions with comprehensive keyword and function documentation
 
 ### Changed
