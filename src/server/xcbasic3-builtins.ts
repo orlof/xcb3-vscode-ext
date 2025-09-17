@@ -460,3 +460,628 @@ export const DATA_TYPES = ['BYTE', 'WORD', 'INT', 'LONG', 'FLOAT', 'DECIMAL', 'S
 
 // Operators
 export const OPERATORS = ['+', '-', '*', '/', '=', '<>', '<', '>', '<=', '>=', 'AND', 'OR', 'XOR', 'NOT', 'MOD', '@'];
+
+// 6502 Assembly Instructions Interface
+export interface AssemblyInstruction {
+  name: string;
+  description: string;
+  operation: string;
+  flags: {
+    N?: boolean | string;
+    Z?: boolean | string;
+    C?: boolean | string;
+    I?: boolean | string;
+    D?: boolean | string;
+    V?: boolean | string;
+  };
+  addressingModes: {
+    mode: string;
+    assembler: string;
+    opcode: string;
+    bytes: number;
+    cycles: number;
+  }[];
+}
+
+// 6502 Assembly Instructions (from 6502_INSTRUCTIONS.md)
+export const ASSEMBLY_INSTRUCTIONS: AssemblyInstruction[] = [
+  {
+    name: 'ADC',
+    description: 'Add Memory to Accumulator with Carry',
+    operation: 'A + M + C -> A, C',
+    flags: { N: true, Z: true, C: true, V: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'ADC #oper', opcode: '69', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'ADC oper', opcode: '65', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'ADC oper,X', opcode: '75', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'ADC oper', opcode: '6D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'ADC oper,X', opcode: '7D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'ADC oper,Y', opcode: '79', bytes: 3, cycles: 4 },
+      { mode: '(indirect,X)', assembler: 'ADC (oper,X)', opcode: '61', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'ADC (oper),Y', opcode: '71', bytes: 2, cycles: 5 }
+    ]
+  },
+  {
+    name: 'AND',
+    description: 'AND Memory with Accumulator',
+    operation: 'A AND M -> A',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'AND #oper', opcode: '29', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'AND oper', opcode: '25', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'AND oper,X', opcode: '35', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'AND oper', opcode: '2D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'AND oper,X', opcode: '3D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'AND oper,Y', opcode: '39', bytes: 3, cycles: 4 },
+      { mode: '(indirect,X)', assembler: 'AND (oper,X)', opcode: '21', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'AND (oper),Y', opcode: '31', bytes: 2, cycles: 5 }
+    ]
+  },
+  {
+    name: 'ASL',
+    description: 'Shift Left One Bit (Memory or Accumulator)',
+    operation: 'C <- [76543210] <- 0',
+    flags: { N: true, Z: true, C: true },
+    addressingModes: [
+      { mode: 'accumulator', assembler: 'ASL A', opcode: '0A', bytes: 1, cycles: 2 },
+      { mode: 'zeropage', assembler: 'ASL oper', opcode: '06', bytes: 2, cycles: 5 },
+      { mode: 'zeropage,X', assembler: 'ASL oper,X', opcode: '16', bytes: 2, cycles: 6 },
+      { mode: 'absolute', assembler: 'ASL oper', opcode: '0E', bytes: 3, cycles: 6 },
+      { mode: 'absolute,X', assembler: 'ASL oper,X', opcode: '1E', bytes: 3, cycles: 7 }
+    ]
+  },
+  {
+    name: 'BCC',
+    description: 'Branch on Carry Clear',
+    operation: 'branch on C = 0',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BCC oper', opcode: '90', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'BCS',
+    description: 'Branch on Carry Set',
+    operation: 'branch on C = 1',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BCS oper', opcode: 'B0', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'BEQ',
+    description: 'Branch on Result Zero',
+    operation: 'branch on Z = 1',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BEQ oper', opcode: 'F0', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'BIT',
+    description: 'Test Bits in Memory with Accumulator',
+    operation: 'A AND M -> Z, M7 -> N, M6 -> V',
+    flags: { N: 'M7', Z: true, V: 'M6' },
+    addressingModes: [
+      { mode: 'zeropage', assembler: 'BIT oper', opcode: '24', bytes: 2, cycles: 3 },
+      { mode: 'absolute', assembler: 'BIT oper', opcode: '2C', bytes: 3, cycles: 4 }
+    ]
+  },
+  {
+    name: 'BMI',
+    description: 'Branch on Result Minus',
+    operation: 'branch on N = 1',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BMI oper', opcode: '30', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'BNE',
+    description: 'Branch on Result not Zero',
+    operation: 'branch on Z = 0',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BNE oper', opcode: 'D0', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'BPL',
+    description: 'Branch on Result Plus',
+    operation: 'branch on N = 0',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BPL oper', opcode: '10', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'BRK',
+    description: 'Force Break',
+    operation: 'interrupt, push PC+2, push SR',
+    flags: { I: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'BRK', opcode: '00', bytes: 1, cycles: 7 }
+    ]
+  },
+  {
+    name: 'BVC',
+    description: 'Branch on Overflow Clear',
+    operation: 'branch on V = 0',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BVC oper', opcode: '50', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'BVS',
+    description: 'Branch on Overflow Set',
+    operation: 'branch on V = 1',
+    flags: {},
+    addressingModes: [
+      { mode: 'relative', assembler: 'BVS oper', opcode: '70', bytes: 2, cycles: 2 }
+    ]
+  },
+  {
+    name: 'CLC',
+    description: 'Clear Carry Flag',
+    operation: '0 -> C',
+    flags: { C: false },
+    addressingModes: [
+      { mode: 'implied', assembler: 'CLC', opcode: '18', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'CLD',
+    description: 'Clear Decimal Mode',
+    operation: '0 -> D',
+    flags: { D: false },
+    addressingModes: [
+      { mode: 'implied', assembler: 'CLD', opcode: 'D8', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'CLI',
+    description: 'Clear Interrupt Disable Bit',
+    operation: '0 -> I',
+    flags: { I: false },
+    addressingModes: [
+      { mode: 'implied', assembler: 'CLI', opcode: '58', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'CLV',
+    description: 'Clear Overflow Flag',
+    operation: '0 -> V',
+    flags: { V: false },
+    addressingModes: [
+      { mode: 'implied', assembler: 'CLV', opcode: 'B8', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'CMP',
+    description: 'Compare Memory with Accumulator',
+    operation: 'A - M',
+    flags: { N: true, Z: true, C: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'CMP #oper', opcode: 'C9', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'CMP oper', opcode: 'C5', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'CMP oper,X', opcode: 'D5', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'CMP oper', opcode: 'CD', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'CMP oper,X', opcode: 'DD', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'CMP oper,Y', opcode: 'D9', bytes: 3, cycles: 4 },
+      { mode: '(indirect,X)', assembler: 'CMP (oper,X)', opcode: 'C1', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'CMP (oper),Y', opcode: 'D1', bytes: 2, cycles: 5 }
+    ]
+  },
+  {
+    name: 'CPX',
+    description: 'Compare Memory and Index X',
+    operation: 'X - M',
+    flags: { N: true, Z: true, C: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'CPX #oper', opcode: 'E0', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'CPX oper', opcode: 'E4', bytes: 2, cycles: 3 },
+      { mode: 'absolute', assembler: 'CPX oper', opcode: 'EC', bytes: 3, cycles: 4 }
+    ]
+  },
+  {
+    name: 'CPY',
+    description: 'Compare Memory and Index Y',
+    operation: 'Y - M',
+    flags: { N: true, Z: true, C: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'CPY #oper', opcode: 'C0', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'CPY oper', opcode: 'C4', bytes: 2, cycles: 3 },
+      { mode: 'absolute', assembler: 'CPY oper', opcode: 'CC', bytes: 3, cycles: 4 }
+    ]
+  },
+  {
+    name: 'DEC',
+    description: 'Decrement Memory by One',
+    operation: 'M - 1 -> M',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'zeropage', assembler: 'DEC oper', opcode: 'C6', bytes: 2, cycles: 5 },
+      { mode: 'zeropage,X', assembler: 'DEC oper,X', opcode: 'D6', bytes: 2, cycles: 6 },
+      { mode: 'absolute', assembler: 'DEC oper', opcode: 'CE', bytes: 3, cycles: 6 },
+      { mode: 'absolute,X', assembler: 'DEC oper,X', opcode: 'DE', bytes: 3, cycles: 7 }
+    ]
+  },
+  {
+    name: 'DEX',
+    description: 'Decrement Index X by One',
+    operation: 'X - 1 -> X',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'DEX', opcode: 'CA', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'DEY',
+    description: 'Decrement Index Y by One',
+    operation: 'Y - 1 -> Y',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'DEY', opcode: '88', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'EOR',
+    description: 'Exclusive-OR Memory with Accumulator',
+    operation: 'A EOR M -> A',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'EOR #oper', opcode: '49', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'EOR oper', opcode: '45', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'EOR oper,X', opcode: '55', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'EOR oper', opcode: '4D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'EOR oper,X', opcode: '5D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'EOR oper,Y', opcode: '59', bytes: 3, cycles: 4 },
+      { mode: '(indirect,X)', assembler: 'EOR (oper,X)', opcode: '41', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'EOR (oper),Y', opcode: '51', bytes: 2, cycles: 5 }
+    ]
+  },
+  {
+    name: 'INC',
+    description: 'Increment Memory by One',
+    operation: 'M + 1 -> M',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'zeropage', assembler: 'INC oper', opcode: 'E6', bytes: 2, cycles: 5 },
+      { mode: 'zeropage,X', assembler: 'INC oper,X', opcode: 'F6', bytes: 2, cycles: 6 },
+      { mode: 'absolute', assembler: 'INC oper', opcode: 'EE', bytes: 3, cycles: 6 },
+      { mode: 'absolute,X', assembler: 'INC oper,X', opcode: 'FE', bytes: 3, cycles: 7 }
+    ]
+  },
+  {
+    name: 'INX',
+    description: 'Increment Index X by One',
+    operation: 'X + 1 -> X',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'INX', opcode: 'E8', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'INY',
+    description: 'Increment Index Y by One',
+    operation: 'Y + 1 -> Y',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'INY', opcode: 'C8', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'JMP',
+    description: 'Jump to New Location',
+    operation: 'operand 1st byte -> PCL, operand 2nd byte -> PCH',
+    flags: {},
+    addressingModes: [
+      { mode: 'absolute', assembler: 'JMP oper', opcode: '4C', bytes: 3, cycles: 3 },
+      { mode: 'indirect', assembler: 'JMP (oper)', opcode: '6C', bytes: 3, cycles: 5 }
+    ]
+  },
+  {
+    name: 'JSR',
+    description: 'Jump to New Location Saving Return Address',
+    operation: 'push (PC+2), operand 1st byte -> PCL, operand 2nd byte -> PCH',
+    flags: {},
+    addressingModes: [
+      { mode: 'absolute', assembler: 'JSR oper', opcode: '20', bytes: 3, cycles: 6 }
+    ]
+  },
+  {
+    name: 'LDA',
+    description: 'Load Accumulator with Memory',
+    operation: 'M -> A',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'LDA #oper', opcode: 'A9', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'LDA oper', opcode: 'A5', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'LDA oper,X', opcode: 'B5', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'LDA oper', opcode: 'AD', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'LDA oper,X', opcode: 'BD', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'LDA oper,Y', opcode: 'B9', bytes: 3, cycles: 4 },
+      { mode: '(indirect,X)', assembler: 'LDA (oper,X)', opcode: 'A1', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'LDA (oper),Y', opcode: 'B1', bytes: 2, cycles: 5 }
+    ]
+  },
+  {
+    name: 'LDX',
+    description: 'Load Index X with Memory',
+    operation: 'M -> X',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'LDX #oper', opcode: 'A2', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'LDX oper', opcode: 'A6', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,Y', assembler: 'LDX oper,Y', opcode: 'B6', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'LDX oper', opcode: 'AE', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'LDX oper,Y', opcode: 'BE', bytes: 3, cycles: 4 }
+    ]
+  },
+  {
+    name: 'LDY',
+    description: 'Load Index Y with Memory',
+    operation: 'M -> Y',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'LDY #oper', opcode: 'A0', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'LDY oper', opcode: 'A4', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'LDY oper,X', opcode: 'B4', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'LDY oper', opcode: 'AC', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'LDY oper,X', opcode: 'BC', bytes: 3, cycles: 4 }
+    ]
+  },
+  {
+    name: 'LSR',
+    description: 'Shift One Bit Right (Memory or Accumulator)',
+    operation: '0 -> [76543210] -> C',
+    flags: { N: false, Z: true, C: true },
+    addressingModes: [
+      { mode: 'accumulator', assembler: 'LSR A', opcode: '4A', bytes: 1, cycles: 2 },
+      { mode: 'zeropage', assembler: 'LSR oper', opcode: '46', bytes: 2, cycles: 5 },
+      { mode: 'zeropage,X', assembler: 'LSR oper,X', opcode: '56', bytes: 2, cycles: 6 },
+      { mode: 'absolute', assembler: 'LSR oper', opcode: '4E', bytes: 3, cycles: 6 },
+      { mode: 'absolute,X', assembler: 'LSR oper,X', opcode: '5E', bytes: 3, cycles: 7 }
+    ]
+  },
+  {
+    name: 'NOP',
+    description: 'No Operation',
+    operation: '---',
+    flags: {},
+    addressingModes: [
+      { mode: 'implied', assembler: 'NOP', opcode: 'EA', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'ORA',
+    description: 'OR Memory with Accumulator',
+    operation: 'A OR M -> A',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'ORA #oper', opcode: '09', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'ORA oper', opcode: '05', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'ORA oper,X', opcode: '15', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'ORA oper', opcode: '0D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'ORA oper,X', opcode: '1D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'ORA oper,Y', opcode: '19', bytes: 3, cycles: 4 },
+      { mode: '(indirect,X)', assembler: 'ORA (oper,X)', opcode: '01', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'ORA (oper),Y', opcode: '11', bytes: 2, cycles: 5 }
+    ]
+  },
+  {
+    name: 'PHA',
+    description: 'Push Accumulator on Stack',
+    operation: 'push A',
+    flags: {},
+    addressingModes: [
+      { mode: 'implied', assembler: 'PHA', opcode: '48', bytes: 1, cycles: 3 }
+    ]
+  },
+  {
+    name: 'PHP',
+    description: 'Push Processor Status on Stack',
+    operation: 'push SR',
+    flags: {},
+    addressingModes: [
+      { mode: 'implied', assembler: 'PHP', opcode: '08', bytes: 1, cycles: 3 }
+    ]
+  },
+  {
+    name: 'PLA',
+    description: 'Pull Accumulator from Stack',
+    operation: 'pull A',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'PLA', opcode: '68', bytes: 1, cycles: 4 }
+    ]
+  },
+  {
+    name: 'PLP',
+    description: 'Pull Processor Status from Stack',
+    operation: 'pull SR',
+    flags: { N: 'from stack', Z: 'from stack', C: 'from stack', I: 'from stack', D: 'from stack', V: 'from stack' },
+    addressingModes: [
+      { mode: 'implied', assembler: 'PLP', opcode: '28', bytes: 1, cycles: 4 }
+    ]
+  },
+  {
+    name: 'ROL',
+    description: 'Rotate One Bit Left (Memory or Accumulator)',
+    operation: 'C <- [76543210] <- C',
+    flags: { N: true, Z: true, C: true },
+    addressingModes: [
+      { mode: 'accumulator', assembler: 'ROL A', opcode: '2A', bytes: 1, cycles: 2 },
+      { mode: 'zeropage', assembler: 'ROL oper', opcode: '26', bytes: 2, cycles: 5 },
+      { mode: 'zeropage,X', assembler: 'ROL oper,X', opcode: '36', bytes: 2, cycles: 6 },
+      { mode: 'absolute', assembler: 'ROL oper', opcode: '2E', bytes: 3, cycles: 6 },
+      { mode: 'absolute,X', assembler: 'ROL oper,X', opcode: '3E', bytes: 3, cycles: 7 }
+    ]
+  },
+  {
+    name: 'ROR',
+    description: 'Rotate One Bit Right (Memory or Accumulator)',
+    operation: 'C -> [76543210] -> C',
+    flags: { N: true, Z: true, C: true },
+    addressingModes: [
+      { mode: 'accumulator', assembler: 'ROR A', opcode: '6A', bytes: 1, cycles: 2 },
+      { mode: 'zeropage', assembler: 'ROR oper', opcode: '66', bytes: 2, cycles: 5 },
+      { mode: 'zeropage,X', assembler: 'ROR oper,X', opcode: '76', bytes: 2, cycles: 6 },
+      { mode: 'absolute', assembler: 'ROR oper', opcode: '6E', bytes: 3, cycles: 6 },
+      { mode: 'absolute,X', assembler: 'ROR oper,X', opcode: '7E', bytes: 3, cycles: 7 }
+    ]
+  },
+  {
+    name: 'RTI',
+    description: 'Return from Interrupt',
+    operation: 'pull SR, pull PC',
+    flags: { N: 'from stack', Z: 'from stack', C: 'from stack', I: 'from stack', D: 'from stack', V: 'from stack' },
+    addressingModes: [
+      { mode: 'implied', assembler: 'RTI', opcode: '40', bytes: 1, cycles: 6 }
+    ]
+  },
+  {
+    name: 'RTS',
+    description: 'Return from Subroutine',
+    operation: 'pull PC, PC+1 -> PC',
+    flags: {},
+    addressingModes: [
+      { mode: 'implied', assembler: 'RTS', opcode: '60', bytes: 1, cycles: 6 }
+    ]
+  },
+  {
+    name: 'SBC',
+    description: 'Subtract Memory from Accumulator with Borrow',
+    operation: 'A - M - C̅ -> A',
+    flags: { N: true, Z: true, C: true, V: true },
+    addressingModes: [
+      { mode: 'immediate', assembler: 'SBC #oper', opcode: 'E9', bytes: 2, cycles: 2 },
+      { mode: 'zeropage', assembler: 'SBC oper', opcode: 'E5', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'SBC oper,X', opcode: 'F5', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'SBC oper', opcode: 'ED', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'SBC oper,X', opcode: 'FD', bytes: 3, cycles: 4 },
+      { mode: 'absolute,Y', assembler: 'SBC oper,Y', opcode: 'F9', bytes: 3, cycles: 4 },
+      { mode: '(indirect,X)', assembler: 'SBC (oper,X)', opcode: 'E1', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'SBC (oper),Y', opcode: 'F1', bytes: 2, cycles: 5 }
+    ]
+  },
+  {
+    name: 'SEC',
+    description: 'Set Carry Flag',
+    operation: '1 -> C',
+    flags: { C: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'SEC', opcode: '38', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'SED',
+    description: 'Set Decimal Flag',
+    operation: '1 -> D',
+    flags: { D: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'SED', opcode: 'F8', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'SEI',
+    description: 'Set Interrupt Disable Status',
+    operation: '1 -> I',
+    flags: { I: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'SEI', opcode: '78', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'STA',
+    description: 'Store Accumulator in Memory',
+    operation: 'A -> M',
+    flags: {},
+    addressingModes: [
+      { mode: 'zeropage', assembler: 'STA oper', opcode: '85', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'STA oper,X', opcode: '95', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'STA oper', opcode: '8D', bytes: 3, cycles: 4 },
+      { mode: 'absolute,X', assembler: 'STA oper,X', opcode: '9D', bytes: 3, cycles: 5 },
+      { mode: 'absolute,Y', assembler: 'STA oper,Y', opcode: '99', bytes: 3, cycles: 5 },
+      { mode: '(indirect,X)', assembler: 'STA (oper,X)', opcode: '81', bytes: 2, cycles: 6 },
+      { mode: '(indirect),Y', assembler: 'STA (oper),Y', opcode: '91', bytes: 2, cycles: 6 }
+    ]
+  },
+  {
+    name: 'STX',
+    description: 'Store Index X in Memory',
+    operation: 'X -> M',
+    flags: {},
+    addressingModes: [
+      { mode: 'zeropage', assembler: 'STX oper', opcode: '86', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,Y', assembler: 'STX oper,Y', opcode: '96', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'STX oper', opcode: '8E', bytes: 3, cycles: 4 }
+    ]
+  },
+  {
+    name: 'STY',
+    description: 'Store Index Y in Memory',
+    operation: 'Y -> M',
+    flags: {},
+    addressingModes: [
+      { mode: 'zeropage', assembler: 'STY oper', opcode: '84', bytes: 2, cycles: 3 },
+      { mode: 'zeropage,X', assembler: 'STY oper,X', opcode: '94', bytes: 2, cycles: 4 },
+      { mode: 'absolute', assembler: 'STY oper', opcode: '8C', bytes: 3, cycles: 4 }
+    ]
+  },
+  {
+    name: 'TAX',
+    description: 'Transfer Accumulator to Index X',
+    operation: 'A -> X',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'TAX', opcode: 'AA', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'TAY',
+    description: 'Transfer Accumulator to Index Y',
+    operation: 'A -> Y',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'TAY', opcode: 'A8', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'TSX',
+    description: 'Transfer Stack Pointer to Index X',
+    operation: 'SP -> X',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'TSX', opcode: 'BA', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'TXA',
+    description: 'Transfer Index X to Accumulator',
+    operation: 'X -> A',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'TXA', opcode: '8A', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'TXS',
+    description: 'Transfer Index X to Stack Register',
+    operation: 'X -> SP',
+    flags: {},
+    addressingModes: [
+      { mode: 'implied', assembler: 'TXS', opcode: '9A', bytes: 1, cycles: 2 }
+    ]
+  },
+  {
+    name: 'TYA',
+    description: 'Transfer Index Y to Accumulator',
+    operation: 'Y -> A',
+    flags: { N: true, Z: true },
+    addressingModes: [
+      { mode: 'implied', assembler: 'TYA', opcode: '98', bytes: 1, cycles: 2 }
+    ]
+  }
+];

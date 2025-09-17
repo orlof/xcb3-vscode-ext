@@ -16,7 +16,7 @@ import {
 
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
-import { KEYWORDS, FUNCTIONS, DATA_TYPES } from './xcbasic3-builtins';
+import { KEYWORDS, FUNCTIONS, DATA_TYPES, ASSEMBLY_INSTRUCTIONS } from './xcbasic3-builtins';
 
 // Create a connection for the server
 const connection = createConnection(ProposedFeatures.all);
@@ -201,6 +201,41 @@ connection.onHover(
 
     const word = text.substring(wordRange.start, wordRange.end).toUpperCase();
 
+    // Check if we're inside an ASM block
+    const insideAsmBlock = isInsideAsmBlock(text, offset);
+
+    if (insideAsmBlock) {
+      // Look for assembly instructions first when inside ASM block
+      const asmInstruction = ASSEMBLY_INSTRUCTIONS.find(i => i.name === word);
+      if (asmInstruction) {
+        // Build addressing modes table
+        const addressingModes = asmInstruction.addressingModes.map(mode =>
+          `| ${mode.mode} | \`${mode.assembler}\` | ${mode.opcode} | ${mode.bytes} | ${mode.cycles} |`
+        );
+
+        return {
+          contents: {
+            kind: MarkupKind.Markdown,
+            value: [
+              `**${asmInstruction.name}** - ${asmInstruction.description}`,
+              '',
+              `**Operation:** ${asmInstruction.operation}`,
+              '',
+              '**Status Flags:**',
+              '| N | Z | C | I | D | V |',
+              '|---|---|---|---|---|---|',
+              formatFlags(asmInstruction.flags),
+              '',
+              '**Addressing Modes:**',
+              '| Mode | Assembly | Opcode | Bytes | Cycles |',
+              '|------|----------|--------|-------|---------|',
+              ...addressingModes
+            ].join('\n')
+          }
+        };
+      }
+    }
+
     // Check if it's a keyword
     const keyword = KEYWORDS.find(k => k.name === word);
     if (keyword) {
@@ -217,31 +252,33 @@ connection.onHover(
       };
     }
 
-    // Check if it's a function
-    const func = FUNCTIONS.find(f => f.name === word);
-    if (func) {
-      const paramString = func.parameters.map(p =>
-        `${p.name}: ${p.type}${p.optional ? ' (optional)' : ''}`
-      ).join(', ');
+    // Check if it's a function (only if not in ASM block)
+    if (!insideAsmBlock) {
+      const func = FUNCTIONS.find(f => f.name === word);
+      if (func) {
+        const paramString = func.parameters.map(p =>
+          `${p.name}: ${p.type}${p.optional ? ' (optional)' : ''}`
+        ).join(', ');
 
-      return {
-        contents: {
-          kind: MarkupKind.Markdown,
-          value: [
-            `**${func.name}**(${paramString}) → ${func.returnType}`,
-            '',
-            func.description,
-            '',
-            '**Parameters:**',
-            ...func.parameters.map(p => `- \`${p.name}\` (${p.type}): ${p.description}`),
-            func.example ? `\n**Example:**\n\`\`\`xcbasic3\n${func.example}\n\`\`\`` : ''
-          ].join('\n')
-        }
-      };
+        return {
+          contents: {
+            kind: MarkupKind.Markdown,
+            value: [
+              `**${func.name}**(${paramString}) → ${func.returnType}`,
+              '',
+              func.description,
+              '',
+              '**Parameters:**',
+              ...func.parameters.map(p => `- \`${p.name}\` (${p.type}): ${p.description}`),
+              func.example ? `\n**Example:**\n\`\`\`xcbasic3\n${func.example}\n\`\`\`` : ''
+            ].join('\n')
+          }
+        };
+      }
     }
 
-    // Check if it's a data type
-    if (DATA_TYPES.includes(word)) {
+    // Check if it's a data type (only if not in ASM block)
+    if (!insideAsmBlock && DATA_TYPES.includes(word)) {
       return {
         contents: {
           kind: MarkupKind.Markdown,
@@ -275,6 +312,38 @@ function getWordRangeAtPosition(text: string, offset: number): { start: number; 
   }
 
   return { start, end };
+}
+
+// Function to check if the cursor is inside an ASM block
+function isInsideAsmBlock(text: string, offset: number): boolean {
+  // Get text up to cursor position
+  const textBeforeCursor = text.substring(0, offset);
+
+  // Find all ASM and END ASM occurrences (case insensitive)
+  const asmMatches = [...textBeforeCursor.matchAll(/\bASM\b/gi)];
+  const endAsmMatches = [...textBeforeCursor.matchAll(/\bEND\s+ASM\b/gi)];
+
+  // Count ASM blocks - we're inside if there are more ASM than END ASM
+  return asmMatches.length > endAsmMatches.length;
+}
+
+// Function to format flags display for assembly instructions
+function formatFlags(flags: any): string {
+  const flagNames = ['N', 'Z', 'C', 'I', 'D', 'V'];
+  const formattedFlags = flagNames.map(flag => {
+    const value = flags[flag];
+    if (value === true) {
+      return `**${flag}**`;
+    } else if (value === false) {
+      return `${flag}=0`;
+    } else if (typeof value === 'string') {
+      return `${flag}=${value}`;
+    } else {
+      return `-`;
+    }
+  });
+
+  return `| ${formattedFlags.join(' | ')} |`;
 }
 
 // Make the text document manager listen on the connection
