@@ -608,11 +608,11 @@
       "patterns": [
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(CASE(?:\\s+(?:IS|ELSE))?|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT\\s+(?:DO|FOR|FUNCTION|SUB)|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ORIGIN|OVERRIDE|RETURN|SELECT\\s+CASE|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE)\\b"
+          "match": "(?i)\\b(CASE(?:\\s+(?:IS|ELSE))?|CONST|CONTINUE|DATA|DECLARE|DIM|DO|ELSE|ERROR|EXIT\\s+(?:DO|FOR|FUNCTION|SUB)|FOR|GOSUB|GOTO|IF|INCBIN|INCLUDE|LET|LOOP|NEXT|ORIGIN|OVERRIDE|RETURN|SELECT\\s+CASE|STEP|SYS|THEN|THIS|TO|UNTIL|WHILE)\\b(?![a-zA-Z0-9_])"
         },
         {
           "name": "storage.modifier.xcbasic3",
-          "match": "(?i)\\b(OVERLOAD|PRIVATE|STATIC|SHARED|FAST)\\b"
+          "match": "(?i)\\b(OVERLOAD|PRIVATE|STATIC|SHARED|FAST)\\b(?![a-zA-Z0-9_])"
         },
         {
           "name": "keyword.control.xcbasic3",
@@ -624,7 +624,7 @@
         },
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|TEXTAT|COLS|ROWS|SCREEN|SOUND|MEMCPY|MEMSHIFT|MEMSET|SWAP|WAIT|VOLUME)\\b"
+          "match": "(?i)\\b(PRINT|INPUT|OPEN|CLOSE|LOAD|SAVE|READ|WRITE|POKE|DOKE|GET|LOCATE|HSCROLL|VSCROLL|RANDOMIZE|TEXTAT|COLS|ROWS|SCREEN|SOUND|MEMCPY|MEMSHIFT|MEMSET|SWAP|WAIT|VOLUME)\\b(?![a-zA-Z0-9_])"
         }
       ]
     },
@@ -645,7 +645,7 @@
         },
         {
           "name": "keyword.control.xcbasic3",
-          "match": "(?i)\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b"
+          "match": "(?i)\\b(ABS|ASC|ATN|CBYTE|CFLOAT|CHR\\$?|CINT|CLONG|COS|CSRLIN|CWORD|DEEK|ERR|EXP|FLOOR|JOY|KEY|LCASE\\$?|LEFT\\$?|LEN|LOG|MID\\$?|PEEK|POS|POW|RIGHT\\$?|RND|RNDB|RNDI|RNDL|RNDW|SCAN|SGN|SHL|SHR|SIN|SQR|ST|STR\\$?|TAN|TI|UCASE\\$?|VAL)\\b(?![a-zA-Z0-9_])"
         }
       ]
     },

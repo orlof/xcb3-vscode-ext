@@ -91,7 +91,7 @@ export const KEYWORDS: KeywordInfo[] = [
   { name: 'SELECT', description: 'Begin SELECT CASE block', syntax: 'SELECT CASE expression' },
   { name: 'SHARED', description: 'Shared scope modifier' },
   { name: 'SOUND', description: 'Generate sound', syntax: 'SOUND CLEAR|AT|VOLUME|FREQ|TONE|WAVE' },
-  { name: 'SPRITE', description: 'Configure sprites', syntax: 'SPRITE number [ON|OFF|AT|SHAPE|COLOR|etc.]' },
+  { name: 'SPRITE', description: 'Configure sprites', syntax: 'SPRITE number [ON|OFF] [AT x, y] [SHAPE n] [COLOR c] [HIRES|MULTI] [XYSIZE x, y] [ON BACKGROUND|UNDER BACKGROUND]' },
   { name: 'STATIC', description: 'Static scope modifier' },
   { name: 'STEP', description: 'Step increment in FOR loop', syntax: 'FOR i = 1 TO 10 STEP 2' },
   { name: 'STRING', description: 'String data type' },
