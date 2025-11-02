@@ -429,7 +429,10 @@
     "asm-expression": {
       "begin": "(?i)\\bASM\\b",
       "end": "(?i)\\bEND\\s+ASM\\b",
-      "name": "keyword.control.xcbasic3",
+      "name": "meta.embedded.block.asm",
+      "contentName": "source.asm.embedded.xcbasic3",
+      "beginCaptures": { "0": { "name": "keyword.control.xcbasic3" } },
+      "endCaptures": { "0": { "name": "keyword.control.xcbasic3" } },
       "patterns": [
         { "include": "#asm-comments" },
         { "include": "#asm-constants" },

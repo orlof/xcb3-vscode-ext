@@ -102,11 +102,15 @@
                 "scopeName": "source.xcbasic3",
                 "path": "./syntaxes/xcbasic3.tmLanguage.json",
                 "embeddedLanguages": {
-                    "source.dasm": "dasm",
-                    "meta.embedded.block.dasm": "dasm"
+                    "source.asm.embedded.xcbasic3": "asm"
                 }
             }
         ],
+        "configurationDefaults": {
+            "[xcbasic3]": {
+                "editor.colorDecorators": false
+            }
+        },
         "configuration": [
             {
                 "title": "XC=BASIC 3 configuration",
