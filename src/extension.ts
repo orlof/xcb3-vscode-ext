@@ -17,10 +17,23 @@ let client: LanguageClient;
 
 // Constants
 const tasks = ['XC=BASIC Run File', 'XC=BASIC Debug File', 'XC=BASIC Compile File'];
-const compilerUrl = 'https://github.com/neilsf/xc-basic3/archive/refs/heads/main.zip';
 const releasesUrl = 'https://api.github.com/repos/neilsf/xc-basic3/releases/latest';
 const binDir = path.join(__dirname, '..', 'bin');
-const compilerRootDir = path.join(binDir, 'xc-basic3-main');
+const compilerRootDir = path.join(binDir, 'xcbasic3');
+// Older extension versions extracted the repository's main branch here
+const legacyCompilerRootDir = path.join(binDir, 'xc-basic3-main');
+
+// Release asset names are e.g. xcbasic3-v3.2.0-macOS.zip
+const compilerPlatforms: { [key: string]: string } = {
+  'darwin': 'macOS',
+  'win32': 'Windows',
+  'linux': 'Linux'
+};
+
+interface ReleaseInfo {
+  version: string;
+  assets: { name: string; browser_download_url: string }[];
+}
 
 const dasmVersion = '2.20.14.1';
 const dasmPlatforms: { [key: string]: string } = {
@@ -70,10 +83,12 @@ function getCompilerPath(): string | null {
   return compilerPath;
 }
 
-async function fetchLatestVersion(): Promise<string | null> {
+async function fetchLatestRelease(): Promise<ReleaseInfo | null> {
   try {
-    const response = await axios.get(releasesUrl);
-    return response.data.tag_name;
+    const response = await axios.get(releasesUrl, {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    });
+    return { version: response.data.tag_name, assets: response.data.assets || [] };
   } catch (error: any) {
     vscode.window.showErrorMessage(`Failed to fetch the latest version: ${error.message}`);
     return null;
@@ -82,7 +97,8 @@ async function fetchLatestVersion(): Promise<string | null> {
 
 function getLocalVersion(): string | null {
   const versionFilePath = path.join(compilerRootDir, 'version.txt');
-  if (fs.existsSync(versionFilePath)) {
+  const compilerPath = getCompilerPath();
+  if (fs.existsSync(versionFilePath) && compilerPath && fs.existsSync(compilerPath)) {
     return fs.readFileSync(versionFilePath, 'utf8').trim();
   }
   return null;
@@ -93,48 +109,81 @@ function saveLocalVersion(version: string): void {
   fs.writeFileSync(versionFilePath, version);
 }
 
-async function updateCompiler(version: string): Promise<void> {
-  try {
-    // Remove the existing compiler directory
-    if (fs.existsSync(compilerRootDir)) {
-      fs.rmSync(compilerRootDir, { recursive: true });
-    }
+async function updateCompiler(release: ReleaseInfo): Promise<boolean> {
+  const platformName = compilerPlatforms[os.platform()];
+  if (!platformName) {
+    vscode.window.showErrorMessage('Unsupported OS');
+    return false;
+  }
 
-    // Download and extract the new compiler version
+  const asset = release.assets.find(a => a.name.endsWith(`-${platformName}.zip`));
+  if (!asset) {
+    vscode.window.showErrorMessage(`XC=BASIC3 release ${release.version} has no download for ${platformName}`);
+    return false;
+  }
+
+  try {
     const response = await axios({
-      url: compilerUrl,
+      url: asset.browser_download_url,
       method: 'GET',
       responseType: 'arraybuffer'
     });
 
-    const zip = new AdmZip(response.data);
-    zip.extractAllTo(binDir, true);
+    // Extract to a temporary directory first so a failed download keeps the old compiler
+    const tmpDir = path.join(binDir, 'xcbasic3-download');
+    if (fs.existsSync(tmpDir)) {
+      fs.rmSync(tmpDir, { recursive: true });
+    }
+    const zip = new AdmZip(Buffer.from(response.data));
+    zip.extractAllTo(tmpDir, true);
 
-    // Set executable permission for the compiler file if on Unix-like system
+    // The zip contains a single top-level folder, e.g. xcbasic3-v3.2.0-macOS/
+    const entries = fs.readdirSync(tmpDir);
+    const extractedRoot = entries.length === 1 && fs.statSync(path.join(tmpDir, entries[0])).isDirectory()
+      ? path.join(tmpDir, entries[0])
+      : tmpDir;
+
+    for (const dir of [compilerRootDir, legacyCompilerRootDir]) {
+      if (fs.existsSync(dir)) {
+        fs.rmSync(dir, { recursive: true });
+      }
+    }
+    fs.renameSync(extractedRoot, compilerRootDir);
+    if (fs.existsSync(tmpDir)) {
+      fs.rmSync(tmpDir, { recursive: true });
+    }
+
     const compilerPath = getCompilerPath();
-    if (compilerPath && (os.platform() === 'darwin' || os.platform() === 'linux')) {
+    if (!compilerPath || !fs.existsSync(compilerPath)) {
+      vscode.window.showErrorMessage(`XC=BASIC3 compiler not found after extraction: ${compilerPath}`);
+      return false;
+    }
+
+    // Zip extraction does not keep the executable bit
+    if (os.platform() === 'darwin' || os.platform() === 'linux') {
       fs.chmodSync(compilerPath, '755');
     }
 
-    // Save the new version locally
-    saveLocalVersion(version);
-
+    saveLocalVersion(release.version);
+    return true;
   } catch (error: any) {
     vscode.window.showErrorMessage(`Failed to update compiler: ${error.message}`);
+    return false;
   }
 }
 
 async function ensureCompilerIsLatest(): Promise<void> {
-  const latestVersion = await fetchLatestVersion();
-  if (!latestVersion) {
+  const release = await fetchLatestRelease();
+  if (!release) {
     vscode.window.showErrorMessage('Could not fetch the latest version of XC=BASIC3 due to network issues.');
     return;
   }
 
   const localVersion = getLocalVersion();
-  if (localVersion !== latestVersion) {
-    await updateCompiler(latestVersion);
-    vscode.window.showInformationMessage(`XC=BASIC3 updated to version ${latestVersion}`);
+  if (localVersion !== release.version) {
+    if (await updateCompiler(release)) {
+      vscode.window.showInformationMessage(`XC=BASIC3 updated to version ${release.version}`);
+    }
   } else {
     console.log('XC=BASIC3 is already up to date');
     vscode.window.showInformationMessage(`XC=BASIC3 version ${localVersion} is up to date`);
