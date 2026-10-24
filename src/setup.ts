@@ -283,11 +283,9 @@ export class Setup {
   // Wizard
 
   async wizard(): Promise<void> {
-    const ready = await this.toolchain.ensureReady({ interactive: false });
-    if (!ready) {
-      // ensureReady already showed the error with fix actions
-      return;
-    }
+    // Interactive, so the toolchain error (with its fix actions) is shown every time the user runs Setup,
+    // not only once per session. The emulator / debugger can be chosen regardless of the toolchain state.
+    const ready = await this.toolchain.ensureReady({ interactive: true });
 
     const emulator = await this.pickTool('emulator', '(1/2)');
     const debuggerExe = await this.pickTool('debugger', '(2/2)');
@@ -295,14 +293,14 @@ export class Setup {
 
     const version = this.toolchain.versionLabel();
     const lines = [
-      `Compiler: ${version ? `XC=BASIC 3 ${version}` : 'ready'}`,
+      `Compiler: ${!ready ? 'NOT READY (see the XC=BASIC output)' : version ? `XC=BASIC 3 ${version}` : 'ready'}`,
       `Emulator: ${emulator ? path.basename(this.configuredPath('emulator')) : 'not set'}`,
       `Debugger: ${debuggerExe ? path.basename(this.configuredPath('debugger')) : 'not set'}`
     ];
     const hasBasic = vscode.window.activeTextEditor?.document.languageId === 'xcbasic3';
     const choice = await vscode.window.showInformationMessage(
       `XC=BASIC setup complete. ${lines.join(' · ')}`,
-      ...(hasBasic && emulator ? ['Compile and Run'] : []),
+      ...(hasBasic && emulator && ready ? ['Compile and Run'] : []),
       'Open Walkthrough'
     );
     if (choice === 'Compile and Run') {
@@ -372,19 +370,26 @@ export class Setup {
     // Toolchain
     await this.toolchain.ensureReady({ interactive: false }).catch(() => false);
     const t = this.toolchain.report();
-    if (!t.platformSupported) {
-      bad('Platform', `${os.platform()} is not supported by the XC=BASIC 3 binaries`);
+    if (!t.platformSupported && t.compilerSource === 'managed') {
+      bad('Platform', this.toolchain.unsupportedReason() ?? `${os.platform()} ${os.arch()} is not supported`);
     }
+    const rosettaMissing = this.toolchain.rosettaMissing;
+    if (rosettaMissing) {
+      bad('Rosetta', 'the XC=BASIC 3 and DASM binaries are x64 and need Rosetta on Apple silicon', 'Run: softwareupdate --install-rosetta');
+    }
+    const cannotRunFix = (dir: string) =>
+      os.platform() === 'darwin'
+        ? rosettaMissing
+          ? 'Install Rosetta: softwareupdate --install-rosetta'
+          : 'Open System Settings > Privacy & Security and allow xcbasic3, or run: xattr -dr com.apple.quarantine "' + dir + '"'
+        : 'Check file permissions (chmod +x) and antivirus settings';
     if (t.compilerExists && t.compilerPath) {
       const probe = await probeExecutable(t.compilerPath, []);
       if (probe.ok) {
         const v = /version\s+(v?[\d.]+)/i.exec(probe.text);
         ok('Compiler', `${t.compilerPath} (${t.compilerSource}${v ? `, ${v[1]}` : ''})`);
       } else {
-        bad('Compiler', `${t.compilerPath} exists but cannot be executed: ${probe.error}`,
-          os.platform() === 'darwin'
-            ? 'Open System Settings > Privacy & Security and allow xcbasic3, or run: xattr -dr com.apple.quarantine "' + path.dirname(t.compilerPath) + '"'
-            : 'Check file permissions (chmod +x) and antivirus settings');
+        bad('Compiler', `${t.compilerPath} exists but cannot be executed: ${probe.error}`, cannotRunFix(path.dirname(t.compilerPath)));
       }
     } else {
       bad('Compiler', t.compilerPath ? `not found at ${t.compilerPath}` : 'not available', t.lastError ?? 'Run "XC=BASIC: Update Compiler"');
@@ -405,7 +410,7 @@ export class Setup {
     if (t.dasmExists) {
       const probe = await probeExecutable(t.dasmPath, []);
       if (probe.ok) ok('DASM', t.dasmPath);
-      else bad('DASM', `${t.dasmPath} exists but cannot be executed: ${probe.error}`);
+      else bad('DASM', `${t.dasmPath} exists but cannot be executed: ${probe.error}`, cannotRunFix(path.dirname(t.dasmPath)));
     } else {
       bad('DASM', `not found at ${t.dasmPath}`, t.lastError ?? 'Run "XC=BASIC: Update Compiler"');
     }

@@ -26,7 +26,7 @@ import * as path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 
 import { KEYWORDS, FUNCTIONS, DATA_TYPES, ASSEMBLY_INSTRUCTIONS } from './xcbasic3-builtins';
-import { parseSymbols, findIncludes, findDefinitions, wordAt, describeKind, SourceSymbol, SymbolKindName } from './symbols';
+import { parseSymbols, findIncludes, findDefinitions, wordAt, describeKind, isInsideAsm, SourceSymbol, SymbolKindName } from './symbols';
 
 // Create a connection for the server
 const connection = createConnection(ProposedFeatures.all);
@@ -52,7 +52,7 @@ connection.onInitialize((params: InitializeParams) => {
       textDocumentSync: TextDocumentSyncKind.Incremental,
       completionProvider: {
         resolveProvider: true,
-        triggerCharacters: ['.', ' ']
+        triggerCharacters: ['.']
       },
       hoverProvider: true,
       documentSymbolProvider: true,
@@ -71,8 +71,6 @@ connection.onInitialized(() => {
 // Completion handler with full XC-BASIC3 support
 connection.onCompletion(
   (textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-    connection.console.log('Completion requested');
-
     const document = documents.get(textDocumentPosition.textDocument.uri);
     if (!document) {
       return [];
@@ -101,8 +99,6 @@ connection.onCompletion(
         }
       }
     }
-
-    connection.console.log(`Current word: "${currentWord}", Line: "${beforeCursor}"`);
 
     const completionItems: CompletionItem[] = [];
 
@@ -203,7 +199,6 @@ connection.onCompletion(
       });
     }
 
-    connection.console.log(`Returning ${completionItems.length} completion items`);
     return completionItems;
   }
 );
@@ -218,8 +213,6 @@ connection.onCompletionResolve(
 // Hover handler with full XC-BASIC3 support
 connection.onHover(
   (params: HoverParams): Hover | null => {
-    connection.console.log('Hover requested');
-
     const document = documents.get(params.textDocument.uri);
     if (!document) {
       return null;
@@ -238,7 +231,7 @@ connection.onHover(
     const word = text.substring(wordRange.start, wordRange.end).toUpperCase();
 
     // Check if we're inside an ASM block
-    const insideAsmBlock = isInsideAsmBlock(text, offset);
+    const insideAsmBlock = isInsideAsm(text, offset);
 
     if (insideAsmBlock) {
       // Look for assembly instructions first when inside ASM block
@@ -540,19 +533,6 @@ function getWordRangeAtPosition(text: string, offset: number): { start: number; 
   }
 
   return { start, end };
-}
-
-// Function to check if the cursor is inside an ASM block
-function isInsideAsmBlock(text: string, offset: number): boolean {
-  // Get text up to cursor position
-  const textBeforeCursor = text.substring(0, offset);
-
-  // Find all ASM and END ASM occurrences (case insensitive)
-  const asmMatches = [...textBeforeCursor.matchAll(/\bASM\b/gi)];
-  const endAsmMatches = [...textBeforeCursor.matchAll(/\bEND\s+ASM\b/gi)];
-
-  // Count ASM blocks - we're inside if there are more ASM than END ASM
-  return asmMatches.length > endAsmMatches.length;
 }
 
 // Function to format flags display for assembly instructions

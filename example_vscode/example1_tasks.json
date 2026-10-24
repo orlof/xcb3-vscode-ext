@@ -124,14 +124,14 @@
             "label": "XCB3 part1",
             "type": "shell",
             "osx": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "part1.bas",
                     "build/_part1.prg"
                 ]
             },
             "windows": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "part1.bas",
                     "build/_part1.prg"
@@ -142,14 +142,14 @@
             "label": "XCB3 part2",
             "type": "shell",
             "osx": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "part2.bas",
                     "build/part2.prg"
                 ]
             },
             "windows": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "part2.bas",
                     "build/part2.prg"
@@ -160,14 +160,14 @@
             "label": "XCB3",
             "type": "shell",
             "osx": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "${file}",
                     "build/_${fileBasenameNoExtension}.prg"
                 ]
             },
             "windows": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "${file}",
                     "build/_${fileBasenameNoExtension}.prg"

@@ -138,7 +138,15 @@ export class Runner {
 
       if (!(await this.toolchain.ensureReady())) return undefined;
       const compiler = this.toolchain.compilerPath;
-      if (!compiler) return undefined;
+      if (!compiler) {
+        // ensureReady succeeded but nothing is on disk (folder deleted, resolution error): never fail silently
+        const expected = this.toolchain.resolveCompiler().path ?? 'unknown location';
+        this.output.appendLine(`Compiler not found: ${expected}`);
+        const choice = await vscode.window.showErrorMessage(`XC=BASIC: compiler not found (${expected}).`, 'Update Compiler', 'Check Setup');
+        if (choice === 'Update Compiler') vscode.commands.executeCommand('orlof-xcbasic3.XC=BASICUpdate');
+        else if (choice === 'Check Setup') vscode.commands.executeCommand('orlof-xcbasic3.XC=BASICCheckSetup');
+        return undefined;
+      }
 
       const config = this.configFor(plan);
       const target = config.get<string>('target', 'c64');
@@ -280,7 +288,7 @@ export class Runner {
   }
 
   private lineText(file: string, line: number): string {
-    const open = vscode.workspace.textDocuments.find(d => d.uri.fsPath === file);
+    const open = vscode.workspace.textDocuments.find(d => samePath(d.uri.fsPath, file));
     if (open) {
       return line < open.lineCount ? open.lineAt(line).text : '';
     }
@@ -348,13 +356,26 @@ export class Runner {
     }
   }
 
-  /** Close the emulator / debugger started by the previous run so that only the new build is on screen. */
+  /**
+   * Close the emulator / debugger started by the previous run so that only the new build is on screen.
+   * The whole process tree is closed, so a wrapper script or .bat does not leave the real emulator running.
+   */
   private closePrevious(kind: ToolKind): void {
     const previous = this.launched.get(kind);
     this.launched.delete(kind);
-    if (!previous || previous.exitCode !== null || previous.killed) return;
+    if (!previous || previous.exitCode !== null || previous.killed || !previous.pid) return;
     try {
-      if (previous.kill()) this.output.appendLine(`Closed previous ${kind} (pid ${previous.pid})`);
+      if (os.platform() === 'win32') {
+        spawn('taskkill', ['/pid', String(previous.pid), '/T', '/F'], { windowsHide: true, stdio: 'ignore' }).on('error', () => previous.kill());
+      } else {
+        // Started with detached: true, so the child leads its own process group
+        try {
+          process.kill(-previous.pid, 'SIGTERM');
+        } catch {
+          previous.kill();
+        }
+      }
+      this.output.appendLine(`Closed previous ${kind} (pid ${previous.pid})`);
     } catch (error: any) {
       this.output.appendLine(`Could not close previous ${kind}: ${error.message}`);
     }
@@ -363,6 +384,11 @@ export class Runner {
 
 function quoteForDisplay(arg: string): string {
   return /\s/.test(arg) ? `"${arg}"` : arg;
+}
+
+/** Path equality for looking up open documents; Windows file names are case-insensitive. */
+function samePath(a: string, b: string): boolean {
+  return os.platform() === 'win32' ? a.toLowerCase() === b.toLowerCase() : a === b;
 }
 
 /** True when a path would be mangled by the compiler's unquoted / double-quoted DASM invocation. */

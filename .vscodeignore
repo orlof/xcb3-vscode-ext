@@ -8,9 +8,10 @@ bin/
 node_modules/
 webpack.config.js
 extension.js
-dist/bin/
+dist/**
 !dist/extension.js
 !dist/extension.js.LICENSE.txt
+!dist/server/server.js
 scripts/**
 tests/**
 example_vscode/**
@@ -21,8 +22,6 @@ test_*.bas
 !media/**/*.md
 .claude/**
 src/**
-dist/**/*.d.ts
-dist/**/*.map
 tsconfig.json
 build-clean.sh
 __version__.py

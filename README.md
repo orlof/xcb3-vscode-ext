@@ -131,7 +131,7 @@ Report issues at https://github.com/orlof/xcb3-vscode-ext/issues.
 For things the built-in build does not do, such as crunching with Exomizer, building `.d64` images with `c1541` or multi-part programs, use VS Code tasks:
 
 1. Run **XC=BASIC: Initialize tasks.json** to create `.vscode/tasks.json` with the three standard tasks.
-2. Edit the tasks or add your own. The extension provides `${env:XCBASIC3_COMPILER}`, puts the DASM folder on `PATH` (so no `--dasm` argument is needed) and contributes `$xcbasic3` as problem matcher. Avoid `--dasm=<full path>` and output paths with spaces: the compiler does not quote them correctly.
+2. Edit the tasks or add your own. The extension provides `${command:orlof-xcbasic3.compilerPath}`, puts the DASM folder on `PATH` (so no `--dasm` argument is needed) and contributes `$xcbasic3` as problem matcher. Avoid `--dasm=<full path>` and output paths with spaces: the compiler does not quote them correctly.
 3. Enable `xcbasic3.useTasksJson` to make `Shift+F5` / `Ctrl+F5` / `F5` run the `XC=BASIC Compile File` / `Run File` / `Debug File` tasks instead of the built-in build.
 
 Example: compile, crunch with Exomizer and put the result on a disk image.
@@ -143,7 +143,7 @@ Example: compile, crunch with Exomizer and put the result on a disk image.
     {
       "label": "XC=BASIC Compile File",
       "type": "shell",
-      "command": "${env:XCBASIC3_COMPILER}",
+      "command": "${command:orlof-xcbasic3.compilerPath}",
       "args": ["${file}", "${workspaceFolder}/build/${fileBasenameNoExtension}.prg"],
       "group": { "kind": "build", "isDefault": true },
       "problemMatcher": "$xcbasic3"

@@ -310,7 +310,7 @@
                     "${workspaceFolder}"
                 ],
                 "pattern": {
-                    "regexp": "^([^:]+):(\\d+)\\.(\\d+):\\s+(?:ERROR:\\s+)?(.*)$",
+                    "regexp": "^((?:[A-Za-z]:)?[^:]+):(\\d+)\\.(\\d+):\\s+(?:ERROR:\\s+)?(.*)$",
                     "file": 1,
                     "line": 2,
                     "column": 3,
@@ -390,7 +390,7 @@
     },
     "devDependencies": {
         "@types/adm-zip": "^0.5.7",
-        "@types/node": "^20.0.0",
+        "@types/node": "^18.15.0",
         "@types/tar": "^6.1.13",
         "@types/vscode": "~1.82.0",
         "@vscode/vsce": "^3.6.0",

@@ -130,6 +130,30 @@ export function parseSymbols(text: string): SourceSymbol[] {
   return result;
 }
 
+/**
+ * True when `offset` lies inside an ASM ... END ASM block. Line based like parseSymbols, so the ASM in
+ * "END ASM", in comments and in strings does not count as the start of a block.
+ */
+export function isInsideAsm(text: string, offset: number): boolean {
+  let inAsm = false;
+  let pos = 0;
+  for (const raw of text.split('\n')) {
+    const lineEnd = pos + raw.length;
+    if (offset <= lineEnd) {
+      // On the ASM line itself the keyword belongs to BASIC; on the END ASM line we are still in assembly
+      return inAsm;
+    }
+    const end = RE_END.exec(raw);
+    if (inAsm) {
+      if (end && end[1].toUpperCase() === 'ASM') inAsm = false;
+    } else if (RE_ASM.test(stripComment(raw))) {
+      inAsm = true;
+    }
+    pos = lineEnd + 1;
+  }
+  return inAsm;
+}
+
 /** Files pulled in with INCLUDE "name", with the line of the statement. Paths are as written (relative to the file). */
 export function findIncludes(text: string): { path: string; line: number }[] {
   const out: { path: string; line: number }[] = [];

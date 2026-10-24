@@ -138,8 +138,26 @@ export class Toolchain implements vscode.Disposable {
     this.output.appendLine(`[toolchain] ${message}`);
   }
 
+  /** True when prebuilt compiler and DASM binaries exist for this OS and CPU. */
   get platformSupported(): boolean {
-    return os.platform() in COMPILER_PLATFORMS;
+    return this.unsupportedReason() === undefined;
+  }
+
+  /**
+   * Why the managed toolchain cannot be used here. The binaries are x64 only; on Apple silicon they run
+   * through Rosetta, elsewhere (e.g. Linux arm64) the user has to build the tools and set xcbasic3.basefolder.
+   */
+  unsupportedReason(): string | undefined {
+    const platform = os.platform();
+    const arch = os.arch();
+    if (!(platform in COMPILER_PLATFORMS)) return `Unsupported operating system: ${platform}`;
+    if (arch === 'x64' || (platform === 'darwin' && arch === 'arm64')) return undefined;
+    return `No prebuilt XC=BASIC 3 / DASM binaries for ${platform} ${arch}. Build them yourself and point xcbasic3.basefolder at the folder that contains bin/`;
+  }
+
+  /** Apple silicon without Rosetta cannot run the x64 binaries. Only meaningful on darwin/arm64. */
+  get rosettaMissing(): boolean {
+    return os.platform() === 'darwin' && os.arch() === 'arm64' && !exists('/Library/Apple/usr/share/rosetta/rosetta');
   }
 
   // ---------------------------------------------------------------------------
@@ -155,13 +173,16 @@ export class Toolchain implements vscode.Disposable {
     return this.context.globalState.get<string>(LATEST_VERSION_KEY);
   }
 
-  /** Tag in use: the pinned one, or the latest known usable release, or the newest usable installed version. */
+  /**
+   * Tag in use: the pinned one, or the latest known release when it is installed, otherwise the newest
+   * usable installed version (a failed update or a deleted folder must not leave us without a compiler).
+   */
   get activeVersion(): string | undefined {
     const selected = this.selectedVersion;
     if (selected !== LATEST) return selected;
     const latest = this.knownLatest;
-    if (latest) return latest;
-    return newestUsable(this.installedVersions());
+    if (latest && this.isInstalled(latest)) return latest;
+    return newestUsable(this.installedVersions()) ?? latest;
   }
 
   /** The newest GitHub release when it was skipped as broken on this platform. */
@@ -508,7 +529,13 @@ export class Toolchain implements vscode.Disposable {
    * @param options.interactive       show "up to date" / failure messages even when nothing changed
    */
   ensureReady(options: { forceUpdateCheck?: boolean; interactive?: boolean } = {}): Promise<boolean> {
-    if (this.inFlight) return this.inFlight;
+    if (this.inFlight) {
+      // A plain background call can share the running check. A call that asks for more (forced update
+      // check, user-visible messages) runs after it, so that e.g. "Select Compiler Version" is not
+      // silently satisfied by the configuration-change listener that fired a moment earlier.
+      if (!options.forceUpdateCheck && !options.interactive) return this.inFlight;
+      return this.inFlight.then(() => this.ensureReady(options));
+    }
     this.inFlight = this.doEnsureReady(options).finally(() => {
       this.inFlight = undefined;
     });
@@ -516,11 +543,6 @@ export class Toolchain implements vscode.Disposable {
   }
 
   private async doEnsureReady(options: { forceUpdateCheck?: boolean; interactive?: boolean }): Promise<boolean> {
-    if (!this.platformSupported) {
-      this.setStatus('error', `Unsupported operating system: ${os.platform()}`);
-      return false;
-    }
-
     this.migrateLegacy();
 
     const resolved = this.resolveCompiler();
@@ -533,6 +555,11 @@ export class Toolchain implements vscode.Disposable {
         return false;
       }
       this.log(`Using external compiler ${resolved.path}`);
+    } else if (!this.platformSupported) {
+      const message = this.unsupportedReason()!;
+      this.setStatus('error', message);
+      this.offerFix(message, options.interactive);
+      return false;
     } else if (this.selectedVersion === LATEST) {
       if (!(await this.ensureLatest(options))) return false;
     } else {
@@ -679,8 +706,9 @@ export class Toolchain implements vscode.Disposable {
   }
 
   /**
-   * Expose the tool paths to tasks.json users (${env:XCBASIC3_COMPILER}, ${env:DASM_PATH})
-   * and to the integrated terminal.
+   * Expose the tool paths to the integrated terminal and to child processes ($XCBASIC3_COMPILER, $DASM_PATH,
+   * DASM on PATH). Note that ${env:...} in tasks.json does not see these: it is resolved from VS Code's own
+   * environment. tasks.json users get the paths from the commands orlof-xcbasic3.compilerPath / dasmPath.
    */
   private applyEnvironment(): void {
     const compiler = this.compilerPath;

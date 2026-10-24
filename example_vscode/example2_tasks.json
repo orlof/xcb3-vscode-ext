@@ -31,14 +31,14 @@
             "label": "Compile XC=BASIC3",
             "type": "shell",
             "osx": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "${file}",
                     "build/${fileBasenameNoExtension}.prg"
                 ]
             },
             "windows": {
-                "command": "${env:XCBASIC3_COMPILER}",
+                "command": "${command:orlof-xcbasic3.compilerPath}",
                 "args": [
                     "${file}",
                     "build/_${fileBasenameNoExtension}.prg"

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- A failed compiler update (or a deleted version folder) no longer leaves Compile doing nothing: the newest installed version is used, and a missing compiler is reported with *Update Compiler* / *Check Setup* actions.
+- Hover for functions and data types works again after the first `ASM … END ASM` block of a file (the `ASM` in `END ASM`, in comments and in strings was counted as a block start).
+- `XC=BASIC: Setup` always shows the toolchain error instead of silently doing nothing on the second attempt, and lets you pick emulator and debugger even when the compiler download failed.
+- *Select Compiler Version* no longer loses its forced update check / confirmation message to the configuration-change listener that runs at the same time.
+- `tasks.json`: `${env:XCBASIC3_COMPILER}` is resolved from VS Code's own environment and was empty. The template and examples now use `${command:orlof-xcbasic3.compilerPath}` (and `${command:orlof-xcbasic3.dasmPath}`), which also wait for the download to finish.
+- Problem matcher `$xcbasic3` accepts Windows drive letters in file names.
+- *Restart emulator* closes the whole process tree, so a wrapper script or `.bat` no longer leaves the real emulator running.
+- Language server start-up failures are logged to the XC=BASIC output instead of being dropped; the completion list no longer pops up after every space.
+- Check Setup explains unsupported CPU architectures (e.g. Linux arm64, where `xcbasic3.basefolder` with self-built tools is the way) and missing Rosetta on Apple silicon.
+- Packaging: only the webpack bundles are shipped in `dist/`, not the plain `tsc` output.
+
 ## [3.1.0] - 2026-10-24
 
 ### Added

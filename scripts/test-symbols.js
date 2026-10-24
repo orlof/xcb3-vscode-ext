@@ -1,6 +1,6 @@
 // Unit test for the language server's symbol parser. Run: npm run compile && npm test
 const assert = require('assert');
-const { parseSymbols, findIncludes, findDefinitions, stripComment, wordAt } = require('../dist/server/symbols.js');
+const { parseSymbols, findIncludes, findDefinitions, stripComment, wordAt, isInsideAsm } = require('../dist/server/symbols.js');
 
 const source = [
   "' header comment with SUB fake()",                 // 0
@@ -66,5 +66,28 @@ assert.strictEqual(wordAt('x 123', 3), undefined); // numbers are not identifier
 // Windows line endings and tabs
 const crlf = parseSymbols('SUB a()\r\nEND SUB\r\n\tTYPE T\r\n\t\tv AS BYTE\r\n\tEND TYPE');
 assert.deepStrictEqual(crlf.map(s => [s.name, s.endLine]), [['a', 1], ['T', 4]]);
+
+// ASM block detection: "END ASM", comments and strings must not open a block
+const asmText = [
+  "' Test file to test ASM instruction hover",   // 0
+  'PRINT "ASM in a string"',                     // 1
+  'ASM',                                         // 2
+  '    LDA #$01',                                // 3
+  'END ASM',                                     // 4
+  'PRINT "Done"',                                // 5
+  '  asm ',                                      // 6
+  '    rts',                                     // 7
+  '  end asm',                                   // 8
+  'PRINT 1'                                      // 9
+].join('\r\n');
+const at = (line, col) => asmText.split('\n').slice(0, line).reduce((n, l) => n + l.length + 1, 0) + col;
+assert.strictEqual(isInsideAsm(asmText, at(0, 20)), false, 'comment');
+assert.strictEqual(isInsideAsm(asmText, at(1, 8)), false, 'string');
+assert.strictEqual(isInsideAsm(asmText, at(2, 1)), false, 'ASM keyword line is BASIC');
+assert.strictEqual(isInsideAsm(asmText, at(3, 5)), true, 'inside block');
+assert.strictEqual(isInsideAsm(asmText, at(4, 5)), true, 'END ASM line still assembly');
+assert.strictEqual(isInsideAsm(asmText, at(5, 2)), false, 'after END ASM');
+assert.strictEqual(isInsideAsm(asmText, at(7, 5)), true, 'lower case block');
+assert.strictEqual(isInsideAsm(asmText, at(9, 2)), false, 'after lower case END ASM');
 
 console.log('symbols: all tests passed');

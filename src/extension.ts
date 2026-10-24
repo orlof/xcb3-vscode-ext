@@ -23,7 +23,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   const diagnostics = vscode.languages.createDiagnosticCollection('xcbasic3');
   context.subscriptions.push(output, diagnostics);
 
-  startLanguageServer(context);
+  startLanguageServer(context, output);
 
   const toolchain = new Toolchain(context, output);
   const setup = new Setup(context, toolchain, output);
@@ -45,6 +45,17 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   register('orlof-xcbasic3.XC=BASICMenu', () => statusBar.showMenu());
   register('orlof-xcbasic3.XC=BASICInitialize', () => initializeTasks(context));
   register('orlof-xcbasic3.XC=BASICNewProject', () => newProject(context));
+
+  // For tasks.json: "${command:orlof-xcbasic3.compilerPath}" / "${command:orlof-xcbasic3.dasmPath}".
+  // (${env:...} in tasks.json is resolved from VS Code's own environment, which an extension cannot change.)
+  register('orlof-xcbasic3.compilerPath', async () => {
+    await toolchain.ensureReady();
+    return toolchain.compilerPath ?? '';
+  });
+  register('orlof-xcbasic3.dasmPath', async () => {
+    await toolchain.ensureReady();
+    return toolchain.dasmPath;
+  });
 
   // A project created by "New Project" in another window: open its main program
   openPendingFile(context).catch(error => output.appendLine(`[project] ${error?.message ?? error}`));
@@ -79,7 +90,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     .catch(error => output.appendLine(`[toolchain] unexpected error: ${error?.message ?? error}`));
 }
 
-function startLanguageServer(context: vscode.ExtensionContext): void {
+function startLanguageServer(context: vscode.ExtensionContext, output: vscode.OutputChannel): void {
   const serverModule = context.asAbsolutePath(path.join('dist', 'server', 'server.js'));
   const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
 
@@ -93,7 +104,10 @@ function startLanguageServer(context: vscode.ExtensionContext): void {
   };
 
   client = new LanguageClient('xcbasic3LanguageServer', 'XC=BASIC3 Language Server', serverOptions, clientOptions);
-  client.start();
+  context.subscriptions.push(client);
+  client.start().catch(error => {
+    output.appendLine(`[language server] failed to start: ${error?.message ?? error}`);
+  });
 }
 
 export function deactivate(): Thenable<void> | undefined {

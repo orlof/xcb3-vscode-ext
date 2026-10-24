@@ -3,3 +3,7 @@ package-lock.json
 bin/
 dist/
 .DS_Store
+*.vsix
+test_*.bas
+PUBLISH.md
+6502_INSTRUCTIONS.md
