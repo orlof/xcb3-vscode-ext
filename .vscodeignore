@@ -20,3 +20,10 @@ test_*.bas
 !CHANGELOG.md
 !media/**/*.md
 .claude/**
+src/**
+dist/**/*.d.ts
+dist/**/*.map
+tsconfig.json
+build-clean.sh
+__version__.py
+BUILD_INSTRUCTIONS.txt
