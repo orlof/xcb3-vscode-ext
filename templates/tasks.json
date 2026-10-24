@@ -1,48 +1,22 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
+    // Advanced: custom build tasks for XC=BASIC 3.
+    //
+    // The extension compiles, runs and debugs without this file. Enable the setting
+    // "xcbasic3.useTasksJson" to make Shift+F5 / Ctrl+F5 / F5 run the tasks below instead.
+    //
+    // ${env:XCBASIC3_COMPILER} is set by the extension and the DASM folder is added to PATH, so the
+    // compiler finds DASM by itself. Avoid --dasm=<full path>: the compiler cannot handle spaces in it.
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 for the tasks.json format.
     "version": "2.0.0",
     "tasks": [
-        {
-            "label": "XC=BASIC Run File",
-            "type": "shell",
-            "command": "${config:xcbasic3.emulator}",
-            "args": [
-                "${fileBasenameNoExtension}.prg"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "XC=BASIC Compile File"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-        },
-        {
-            "label": "XC=BASIC Debug File",
-            "type": "shell",
-            "command": "${config:xcbasic3.debugger}",
-            "args": [
-                "${fileBasenameNoExtension}.prg"
-            ],
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "XC=BASIC Compile File"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-        },
         {
             "label": "XC=BASIC Compile File",
             "type": "shell",
             "command": "${env:XCBASIC3_COMPILER}",
             "args": [
-                "--dasm=${env:DASM_PATH}",
+                "--target=${config:xcbasic3.target}",
                 "${file}",
-                "${fileBasenameNoExtension}.prg"
+                "${workspaceFolder}/build/${fileBasenameNoExtension}.prg"
             ],
             "group": {
                 "kind": "build",
@@ -51,50 +25,30 @@
             "problemMatcher": "$xcbasic3"
         },
         {
-            "label": "XC=BASIC Crunch File",
+            "label": "XC=BASIC Run File",
             "type": "shell",
-            "command": "${config:xcbasic3.packer}",
+            "command": "${config:xcbasic3.emulator}",
             "args": [
-                "sfx",
-                "basic",
-                "${fileBasenameNoExtension}.prg",
-                "-o",
-                "${fileBasenameNoExtension}.prg",
-                "-x",
-                "'inc $d020'"
+                "${workspaceFolder}/build/${fileBasenameNoExtension}.prg"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
                 "XC=BASIC Compile File"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
+            "problemMatcher": []
         },
         {
-            "label": "XC=BASIC Build Disk",
+            "label": "XC=BASIC Debug File",
             "type": "shell",
-            "command": "${config:xcbasic3.builder}",
+            "command": "${config:xcbasic3.debugger}",
             "args": [
-                "-format",
-                "${fileBasenameNoExtension},of",
-                "d64",
-                "${fileBasenameNoExtension}.d64",
-                "-attach",
-                "${fileBasenameNoExtension}.d64",
-                "-write",
-                "${fileBasenameNoExtension}.prg",
-                "${fileBasenameNoExtension}"
+                "${workspaceFolder}/build/${fileBasenameNoExtension}.prg"
             ],
             "dependsOrder": "sequence",
             "dependsOn": [
                 "XC=BASIC Compile File"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
+            "problemMatcher": []
         }
     ]
 }

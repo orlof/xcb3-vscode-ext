@@ -13,7 +13,7 @@
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.vice}/bin/x64sc.exe",
+                "command": "${config:xcbasic3.emulator}",
                 "args": [
                     "build/${fileBasenameNoExtension}.prg"
                 ]
@@ -31,14 +31,14 @@
             "label": "Compile XC=BASIC3",
             "type": "shell",
             "osx": {
-                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "${file}",
                     "build/${fileBasenameNoExtension}.prg"
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "${file}",
                     "build/_${fileBasenameNoExtension}.prg"

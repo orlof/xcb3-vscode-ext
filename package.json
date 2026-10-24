@@ -5,7 +5,7 @@
     "publisher": "RealOrlof",
     "version": "3.0.3",
     "engines": {
-        "vscode": "^1.33.0"
+        "vscode": "^1.82.0"
     },
     "categories": [
         "Programming Languages"
@@ -35,51 +35,114 @@
     "icon": "images/xcbasic_logo.jpg",
     "main": "./dist/extension.js",
     "activationEvents": [
-        "onLanguage:xcbasic3"
+        "onLanguage:xcbasic3",
+        "workspaceContains:**/*.bas"
     ],
     "scripts": {
         "build": "webpack --mode production",
         "watch": "webpack --mode development --watch",
+        "compile": "tsc -p .",
+        "test": "node scripts/test-compiler-output.js && node scripts/test-versions.js && node scripts/test-symbols.js && node scripts/test-tools.js",
         "vscode:prepublish": "webpack --mode production"
     },
     "contributes": {
         "commands": [
             {
-                "command": "orlof-xcbasic3.XC=BASICInitialize",
-                "title": "XC=BASIC Initialize tasks.json"
-            },
-            {
-                "command": "orlof-xcbasic3.XC=BASICUpdate",
-                "title": "XC=BASIC Update Compiler"
+                "command": "orlof-xcbasic3.XC=BASICCompileFile",
+                "title": "Compile File",
+                "category": "XC=BASIC",
+                "icon": "$(tools)"
             },
             {
                 "command": "orlof-xcbasic3.XC=BASICRunFile",
-                "title": "XC=BASIC Run File"
+                "title": "Compile and Run File",
+                "category": "XC=BASIC",
+                "icon": "$(play)"
             },
             {
                 "command": "orlof-xcbasic3.XC=BASICDebugFile",
-                "title": "XC=BASIC Debug File"
+                "title": "Compile and Debug File",
+                "category": "XC=BASIC",
+                "icon": "$(debug-alt)"
             },
             {
-                "command": "orlof-xcbasic3.XC=BASICCompileFile",
-                "title": "XC=BASIC Compile File"
+                "command": "orlof-xcbasic3.XC=BASICNewProject",
+                "title": "New Project…",
+                "category": "XC=BASIC",
+                "icon": "$(new-folder)"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICSetup",
+                "title": "Setup (find emulator and debugger)",
+                "category": "XC=BASIC"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICCheckSetup",
+                "title": "Check Setup",
+                "category": "XC=BASIC"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICUpdate",
+                "title": "Update Compiler",
+                "category": "XC=BASIC"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICSelectVersion",
+                "title": "Select Compiler Version",
+                "category": "XC=BASIC"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICShowOutput",
+                "title": "Show Output",
+                "category": "XC=BASIC"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICMenu",
+                "title": "Menu",
+                "category": "XC=BASIC"
+            },
+            {
+                "command": "orlof-xcbasic3.XC=BASICInitialize",
+                "title": "Initialize tasks.json (advanced)",
+                "category": "XC=BASIC"
             }
         ],
+        "menus": {
+            "editor/title/run": [
+                {
+                    "command": "orlof-xcbasic3.XC=BASICRunFile",
+                    "when": "resourceLangId == xcbasic3",
+                    "group": "navigation@1"
+                },
+                {
+                    "command": "orlof-xcbasic3.XC=BASICDebugFile",
+                    "when": "resourceLangId == xcbasic3",
+                    "group": "navigation@2"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "orlof-xcbasic3.XC=BASICMenu",
+                    "when": "false"
+                }
+            ]
+        },
         "keybindings": [
             {
                 "key": "ctrl+f5",
+                "mac": "cmd+f5",
                 "command": "orlof-xcbasic3.XC=BASICRunFile",
-                "when": "editorTextFocus && resourceExtname == .bas"
+                "when": "editorTextFocus && editorLangId == xcbasic3"
             },
             {
                 "key": "f5",
                 "command": "orlof-xcbasic3.XC=BASICDebugFile",
-                "when": "editorTextFocus && resourceExtname == .bas"
+                "when": "editorTextFocus && editorLangId == xcbasic3"
             },
             {
                 "key": "shift+f5",
                 "command": "orlof-xcbasic3.XC=BASICCompileFile",
-                "when": "editorTextFocus && resourceExtname == .bas"
+                "when": "editorTextFocus && editorLangId == xcbasic3"
             }
         ],
         "languages": [
@@ -113,27 +176,127 @@
         },
         "configuration": [
             {
-                "title": "XC=BASIC 3 configuration",
+                "title": "XC=BASIC 3",
                 "properties": {
-                    "xcbasic3.basefolder": {
-                        "type": "string",
-                        "description": "OPTIONAL: Absolute path to external XC=BASIC base folder (the one containing the 'bin' folder).\n* C:\\Program Files\\xc-basic3\n* /Applications/xc-basic3"
-                    },
                     "xcbasic3.emulator": {
                         "type": "string",
-                        "description": "Absolute path to the emulator executable (e.g. Vice/x64sc).\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\x64sc.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/x64sc"
+                        "default": "",
+                        "order": 1,
+                        "markdownDescription": "Path to the emulator used by **Compile and Run** (normally VICE `x64sc`). On macOS you can point this at `x64sc.app`. Detected automatically when empty; **XC=BASIC: Setup** lets you choose another. For other targets (c128, vic20, …) the matching VICE program next to this one is started.",
+                        "scope": "machine-overridable"
                     },
                     "xcbasic3.debugger": {
                         "type": "string",
-                        "description": "Absolute path to the debugger executable (e.g. Retro Debugger).\n* C:\\Program Files\\RetroDebugger v0.64.68\\RetroDebugger.exe\n* /Applications/Retro Debugger v0.64.66/Retro Debugger.app/Contents/MacOS/Retro Debugger"
+                        "default": "",
+                        "order": 2,
+                        "markdownDescription": "Path to the debugger used by **Compile and Debug** (normally Retro Debugger). On macOS you can point this at the `.app` bundle. Optional.",
+                        "scope": "machine-overridable"
                     },
-                    "xcbasic3.builder": {
+                    "xcbasic3.target": {
                         "type": "string",
-                        "description": "Absolute path to the disc builder executable (e.g. Vice/c1541).\n* C:\\Program Files\\GTK3VICE-3.8-win64\\bin\\c1541.exe\n* /Applications/vice-x86-64-gtk3-3.8/bin/c1541"
+                        "default": "c64",
+                        "order": 3,
+                        "enum": [
+                            "c64",
+                            "c128",
+                            "vic20",
+                            "vic20_3k",
+                            "vic20_8k",
+                            "vic20_16k",
+                            "vic20_24k",
+                            "cplus4",
+                            "c16",
+                            "pet2001",
+                            "pet3008",
+                            "pet3016",
+                            "pet3032",
+                            "pet4016",
+                            "pet4032",
+                            "pet8032",
+                            "x16",
+                            "mega65"
+                        ],
+                        "description": "Target machine passed to the compiler (--target).",
+                        "scope": "resource"
                     },
-                    "xcbasic3.cruncher": {
+                    "xcbasic3.outputDir": {
                         "type": "string",
-                        "description": "Absolute path to the cruncher executable (e.g. Exomizer).\n* C:\\Program Files\\exomizer-3.1.2\\src\\exomizer.exe\n* /Applications/exomizer-3.1.2/src/exomizer"
+                        "default": "build",
+                        "order": 4,
+                        "markdownDescription": "Folder for compiled `.prg` files, relative to the workspace folder. Leave empty to write next to the source file.",
+                        "scope": "resource"
+                    },
+                    "xcbasic3.mainFile": {
+                        "type": "string",
+                        "default": "",
+                        "order": 5,
+                        "markdownDescription": "Main program to compile, relative to the workspace folder (for example `src/main.bas`). When empty, the file in the active editor is compiled. Set this in projects that use `INCLUDE`, so that compiling from an included file still builds the whole program.",
+                        "scope": "resource"
+                    },
+                    "xcbasic3.compilerArgs": {
+                        "type": "array",
+                        "default": [],
+                        "order": 6,
+                        "items": {
+                            "type": "string"
+                        },
+                        "markdownDescription": "Extra arguments for the compiler, for example `[\"--optimize=false\", \"--symbol=build/main.sym\"]`.",
+                        "scope": "resource"
+                    },
+                    "xcbasic3.emulatorArgs": {
+                        "type": "array",
+                        "default": [],
+                        "order": 7,
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Extra arguments passed to the emulator before the .prg file.",
+                        "scope": "resource"
+                    },
+                    "xcbasic3.restartEmulator": {
+                        "type": "boolean",
+                        "default": true,
+                        "order": 8,
+                        "markdownDescription": "Close the emulator or debugger started by the previous **Compile and Run** / **Compile and Debug** before starting the new one, so only the latest build is on screen.",
+                        "scope": "resource"
+                    },
+                    "xcbasic3.debuggerArgs": {
+                        "type": "array",
+                        "default": [],
+                        "order": 9,
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Extra arguments passed to the debugger before the .prg file.",
+                        "scope": "resource"
+                    },
+                    "xcbasic3.compilerVersion": {
+                        "type": "string",
+                        "default": "latest",
+                        "order": 10,
+                        "markdownDescription": "XC=BASIC 3 compiler version to use: `latest` follows the newest GitHub release, or pin a tag such as `v3.2.0` or `v3.1.13`. Pinned versions are never updated automatically. Use **XC=BASIC: Select Compiler Version** to choose from a list.",
+                        "scope": "machine-overridable"
+                    },
+                    "xcbasic3.autoUpdateCompiler": {
+                        "type": "boolean",
+                        "default": true,
+                        "order": 11,
+                        "markdownDescription": "When `xcbasic3.compilerVersion` is `latest`, check for a new release once a day and install it automatically.",
+                        "scope": "machine"
+                    },
+                    "xcbasic3.basefolder": {
+                        "type": "string",
+                        "default": "",
+                        "order": 12,
+                        "markdownDescription": "Advanced: use your own XC=BASIC 3 installation instead of the automatically downloaded one. Path to the folder that contains the `bin` folder.",
+                        "scope": "machine-overridable"
+                    },
+                    "xcbasic3.useTasksJson": {
+                        "type": "boolean",
+                        "default": false,
+                        "order": 13,
+                        "markdownDescription": "Advanced: run the `XC=BASIC Compile/Run/Debug File` tasks from `.vscode/tasks.json` instead of the built-in build. Use **XC=BASIC: Initialize tasks.json** to create a starting point.",
+                        "scope": "resource"
                     }
                 }
             }
@@ -160,13 +323,68 @@
                 "language": "xcbasic3",
                 "path": "./snippets/xcbasic3.json"
             }
+        ],
+        "walkthroughs": [
+            {
+                "id": "xcbasic3.gettingStarted",
+                "title": "Get Started with XC=BASIC 3",
+                "description": "Compile and run your first Commodore program in a few minutes.",
+                "steps": [
+                    {
+                        "id": "toolchain",
+                        "title": "Compiler and assembler",
+                        "description": "The XC=BASIC 3 compiler and the DASM assembler are downloaded automatically. Nothing to install.\n[Check Setup](command:orlof-xcbasic3.XC=BASICCheckSetup)",
+                        "media": {
+                            "markdown": "media/walkthrough/toolchain.md"
+                        },
+                        "completionEvents": [
+                            "onContext:xcbasic3.toolchainReady"
+                        ]
+                    },
+                    {
+                        "id": "emulator",
+                        "title": "Pick your emulator",
+                        "description": "Install VICE if you have not already. The extension picks it up automatically; run Setup to choose a different one.\n[Run Setup](command:orlof-xcbasic3.XC=BASICSetup)",
+                        "media": {
+                            "markdown": "media/walkthrough/emulator.md"
+                        },
+                        "completionEvents": [
+                            "onSettingChanged:xcbasic3.emulator",
+                            "onContext:xcbasic3.emulatorConfigured"
+                        ]
+                    },
+                    {
+                        "id": "run",
+                        "title": "Compile and run",
+                        "description": "Open a .bas file and press Ctrl+F5 (Cmd+F5 on macOS), or click the play button in the editor title. No file yet? Create a project.\n[New Project](command:orlof-xcbasic3.XC=BASICNewProject)\n[Compile and Run](command:orlof-xcbasic3.XC=BASICRunFile)",
+                        "media": {
+                            "markdown": "media/walkthrough/run.md"
+                        },
+                        "completionEvents": [
+                            "onCommand:orlof-xcbasic3.XC=BASICRunFile"
+                        ]
+                    },
+                    {
+                        "id": "debugger",
+                        "title": "Optional: debugger",
+                        "description": "Install Retro Debugger and run Setup again to debug with F5.\n[Run Setup](command:orlof-xcbasic3.XC=BASICSetup)",
+                        "media": {
+                            "markdown": "media/walkthrough/debugger.md"
+                        },
+                        "completionEvents": [
+                            "onSettingChanged:xcbasic3.debugger",
+                            "onContext:xcbasic3.debuggerConfigured"
+                        ]
+                    }
+                ]
+            }
         ]
     },
     "dependencies": {
-        "@vscode/vsce": "^3.6.0",
         "adm-zip": "^0.5.14",
         "axios": "^1.7.2",
         "tar": "^7.4.0",
+        "vscode-languageclient": "^9.0.1",
         "vscode-languageserver": "^9.0.1",
         "vscode-languageserver-textdocument": "^1.0.11"
     },
@@ -174,10 +392,10 @@
         "@types/adm-zip": "^0.5.7",
         "@types/node": "^20.0.0",
         "@types/tar": "^6.1.13",
-        "@types/vscode": "^1.33.0",
+        "@types/vscode": "~1.82.0",
+        "@vscode/vsce": "^3.6.0",
         "ts-loader": "^9.5.2",
         "typescript": "^5.0.0",
-        "vscode-languageclient": "^9.0.1",
         "webpack": "^5.99.5",
         "webpack-cli": "^6.0.1"
     }

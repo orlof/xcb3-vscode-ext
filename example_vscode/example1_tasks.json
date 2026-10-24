@@ -13,7 +13,7 @@
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.vice}/bin/x64sc.exe",
+                "command": "${config:xcbasic3.emulator}",
                 "args": [
                     "build/mygame.d64"
                 ]
@@ -34,7 +34,7 @@
             "label": "Build mygame.d64",
             "type": "shell",
             "osx": {
-                "command": "${config:xcbasic3.vice}/bin/c1541",
+                "command": "C:/path/to/vice/bin/c1541",
                 "args": [
                     "-format",
                     "mygame,of",
@@ -51,7 +51,7 @@
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.vice}/bin/c1541.exe",
+                "command": "C:/path/to/vice/bin/c1541.exe",
                 "args": [
                     "-format",
                     "mygame,of",
@@ -85,7 +85,7 @@
             "label": "EXOMIZE part1",
             "type": "shell",
             "osx": {
-                "command": "${config:xcbasic3.packer}/exomizer",
+                "command": "/path/to/exomizer",
                 "args": [
                     "sfx",
                     "basic",
@@ -97,7 +97,7 @@
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.packer}/exomizer.exe",
+                "command": "/path/to/exomizer.exe",
                 "args": [
                     "sfx",
                     "basic",
@@ -124,14 +124,14 @@
             "label": "XCB3 part1",
             "type": "shell",
             "osx": {
-                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "part1.bas",
                     "build/_part1.prg"
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "part1.bas",
                     "build/_part1.prg"
@@ -142,14 +142,14 @@
             "label": "XCB3 part2",
             "type": "shell",
             "osx": {
-                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "part2.bas",
                     "build/part2.prg"
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "part2.bas",
                     "build/part2.prg"
@@ -160,14 +160,14 @@
             "label": "XCB3",
             "type": "shell",
             "osx": {
-                "command": "${config:xcbasic3.basefolder}/bin/macOS/xcbasic3",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "${file}",
                     "build/_${fileBasenameNoExtension}.prg"
                 ]
             },
             "windows": {
-                "command": "${config:xcbasic3.basefolder}/bin/Windows/xcbasic3.exe",
+                "command": "${env:XCBASIC3_COMPILER}",
                 "args": [
                     "${file}",
                     "build/_${fileBasenameNoExtension}.prg"

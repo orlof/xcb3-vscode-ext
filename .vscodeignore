@@ -11,3 +11,12 @@ extension.js
 dist/bin/
 !dist/extension.js
 !dist/extension.js.LICENSE.txt
+scripts/**
+tests/**
+example_vscode/**
+test_*.bas
+*.md
+!README.md
+!CHANGELOG.md
+!media/**/*.md
+.claude/**
